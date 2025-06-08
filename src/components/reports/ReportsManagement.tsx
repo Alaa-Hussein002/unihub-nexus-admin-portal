@@ -1,11 +1,15 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from "recharts";
-import { DollarSign, Clock, Users, TrendingUp, Download, Calendar, BarChart3 } from "lucide-react";
+import { DollarSign, Clock, Users, TrendingUp, Download, Calendar, BarChart3, FileText, GraduationCap, Settings } from "lucide-react";
+import { CourseAttendanceReport } from "./CourseAttendanceReport";
+import { CoursePerformanceReport } from "./CoursePerformanceReport";
+import { StudentProgressReport } from "./StudentProgressReport";
+import { InstructorEffectivenessReport } from "./InstructorEffectivenessReport";
+import { CustomReportBuilder } from "./CustomReportBuilder";
 
 const financialData = [
   {
@@ -91,11 +95,16 @@ export function ReportsManagement() {
       {/* Report Navigation */}
       <Card className="shadow-xl bg-white">
         <CardContent className="p-6">
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center flex-wrap gap-4">
             {[
               { id: "financial", label: "Financial Reports", icon: DollarSign },
+              { id: "course-attendance", label: "Course Attendance", icon: Users },
+              { id: "course-performance", label: "Course Performance", icon: GraduationCap },
+              { id: "student-progress", label: "Student Progress", icon: FileText },
+              { id: "instructor-effectiveness", label: "Instructor Effectiveness", icon: TrendingUp },
+              { id: "custom-builder", label: "Custom Report Builder", icon: Settings },
               { id: "teaching", label: "Teaching Load", icon: Clock },
-              { id: "attendance", label: "Attendance", icon: Users },
+              { id: "attendance", label: "Overall Attendance", icon: Users },
               { id: "grades", label: "Grades Overview", icon: TrendingUp }
             ].map((report) => (
               <Button
@@ -111,6 +120,21 @@ export function ReportsManagement() {
           </div>
         </CardContent>
       </Card>
+
+      {/* Course Attendance Summary Report */}
+      {selectedReport === "course-attendance" && <CourseAttendanceReport />}
+
+      {/* Course Performance Report */}
+      {selectedReport === "course-performance" && <CoursePerformanceReport />}
+
+      {/* Student Academic Progress Report */}
+      {selectedReport === "student-progress" && <StudentProgressReport />}
+
+      {/* Instructor Effectiveness Report */}
+      {selectedReport === "instructor-effectiveness" && <InstructorEffectivenessReport />}
+
+      {/* Custom Report Builder */}
+      {selectedReport === "custom-builder" && <CustomReportBuilder />}
 
       {/* Financial Reports */}
       {selectedReport === "financial" && (
