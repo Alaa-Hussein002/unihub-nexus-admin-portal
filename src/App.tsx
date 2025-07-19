@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import UsersPage from "./pages/UsersPage";
 import RolesPage from "./pages/RolesPage";
+import AccessControlPage from "./pages/AccessControlPage";
 import TimetablePage from "./pages/TimetablePage";
 import EnrollmentPage from "./pages/EnrollmentPage";
 import ExcusesPage from "./pages/ExcusesPage";
@@ -27,6 +28,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/users" element={<UsersPage />} />
           <Route path="/users/roles" element={<RolesPage />} />
+          <Route path="/users/access-control" element={<AccessControlPage />} />
           <Route path="/timetable/*" element={<TimetablePage />} />
           <Route path="/enrollment/*" element={<EnrollmentPage />} />
           <Route path="/excuses/*" element={<ExcusesPage />} />
