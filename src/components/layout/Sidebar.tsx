@@ -88,6 +88,12 @@ const menuItems = [
     ]
   },
   {
+    title: "Audit Log",
+    icon: FileText,
+    href: "/auditlog",
+    badge: null
+  },
+  {
     title: "System Settings",
     icon: Settings,
     href: "/settings",

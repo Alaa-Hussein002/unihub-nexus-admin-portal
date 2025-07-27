@@ -14,6 +14,7 @@ import ExcusesPage from "./pages/ExcusesPage";
 import ReportsPage from "./pages/ReportsPage";
 import IntegrationPage from "./pages/IntegrationPage";
 import SettingsPage from "./pages/SettingsPage";
+import AuditLogPage from "./pages/AuditLogPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -34,6 +35,7 @@ const App = () => (
           <Route path="/excuses/*" element={<ExcusesPage />} />
           <Route path="/reports/*" element={<ReportsPage />} />
           <Route path="/integration/*" element={<IntegrationPage />} />
+          <Route path="/auditlog" element={<AuditLogPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
