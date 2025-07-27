@@ -88,6 +88,12 @@ const menuItems = [
     ]
   },
   {
+    title: "Academic Staff",
+    icon: GraduationCap,
+    href: "/academic-staff",
+    badge: null
+  },
+  {
     title: "Audit Log",
     icon: FileText,
     href: "/auditlog",
