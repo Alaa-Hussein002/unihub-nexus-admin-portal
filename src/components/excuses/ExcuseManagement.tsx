@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -7,7 +8,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { FileText, Clock, DollarSign, CheckCircle, XCircle, AlertTriangle, User, MessageSquare } from "lucide-react";
+import { FileText, Clock, DollarSign, CheckCircle, XCircle, AlertTriangle, User, MessageSquare, Eye } from "lucide-react";
 
 const excuseRequests = [
   {
@@ -142,10 +143,18 @@ export function ExcuseManagement() {
           <h1 className="text-3xl font-bold text-gray-900">Excuse Management</h1>
           <p className="text-gray-600">Manage instructor requests and salary adjustments</p>
         </div>
-        <Button className="bg-blue-600 hover:bg-blue-700 shadow-lg">
-          <FileText className="w-4 h-4 mr-2" />
-          New Request
-        </Button>
+        <div className="flex gap-2">
+          <Button asChild variant="outline">
+            <Link to="/excuses/pending">
+              <Eye className="w-4 h-4 mr-2" />
+              View Pending
+            </Link>
+          </Button>
+          <Button className="bg-blue-600 hover:bg-blue-700 shadow-lg">
+            <FileText className="w-4 h-4 mr-2" />
+            New Request
+          </Button>
+        </div>
       </div>
 
       {/* Summary Cards */}
