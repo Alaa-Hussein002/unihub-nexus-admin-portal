@@ -157,8 +157,8 @@ export function AcademicStaffManagement() {
   const filteredStaff = staffMembers.filter(staff => {
     return (
       staff.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
-      (filterRank === "" || staff.rank === filterRank) &&
-      (filterDepartment === "" || staff.department === filterDepartment)
+      (filterRank === "" || filterRank === "all" || staff.rank === filterRank) &&
+      (filterDepartment === "" || filterDepartment === "all" || staff.department === filterDepartment)
     );
   });
 
@@ -277,7 +277,7 @@ export function AcademicStaffManagement() {
                     <SelectValue placeholder="Filter by rank" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Ranks</SelectItem>
+                    <SelectItem value="all">All Ranks</SelectItem>
                     <SelectItem value="Professor">Professor</SelectItem>
                     <SelectItem value="Associate Professor">Associate Professor</SelectItem>
                     <SelectItem value="Lecturer">Lecturer</SelectItem>
@@ -289,7 +289,7 @@ export function AcademicStaffManagement() {
                     <SelectValue placeholder="Filter by department" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="">All Departments</SelectItem>
+                    <SelectItem value="all">All Departments</SelectItem>
                     <SelectItem value="Computer Science">Computer Science</SelectItem>
                     <SelectItem value="Mathematics">Mathematics</SelectItem>
                     <SelectItem value="Physics">Physics</SelectItem>
