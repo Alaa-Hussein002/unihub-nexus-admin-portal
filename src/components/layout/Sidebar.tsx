@@ -5,7 +5,7 @@ import { cn } from "@/lib/utils";
 import { 
   Home, Users, Calendar, GraduationCap, FileText, 
   BarChart3, Settings, ChevronDown, Shield, 
-  Clock, DollarSign, Database
+  Clock, DollarSign, Database, BookOpen
 } from "lucide-react";
 
 interface SidebarProps {
@@ -85,6 +85,17 @@ const menuItems = [
       { title: "Mobile Sync", href: "/integration/mobile" },
       { title: "API Status", href: "/integration/api" },
       { title: "Real-time Monitor", href: "/integration/monitor" }
+    ]
+  },
+  {
+    title: "Course Management",
+    icon: BookOpen,
+    href: "/course-management",
+    badge: null,
+    subItems: [
+      { title: "Department View", href: "/course-management/departments" },
+      { title: "Grade Reports", href: "/course-management/grades" },
+      { title: "Export Data", href: "/course-management/export" }
     ]
   },
   {

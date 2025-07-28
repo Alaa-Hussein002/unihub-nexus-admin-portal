@@ -16,6 +16,7 @@ import IntegrationPage from "./pages/IntegrationPage";
 import SettingsPage from "./pages/SettingsPage";
 import AuditLogPage from "./pages/AuditLogPage";
 import AcademicStaffPage from "./pages/AcademicStaffPage";
+import CourseManagementPage from "./pages/CourseManagementPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -37,6 +38,7 @@ const App = () => (
           <Route path="/reports/*" element={<ReportsPage />} />
           <Route path="/integration/*" element={<IntegrationPage />} />
           <Route path="/academic-staff" element={<AcademicStaffPage />} />
+          <Route path="/course-management/*" element={<CourseManagementPage />} />
           <Route path="/auditlog" element={<AuditLogPage />} />
           <Route path="/settings" element={<SettingsPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
