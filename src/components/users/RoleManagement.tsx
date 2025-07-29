@@ -4,7 +4,13 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
-import { Shield, Users, Settings, Eye, Edit, Trash2 } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Separator } from "@/components/ui/separator";
+import { Shield, Users, Settings, Eye, Edit, Trash2, Plus, UserPlus } from "lucide-react";
 
 const roles = [
   {
@@ -86,6 +92,8 @@ const permissionLabels = {
 
 export function RoleManagement() {
   const [selectedRole, setSelectedRole] = useState(roles[0]);
+  const [isCreateRoleOpen, setIsCreateRoleOpen] = useState(false);
+  const [isAssignRoleOpen, setIsAssignRoleOpen] = useState(false);
 
   const getRoleColor = (name: string) => {
     switch (name) {
@@ -106,21 +114,112 @@ export function RoleManagement() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Role & Permission Management</h1>
-          <p className="text-gray-600">Configure user roles and system permissions</p>
+          <h1 className="text-3xl font-bold">Roles & Permissions Management</h1>
+          <p className="text-muted-foreground">Configure user roles and system permissions</p>
         </div>
-        <Button className="bg-blue-600 hover:bg-blue-700 shadow-lg">
-          <Shield className="w-4 h-4 mr-2" />
-          Create New Role
-        </Button>
+        <div className="flex items-center gap-2">
+          <Dialog open={isAssignRoleOpen} onOpenChange={setIsAssignRoleOpen}>
+            <DialogTrigger asChild>
+              <Button variant="outline">
+                <UserPlus className="w-4 h-4 mr-2" />
+                Assign Roles
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Assign Roles to Users</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 py-4">
+                <div className="space-y-2">
+                  <Label>Select Users</Label>
+                  <Select>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Choose users..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="user1">Dr. Sarah Johnson</SelectItem>
+                      <SelectItem value="user2">Prof. Ahmed Hassan</SelectItem>
+                      <SelectItem value="user3">John Smith</SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="space-y-2">
+                  <Label>Select Role</Label>
+                  <Select>
+                    <SelectTrigger>
+                      <SelectValue placeholder="Choose role..." />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {roles.map(role => (
+                        <SelectItem key={role.id} value={role.name}>{role.name}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+                <div className="flex justify-end space-x-2">
+                  <Button variant="outline" onClick={() => setIsAssignRoleOpen(false)}>Cancel</Button>
+                  <Button onClick={() => setIsAssignRoleOpen(false)}>Assign Role</Button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+          
+          <Dialog open={isCreateRoleOpen} onOpenChange={setIsCreateRoleOpen}>
+            <DialogTrigger asChild>
+              <Button>
+                <Plus className="w-4 h-4 mr-2" />
+                Create Role
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Create New Role</DialogTitle>
+              </DialogHeader>
+              <div className="space-y-4 py-4">
+                <div className="space-y-2">
+                  <Label htmlFor="roleName">Role Name</Label>
+                  <Input id="roleName" placeholder="Enter role name" />
+                </div>
+                <div className="space-y-2">
+                  <Label htmlFor="roleDescription">Description</Label>
+                  <Textarea id="roleDescription" placeholder="Enter role description" />
+                </div>
+                <div className="flex justify-end space-x-2">
+                  <Button variant="outline" onClick={() => setIsCreateRoleOpen(false)}>Cancel</Button>
+                  <Button onClick={() => setIsCreateRoleOpen(false)}>Create Role</Button>
+                </div>
+              </div>
+            </DialogContent>
+          </Dialog>
+        </div>
+      </div>
+
+      {/* Role Summary Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+        {roles.map((role) => (
+          <Card key={role.id} className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
+            <CardContent className="p-6">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm font-medium text-blue-600">{role.name}</p>
+                  <p className="text-2xl font-bold text-blue-700">{role.userCount}</p>
+                  <p className="text-xs text-blue-500">users assigned</p>
+                </div>
+                <div className="p-2 bg-blue-500 rounded-lg">
+                  <Shield className="h-6 w-6 text-white" />
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Roles List */}
-        <Card className="shadow-xl bg-white">
+        <Card>
           <CardHeader>
             <CardTitle className="flex items-center space-x-2">
-              <Users className="w-5 h-5 text-blue-600" />
+              <Users className="w-5 h-5" />
               <span>System Roles</span>
             </CardTitle>
           </CardHeader>
@@ -139,21 +238,22 @@ export function RoleManagement() {
                   <Badge className={getRoleColor(role.name)}>
                     {role.name}
                   </Badge>
-                  <span className="text-sm text-gray-500">{role.userCount} users</span>
+                  <span className="text-sm text-muted-foreground">{role.userCount} users</span>
                 </div>
-                <p className="text-sm text-gray-600">{role.description}</p>
-                <div className="flex items-center justify-between mt-3">
-                  <div className="flex items-center space-x-2">
-                    <Button variant="ghost" size="sm">
-                      <Eye className="w-3 h-3" />
-                    </Button>
+                <p className="text-sm text-muted-foreground">{role.description}</p>
+                <Separator className="my-3" />
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-1">
                     <Button variant="ghost" size="sm">
                       <Edit className="w-3 h-3" />
                     </Button>
-                    <Button variant="ghost" size="sm" className="text-red-600">
+                    <Button variant="ghost" size="sm" className="text-destructive">
                       <Trash2 className="w-3 h-3" />
                     </Button>
                   </div>
+                  <Button variant="outline" size="sm">
+                    View Users
+                  </Button>
                 </div>
               </div>
             ))}
@@ -162,10 +262,10 @@ export function RoleManagement() {
 
         {/* Permission Matrix */}
         <div className="lg:col-span-2">
-          <Card className="shadow-xl bg-white">
+          <Card>
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
-                <Settings className="w-5 h-5 text-blue-600" />
+                <Settings className="w-5 h-5" />
                 <span>Permissions for {selectedRole.name}</span>
               </CardTitle>
             </CardHeader>
@@ -175,11 +275,11 @@ export function RoleManagement() {
                   {Object.entries(permissionLabels).map(([key, label]) => (
                     <div
                       key={key}
-                      className="flex items-center justify-between p-4 border rounded-lg hover:bg-gray-50 transition-colors duration-200"
+                      className="flex items-center justify-between p-4 border rounded-lg hover:bg-muted/50 transition-colors duration-200"
                     >
                       <div>
-                        <p className="font-medium text-gray-900">{label}</p>
-                        <p className="text-sm text-gray-500">
+                        <p className="font-medium">{label}</p>
+                        <p className="text-sm text-muted-foreground">
                           {getPermissionDescription(key)}
                         </p>
                       </div>
@@ -191,26 +291,28 @@ export function RoleManagement() {
                   ))}
                 </div>
 
-                <div className="border-t pt-6">
-                  <h3 className="text-lg font-semibold text-gray-900 mb-4">Interface Access Control</h3>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="space-y-3">
-                      <h4 className="font-medium text-gray-700">Dashboard Widgets</h4>
-                      <div className="space-y-2">
+                <Separator className="my-6" />
+                
+                <div className="space-y-6">
+                  <h3 className="text-lg font-semibold mb-4">Interface Access Control</h3>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-4">
+                      <h4 className="font-medium">Dashboard Widgets</h4>
+                      <div className="space-y-3">
                         {["KPI Cards", "Charts", "Quick Actions", "Activities"].map((widget) => (
-                          <div key={widget} className="flex items-center justify-between">
-                            <span className="text-sm text-gray-600">{widget}</span>
+                          <div key={widget} className="flex items-center justify-between p-3 border rounded-lg">
+                            <span className="text-sm">{widget}</span>
                             <Switch defaultChecked />
                           </div>
                         ))}
                       </div>
                     </div>
-                    <div className="space-y-3">
-                      <h4 className="font-medium text-gray-700">Report Types</h4>
-                      <div className="space-y-2">
+                    <div className="space-y-4">
+                      <h4 className="font-medium">Report Types</h4>
+                      <div className="space-y-3">
                         {["Financial Reports", "Teaching Load", "Attendance", "Grades"].map((report) => (
-                          <div key={report} className="flex items-center justify-between">
-                            <span className="text-sm text-gray-600">{report}</span>
+                          <div key={report} className="flex items-center justify-between p-3 border rounded-lg">
+                            <span className="text-sm">{report}</span>
                             <Switch defaultChecked={selectedRole.permissions.reportAccess} />
                           </div>
                         ))}
@@ -219,9 +321,9 @@ export function RoleManagement() {
                   </div>
                 </div>
 
-                <div className="flex justify-end space-x-3">
+                <div className="flex justify-end space-x-3 pt-6">
                   <Button variant="outline">Reset to Default</Button>
-                  <Button className="bg-blue-600 hover:bg-blue-700">Save Changes</Button>
+                  <Button>Save Changes</Button>
                 </div>
               </div>
             </CardContent>

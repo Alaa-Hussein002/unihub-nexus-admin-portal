@@ -64,13 +64,19 @@ const AccessControl = () => {
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Access Control</h1>
           <p className="text-muted-foreground">
-            Manage system security, access restrictions, and user sessions
+            Manage system security, IP restrictions, sessions, and access logs
           </p>
         </div>
-        <Button>
-          <Settings className="mr-2 h-4 w-4" />
-          Security Settings
-        </Button>
+        <div className="flex items-center gap-2">
+          <Button variant="outline">
+            <Eye className="mr-2 h-4 w-4" />
+            View Security Report
+          </Button>
+          <Button>
+            <Settings className="mr-2 h-4 w-4" />
+            Security Settings
+          </Button>
+        </div>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-6">
@@ -214,9 +220,12 @@ const AccessControl = () => {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-lg font-semibold">IP Address Restrictions</h3>
-              <p className="text-sm text-muted-foreground">Control access based on IP addresses and network ranges</p>
+              <p className="text-sm text-muted-foreground">Whitelist/Blacklist IPv4 and CIDR ranges</p>
             </div>
-            <Button>Add IP Range</Button>
+            <div className="flex items-center gap-2">
+              <Button variant="outline">Test Connectivity</Button>
+              <Button>Add IP Range</Button>
+            </div>
           </div>
 
           <Card>
@@ -262,10 +271,14 @@ const AccessControl = () => {
         </TabsContent>
 
         <TabsContent value="sessions" className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <Card>
+          {/* 3D-style Session Management Cards */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
               <CardHeader>
-                <CardTitle>Session Timeout</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Clock className="h-5 w-5 text-blue-600" />
+                  Session Timeout
+                </CardTitle>
                 <CardDescription>Configure automatic session expiration</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -285,9 +298,12 @@ const AccessControl = () => {
               </CardContent>
             </Card>
 
-            <Card>
+            <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
               <CardHeader>
-                <CardTitle>Concurrent Sessions</CardTitle>
+                <CardTitle className="flex items-center gap-2">
+                  <Users className="h-5 w-5 text-green-600" />
+                  Concurrent Sessions
+                </CardTitle>
                 <CardDescription>Manage multiple session access</CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -309,11 +325,30 @@ const AccessControl = () => {
                 <Button className="w-full">Update Concurrent Settings</Button>
               </CardContent>
             </Card>
+            
+            <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Eye className="h-5 w-5 text-purple-600" />
+                  Active Sessions
+                </CardTitle>
+                <CardDescription>247 sessions currently active</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="text-center">
+                  <p className="text-3xl font-bold text-purple-700">247</p>
+                  <p className="text-sm text-purple-600">Active Sessions</p>
+                </div>
+                <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
+                  View All Sessions
+                </Button>
+              </CardContent>
+            </Card>
           </div>
 
           <Card>
             <CardHeader>
-              <CardTitle>Active Sessions</CardTitle>
+              <CardTitle>Session Management Tools</CardTitle>
               <CardDescription>Monitor and manage currently active user sessions</CardDescription>
             </CardHeader>
             <CardContent>
@@ -335,8 +370,19 @@ const AccessControl = () => {
                   </div>
                   <Button variant="outline">Refresh Sessions</Button>
                 </div>
-                <div className="text-sm text-muted-foreground">
-                  Currently tracking 247 active sessions across all user types
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="p-4 border rounded-lg">
+                    <p className="text-2xl font-bold">247</p>
+                    <p className="text-sm text-muted-foreground">Total Active</p>
+                  </div>
+                  <div className="p-4 border rounded-lg">
+                    <p className="text-2xl font-bold">45</p>
+                    <p className="text-sm text-muted-foreground">Admin Sessions</p>
+                  </div>
+                  <div className="p-4 border rounded-lg">
+                    <p className="text-2xl font-bold">12</p>
+                    <p className="text-sm text-muted-foreground">Force Logout Available</p>
+                  </div>
                 </div>
               </div>
             </CardContent>
@@ -347,9 +393,22 @@ const AccessControl = () => {
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-lg font-semibold">Access Logs</h3>
-              <p className="text-sm text-muted-foreground">Monitor user access attempts and security events</p>
+              <p className="text-sm text-muted-foreground">Searchable log of login attempts, policy changes, and security events</p>
             </div>
             <div className="flex items-center gap-2">
+              <Input placeholder="Search logs..." className="w-64" />
+              <Select defaultValue="all">
+                <SelectTrigger className="w-32">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Events</SelectItem>
+                  <SelectItem value="login">Login</SelectItem>
+                  <SelectItem value="failed">Failed Login</SelectItem>
+                  <SelectItem value="permission">Permission Change</SelectItem>
+                  <SelectItem value="export">Data Export</SelectItem>
+                </SelectContent>
+              </Select>
               <Select defaultValue="24h">
                 <SelectTrigger className="w-32">
                   <SelectValue />
@@ -361,7 +420,7 @@ const AccessControl = () => {
                   <SelectItem value="30d">Last 30 Days</SelectItem>
                 </SelectContent>
               </Select>
-              <Button variant="outline">Export Logs</Button>
+              <Button variant="outline">Export CSV</Button>
             </div>
           </div>
 
