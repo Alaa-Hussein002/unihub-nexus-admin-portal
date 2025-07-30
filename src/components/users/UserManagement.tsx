@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -11,8 +10,13 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Separator } from "@/components/ui/separator";
-import { Plus, Search, Edit, Trash2, Shield, Users, Mail, Phone, Download, Upload, UserCheck, UserX, MoreHorizontal } from "lucide-react";
+import { Plus, Search, Edit, Trash2, Shield, Users, Mail, Phone, Download, Upload, UserCheck, UserX, MoreHorizontal, Loader2 } from "lucide-react";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
+import { useToast } from "@/hooks/use-toast";
 
 const users = [
   {
@@ -57,12 +61,55 @@ const users = [
   }
 ];
 
+// Form schemas
+const userSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  phone: z.string().min(10, "Phone number must be at least 10 digits"),
+  role: z.string().min(1, "Please select a role"),
+});
+
+const editUserSchema = z.object({
+  name: z.string().min(2, "Name must be at least 2 characters"),
+  email: z.string().email("Please enter a valid email address"),
+  phone: z.string().min(10, "Phone number must be at least 10 digits"),
+  role: z.string().min(1, "Please select a role"),
+});
+
+type UserFormData = z.infer<typeof userSchema>;
+type EditUserFormData = z.infer<typeof editUserSchema>;
+
 export function UserManagement() {
   const [searchQuery, setSearchQuery] = useState("");
-  const [selectedUser, setSelectedUser] = useState(null);
-  const [selectedUsers, setSelectedUsers] = useState<number[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<Set<number>>(new Set());
   const [statusFilter, setStatusFilter] = useState("all");
   const [roleFilter, setRoleFilter] = useState("all");
+  const [isAddUserOpen, setIsAddUserOpen] = useState(false);
+  const [isEditUserOpen, setIsEditUserOpen] = useState(false);
+  const [editingUser, setEditingUser] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const { toast } = useToast();
+
+  // Forms
+  const addUserForm = useForm<UserFormData>({
+    resolver: zodResolver(userSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      role: "",
+    },
+  });
+
+  const editUserForm = useForm<EditUserFormData>({
+    resolver: zodResolver(editUserSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      phone: "",
+      role: "",
+    },
+  });
 
   const filteredUsers = users.filter(user => {
     const matchesSearch = user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -80,23 +127,108 @@ export function UserManagement() {
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      setSelectedUsers(filteredUsers.map(user => user.id));
+      setSelectedUsers(new Set(filteredUsers.map(user => user.id)));
     } else {
-      setSelectedUsers([]);
+      setSelectedUsers(new Set());
     }
   };
 
   const handleSelectUser = (userId: number, checked: boolean) => {
+    const newSelected = new Set(selectedUsers);
     if (checked) {
-      setSelectedUsers([...selectedUsers, userId]);
+      newSelected.add(userId);
     } else {
-      setSelectedUsers(selectedUsers.filter(id => id !== userId));
+      newSelected.delete(userId);
+    }
+    setSelectedUsers(newSelected);
+  };
+
+  const onAddUser = async (data: UserFormData) => {
+    setIsLoading(true);
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      toast({
+        title: "Success",
+        description: "User created successfully",
+      });
+      
+      addUserForm.reset();
+      setIsAddUserOpen(false);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to create user",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
     }
   };
 
+  const onEditUser = async (data: EditUserFormData) => {
+    setIsLoading(true);
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      toast({
+        title: "Success",
+        description: "User updated successfully",
+      });
+      
+      editUserForm.reset();
+      setIsEditUserOpen(false);
+      setEditingUser(null);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update user",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const handleEditUser = (user: any) => {
+    setEditingUser(user);
+    editUserForm.reset({
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      role: user.role.toLowerCase().replace(" ", "-"),
+    });
+    setIsEditUserOpen(true);
+  };
+
   const toggleUserStatus = (userId: number) => {
-    // Implementation for toggling user status
-    console.log(`Toggling status for user ${userId}`);
+    toast({
+      title: "Success",
+      description: "User status updated successfully",
+    });
+  };
+
+  const handleDeleteUser = (userId: number) => {
+    toast({
+      title: "Success",
+      description: "User deleted successfully",
+    });
+  };
+
+  const handleBulkExport = () => {
+    toast({
+      title: "Success",
+      description: "Users exported successfully",
+    });
+  };
+
+  const handleImportUsers = () => {
+    toast({
+      title: "Success",
+      description: "Users imported successfully",
+    });
   };
 
   const getRoleColor = (role: string) => {
@@ -123,60 +255,200 @@ export function UserManagement() {
         </div>
         
         <div className="flex items-center gap-2">
-          <Button variant="outline">
+          <Button variant="outline" onClick={handleImportUsers}>
             <Upload className="w-4 h-4 mr-2" />
             Import Users
           </Button>
-          <Button variant="outline">
+          <Button variant="outline" onClick={handleBulkExport}>
             <Download className="w-4 h-4 mr-2" />
             Export Users
           </Button>
-          <Dialog>
+          <Dialog open={isAddUserOpen} onOpenChange={setIsAddUserOpen}>
             <DialogTrigger asChild>
               <Button>
                 <Plus className="w-4 h-4 mr-2" />
                 Add New User
               </Button>
             </DialogTrigger>
-          <DialogContent className="max-w-2xl">
-            <DialogHeader>
-              <DialogTitle>Add New User</DialogTitle>
-            </DialogHeader>
-            <div className="grid grid-cols-2 gap-4 py-4">
-              <div className="space-y-2">
-                <Label htmlFor="name">Full Name</Label>
-                <Input id="name" placeholder="Enter full name" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="email">Email Address</Label>
-                <Input id="email" type="email" placeholder="Enter email" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="phone">Phone Number</Label>
-                <Input id="phone" placeholder="Enter phone number" />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor="role">Role</Label>
-                <Select>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select Role" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="admin">Admin</SelectItem>
-                    <SelectItem value="department-head">Department Head</SelectItem>
-                    <SelectItem value="instructor">Instructor</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-            </div>
-            <div className="flex justify-end space-x-2">
-              <Button variant="outline">Cancel</Button>
-              <Button>Create User</Button>
-            </div>
-          </DialogContent>
-        </Dialog>
+            <DialogContent className="max-w-2xl">
+              <DialogHeader>
+                <DialogTitle>Add New User</DialogTitle>
+              </DialogHeader>
+              <Form {...addUserForm}>
+                <form onSubmit={addUserForm.handleSubmit(onAddUser)} className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <FormField
+                      control={addUserForm.control}
+                      name="name"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Full Name</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter full name" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={addUserForm.control}
+                      name="email"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Email Address</FormLabel>
+                          <FormControl>
+                            <Input type="email" placeholder="Enter email" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={addUserForm.control}
+                      name="phone"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Phone Number</FormLabel>
+                          <FormControl>
+                            <Input placeholder="Enter phone number" {...field} />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={addUserForm.control}
+                      name="role"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Role</FormLabel>
+                          <Select onValueChange={field.onChange} defaultValue={field.value}>
+                            <FormControl>
+                              <SelectTrigger>
+                                <SelectValue placeholder="Select Role" />
+                              </SelectTrigger>
+                            </FormControl>
+                            <SelectContent>
+                              <SelectItem value="admin">Admin</SelectItem>
+                              <SelectItem value="department-head">Department Head</SelectItem>
+                              <SelectItem value="instructor">Instructor</SelectItem>
+                            </SelectContent>
+                          </Select>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  </div>
+                  <div className="flex justify-end space-x-2 pt-4">
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      onClick={() => setIsAddUserOpen(false)}
+                      disabled={isLoading}
+                    >
+                      Cancel
+                    </Button>
+                    <Button type="submit" disabled={isLoading}>
+                      {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                      Create User
+                    </Button>
+                  </div>
+                </form>
+              </Form>
+            </DialogContent>
+          </Dialog>
         </div>
       </div>
+
+      {/* Edit User Dialog */}
+      <Dialog open={isEditUserOpen} onOpenChange={setIsEditUserOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Edit User</DialogTitle>
+          </DialogHeader>
+          <Form {...editUserForm}>
+            <form onSubmit={editUserForm.handleSubmit(onEditUser)} className="space-y-4">
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={editUserForm.control}
+                  name="name"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Full Name</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter full name" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={editUserForm.control}
+                  name="email"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Email Address</FormLabel>
+                      <FormControl>
+                        <Input type="email" placeholder="Enter email" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={editUserForm.control}
+                  name="phone"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Phone Number</FormLabel>
+                      <FormControl>
+                        <Input placeholder="Enter phone number" {...field} />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={editUserForm.control}
+                  name="role"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Role</FormLabel>
+                      <Select onValueChange={field.onChange} defaultValue={field.value}>
+                        <FormControl>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select Role" />
+                          </SelectTrigger>
+                        </FormControl>
+                        <SelectContent>
+                          <SelectItem value="admin">Admin</SelectItem>
+                          <SelectItem value="department-head">Department Head</SelectItem>
+                          <SelectItem value="instructor">Instructor</SelectItem>
+                        </SelectContent>
+                      </Select>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              <div className="flex justify-end space-x-2 pt-4">
+                <Button 
+                  type="button" 
+                  variant="outline" 
+                  onClick={() => setIsEditUserOpen(false)}
+                  disabled={isLoading}
+                >
+                  Cancel
+                </Button>
+                <Button type="submit" disabled={isLoading}>
+                  {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
+                  Update User
+                </Button>
+              </div>
+            </form>
+          </Form>
+        </DialogContent>
+      </Dialog>
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
@@ -279,11 +551,11 @@ export function UserManagement() {
               </Select>
             </div>
           </CardTitle>
-          {selectedUsers.length > 0 && (
+          {selectedUsers.size > 0 && (
             <div className="flex items-center gap-2 pt-2">
-              <p className="text-sm text-muted-foreground">{selectedUsers.length} users selected</p>
+              <p className="text-sm text-muted-foreground">{selectedUsers.size} users selected</p>
               <Separator orientation="vertical" className="h-4" />
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" onClick={handleBulkExport}>
                 <Download className="w-4 h-4 mr-2" />
                 Export Selected
               </Button>
@@ -299,7 +571,7 @@ export function UserManagement() {
               <TableRow>
                 <TableHead className="w-12">
                   <Checkbox
-                    checked={selectedUsers.length === filteredUsers.length && filteredUsers.length > 0}
+                    checked={selectedUsers.size === filteredUsers.length && filteredUsers.length > 0}
                     onCheckedChange={handleSelectAll}
                   />
                 </TableHead>
@@ -315,7 +587,7 @@ export function UserManagement() {
                 <TableRow key={user.id}>
                   <TableCell>
                     <Checkbox
-                      checked={selectedUsers.includes(user.id)}
+                      checked={selectedUsers.has(user.id)}
                       onCheckedChange={(checked) => handleSelectUser(user.id, checked as boolean)}
                     />
                   </TableCell>
@@ -361,7 +633,7 @@ export function UserManagement() {
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={() => handleEditUser(user)}>
                           <Edit className="w-4 h-4 mr-2" />
                           Edit User
                         </DropdownMenuItem>
@@ -382,7 +654,10 @@ export function UserManagement() {
                             </>
                           )}
                         </DropdownMenuItem>
-                        <DropdownMenuItem className="text-destructive">
+                        <DropdownMenuItem 
+                          className="text-destructive"
+                          onClick={() => handleDeleteUser(user.id)}
+                        >
                           <Trash2 className="w-4 h-4 mr-2" />
                           Delete User
                         </DropdownMenuItem>
