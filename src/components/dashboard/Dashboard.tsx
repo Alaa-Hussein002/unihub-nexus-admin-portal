@@ -8,25 +8,25 @@ import { InstructorWorkload } from "./InstructorWorkload";
 
 export function Dashboard() {
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
+    <div className="space-y-4 sm:space-y-6">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Dashboard</h1>
-          <p className="text-gray-600">Welcome to UniHub Admin Portal</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Dashboard</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">Welcome to UniHub Admin Portal</p>
         </div>
-        <div className="text-sm text-gray-500">
+        <div className="text-xs sm:text-sm text-muted-foreground">
           Last updated: {new Date().toLocaleString()}
         </div>
       </div>
 
       <KPICards />
       
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        <div className="lg:col-span-2 space-y-6">
+      <div className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-6">
+        <div className="xl:col-span-2 space-y-4 sm:space-y-6">
           <EnrollmentChart />
           <InstructorWorkload />
         </div>
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           <QuickActions />
           <RecentActivities />
           <SystemHealth />
