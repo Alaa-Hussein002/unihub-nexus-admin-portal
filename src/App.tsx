@@ -17,6 +17,7 @@ import SettingsPage from "./pages/SettingsPage";
 import AuditLogPage from "./pages/AuditLogPage";
 import AcademicStaffPage from "./pages/AcademicStaffPage";
 import CourseManagementPage from "./pages/CourseManagementPage";
+import LoginPage from "./components/auth/LoginPage";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <Routes>
+          <Route path="/login" element={<LoginPage />} />
           <Route path="/" element={<Index />} />
           <Route path="/users" element={<UsersPage />} />
           <Route path="/users/roles" element={<RolesPage />} />
