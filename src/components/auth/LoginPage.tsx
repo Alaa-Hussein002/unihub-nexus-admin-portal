@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { Eye, EyeOff, Lock, User, GraduationCap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -160,9 +161,12 @@ export default function LoginPage() {
 
             {/* Forgot Password Link */}
             <div className="text-center mt-6">
-              <button className="text-sm text-primary hover:underline">
+              <Link 
+                to="/forgot-password" 
+                className="text-sm text-primary hover:underline"
+              >
                 Forgot your password?
-              </button>
+              </Link>
             </div>
           </CardContent>
         </Card>
