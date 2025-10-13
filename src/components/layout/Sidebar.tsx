@@ -4,9 +4,10 @@ import { Link, useLocation } from "react-router-dom";
 import { cn } from "@/lib/utils";
 import { 
   Home, Users, Calendar, GraduationCap, FileText, 
-  BarChart3, Settings, ChevronDown, Shield, 
+  BarChart3, Settings, ChevronDown, 
   Clock, DollarSign, Database, BookOpen
 } from "lucide-react";
+import logoLight from "@/assets/logo-color.png";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -138,15 +139,13 @@ export function Sidebar({ isOpen, onToggle, isMobile = false }: SidebarProps) {
       isMobile && "z-50"
     )}>
       {/* Logo */}
-      <div className="h-16 flex items-center px-2 sm:px-4 border-b border-sidebar-border bg-gradient-to-r from-sidebar-primary to-sidebar-primary/90 flex-shrink-0">
+      <div className="h-16 flex items-center px-2 sm:px-4 border-b border-sidebar-border bg-sidebar flex-shrink-0">
         <div className="flex items-center space-x-3">
-          <div className="w-8 h-8 bg-sidebar-primary-foreground rounded-lg flex items-center justify-center shadow-lg">
-            <Shield className="w-5 h-5 text-sidebar-primary" />
-          </div>
-          {(isOpen || isMobile) && (
-            <div className="text-sidebar-primary-foreground">
-              <h1 className="text-lg font-bold">UniHub</h1>
-              <p className="text-xs opacity-80">Admin Portal</p>
+          {isOpen || isMobile ? (
+            <img src={logoLight} alt="UniHub" className="h-8 w-auto" />
+          ) : (
+            <div className="w-8 h-8 bg-sidebar-primary-foreground rounded-lg flex items-center justify-center">
+              <img src={logoLight} alt="UniHub" className="w-6 h-6 object-contain" />
             </div>
           )}
         </div>

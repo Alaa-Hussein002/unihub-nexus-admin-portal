@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import logoFull from "@/assets/logo-full.png";
 
 const ForgotPasswordPage = () => {
   const [email, setEmail] = useState("");
@@ -17,16 +18,16 @@ const ForgotPasswordPage = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-      <Card className="w-full max-w-md shadow-lg">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-background to-secondary/10 p-4">
+      <Card className="w-full max-w-md shadow-2xl border border-border/50">
         <CardHeader className="text-center space-y-2">
-          <div className="mx-auto w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
-            U
+          <div className="mx-auto mb-2">
+            <img src={logoFull} alt="UniHub" className="h-16 w-auto mx-auto" />
           </div>
-          <CardTitle className="text-2xl font-bold text-gray-800">
+          <CardTitle className="text-2xl font-bold text-foreground">
             Forgot your password?
           </CardTitle>
-          <CardDescription className="text-gray-600">
+          <CardDescription className="text-muted-foreground">
             Enter your email or username to receive a reset link
           </CardDescription>
         </CardHeader>
@@ -44,18 +45,18 @@ const ForgotPasswordPage = () => {
                   required
                 />
               </div>
-              <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700">
+              <Button type="submit" className="w-full">
                 Send Reset Link
               </Button>
             </form>
           ) : (
             <div className="text-center space-y-4">
-              <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-                <p className="text-green-800 font-medium">
+              <div className="p-4 bg-accent/20 border border-accent rounded-lg">
+                <p className="text-foreground font-medium">
                   If this account exists, a reset link will be sent to your email.
                 </p>
               </div>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm text-muted-foreground">
                 Please check your email and follow the instructions to reset your password.
               </p>
             </div>
@@ -64,7 +65,7 @@ const ForgotPasswordPage = () => {
           <div className="text-center">
             <Link 
               to="/login" 
-              className="text-blue-600 hover:text-blue-800 text-sm font-medium underline-offset-4 hover:underline"
+              className="text-primary hover:text-primary/80 text-sm font-medium underline-offset-4 hover:underline"
             >
               Back to Login
             </Link>

@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { LanguageSwitcher } from "./LanguageSwitcher";
+import logoFull from "@/assets/logo-full.png";
 
 interface TopBarProps {
   onMenuToggle: () => void;
@@ -14,24 +15,24 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
   const [searchQuery, setSearchQuery] = useState("");
 
   return (
-    <header className="h-16 bg-white shadow-lg border-b border-gray-200 flex items-center justify-between px-6">
+    <header className="h-16 bg-card shadow-lg border-b border-border flex items-center justify-between px-6">
       <div className="flex items-center space-x-4">
         <Button
           variant="ghost"
           size="icon"
           onClick={onMenuToggle}
-          className="hover:bg-gray-100"
+          className="hover:bg-accent lg:hidden"
         >
           <Menu className="w-5 h-5" />
         </Button>
 
-        <div className="relative w-96">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400" />
+        <div className="relative w-96 max-lg:hidden">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             placeholder="Search students, instructors, courses..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-gray-50 border-0 focus:bg-white focus:shadow-md transition-all duration-200"
+            className="pl-10 bg-muted/50 border-0 focus:bg-background focus:shadow-md transition-all duration-200"
           />
         </div>
       </div>
@@ -39,24 +40,24 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
       <div className="flex items-center space-x-4">
         <LanguageSwitcher />
         
-        <Button variant="ghost" size="icon" className="relative">
+        <Button variant="ghost" size="icon" className="relative hover:bg-accent">
           <Bell className="w-5 h-5" />
-          <Badge className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center p-0 bg-red-500">
+          <Badge className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center p-0 bg-destructive">
             3
           </Badge>
         </Button>
         
-        <Button variant="ghost" size="icon">
+        <Button variant="ghost" size="icon" className="hover:bg-accent">
           <Settings className="w-5 h-5" />
         </Button>
 
-        <div className="flex items-center space-x-3 pl-4 border-l border-gray-200">
-          <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
-            <User className="w-4 h-4 text-white" />
+        <div className="flex items-center space-x-3 pl-4 border-l border-border">
+          <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
+            <User className="w-4 h-4 text-primary-foreground" />
           </div>
-          <div className="text-sm">
-            <p className="font-medium text-gray-900">Admin User</p>
-            <p className="text-gray-500">System Administrator</p>
+          <div className="text-sm max-lg:hidden">
+            <p className="font-medium text-foreground">Admin User</p>
+            <p className="text-muted-foreground">System Administrator</p>
           </div>
         </div>
       </div>

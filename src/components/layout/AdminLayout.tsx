@@ -27,7 +27,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
   }, [sidebarOpen]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted/20 flex w-full">
+    <div className="min-h-screen bg-gradient-to-br from-muted/20 via-background to-primary/5 flex w-full">
       <Sidebar isOpen={sidebarOpen} onToggle={() => setSidebarOpen(!sidebarOpen)} isMobile={isMobile} />
       
       {/* Mobile overlay */}

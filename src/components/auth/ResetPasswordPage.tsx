@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Eye, EyeOff, CheckCircle, XCircle } from "lucide-react";
+import logoFull from "@/assets/logo-full.png";
 
 const ResetPasswordPage = () => {
   const [newPassword, setNewPassword] = useState("");
@@ -49,16 +50,16 @@ const ResetPasswordPage = () => {
   ];
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-      <Card className="w-full max-w-md shadow-lg">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/5 via-background to-secondary/10 p-4">
+      <Card className="w-full max-w-md shadow-2xl border border-border/50">
         <CardHeader className="text-center space-y-2">
-          <div className="mx-auto w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center text-white font-bold text-xl">
-            U
+          <div className="mx-auto mb-2">
+            <img src={logoFull} alt="UniHub" className="h-16 w-auto mx-auto" />
           </div>
-          <CardTitle className="text-2xl font-bold text-gray-800">
+          <CardTitle className="text-2xl font-bold text-foreground">
             Set Your New Password
           </CardTitle>
-          <CardDescription className="text-gray-600">
+          <CardDescription className="text-muted-foreground">
             You must change your password before using the system
           </CardDescription>
         </CardHeader>
@@ -78,7 +79,7 @@ const ResetPasswordPage = () => {
                 <button
                   type="button"
                   onClick={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
                 >
                   {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
@@ -99,7 +100,7 @@ const ResetPasswordPage = () => {
                 <button
                   type="button"
                   onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700"
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-muted-foreground hover:text-foreground"
                 >
                   {showConfirmPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                 </button>
@@ -108,15 +109,15 @@ const ResetPasswordPage = () => {
 
             {/* Password Validation Indicators */}
             <div className="space-y-2">
-              <p className="text-sm font-medium text-gray-700">Password Requirements:</p>
+              <p className="text-sm font-medium text-foreground">Password Requirements:</p>
               {passwordValidations.map((validation, index) => (
                 <div key={index} className="flex items-center space-x-2">
                   {validation.valid ? (
-                    <CheckCircle size={16} className="text-green-600" />
+                    <CheckCircle size={16} className="text-accent" />
                   ) : (
-                    <XCircle size={16} className="text-red-500" />
+                    <XCircle size={16} className="text-destructive" />
                   )}
-                  <span className={`text-sm ${validation.valid ? 'text-green-600' : 'text-red-500'}`}>
+                  <span className={`text-sm ${validation.valid ? 'text-accent' : 'text-destructive'}`}>
                     {validation.text}
                   </span>
                 </div>
@@ -125,16 +126,16 @@ const ResetPasswordPage = () => {
 
             {/* Error Messages */}
             {errors.length > 0 && (
-              <div className="p-3 bg-red-50 border border-red-200 rounded-lg">
+              <div className="p-3 bg-destructive/10 border border-destructive/20 rounded-lg">
                 {errors.map((error, index) => (
-                  <p key={index} className="text-red-800 text-sm">{error}</p>
+                  <p key={index} className="text-destructive text-sm">{error}</p>
                 ))}
               </div>
             )}
 
             <Button 
               type="submit" 
-              className="w-full bg-blue-600 hover:bg-blue-700"
+              className="w-full"
               disabled={validatePassword().length > 0}
             >
               Save Password

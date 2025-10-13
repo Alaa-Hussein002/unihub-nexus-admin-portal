@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Eye, EyeOff, Lock, User, GraduationCap } from 'lucide-react';
+import { Eye, EyeOff, Lock, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import logoFull from "@/assets/logo-full.png";
 
 const users = [
   { username: 'admin', password: '123', role: 'admin', redirect: '/dashboard/admin' },
@@ -65,23 +66,21 @@ export default function LoginPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background/95 to-muted/20 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-br from-primary/5 via-background to-secondary/10 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* University Branding */}
         <div className="text-center mb-8">
           <div className="flex items-center justify-center mb-4">
-            <div className="w-16 h-16 bg-primary rounded-full flex items-center justify-center mb-2">
-              <GraduationCap className="w-8 h-8 text-primary-foreground" />
-            </div>
+            <img src={logoFull} alt="UniHub" className="h-20 w-auto" />
           </div>
-          <h1 className="text-2xl font-bold text-foreground">University Portal</h1>
+          <h1 className="text-2xl font-bold text-foreground">University Management Portal</h1>
           <p className="text-muted-foreground mt-1">Academic Affairs Management System</p>
         </div>
 
         {/* Login Card */}
-        <Card className="shadow-lg border-0 bg-card/95 backdrop-blur-sm">
+        <Card className="shadow-2xl border border-border/50 bg-card backdrop-blur-sm">
           <CardHeader className="space-y-1 pb-6">
-            <CardTitle className="text-xl text-center">Sign In</CardTitle>
+            <CardTitle className="text-xl text-center text-foreground">Sign In</CardTitle>
             <CardDescription className="text-center">
               Enter your credentials to access the system
             </CardDescription>
