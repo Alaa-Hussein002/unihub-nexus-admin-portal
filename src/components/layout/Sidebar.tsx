@@ -7,7 +7,8 @@ import {
   BarChart3, Settings, ChevronDown, 
   Clock, DollarSign, Database, BookOpen
 } from "lucide-react";
-import logoLight from "@/assets/logo-color.png";
+import logoIcon from "@/assets/logo-color.png";
+import logoFull from "@/assets/logo-full.png";
 
 interface SidebarProps {
   isOpen: boolean;
@@ -142,11 +143,9 @@ export function Sidebar({ isOpen, onToggle, isMobile = false }: SidebarProps) {
       <div className="h-16 flex items-center px-2 sm:px-4 border-b border-sidebar-border bg-sidebar flex-shrink-0">
         <div className="flex items-center space-x-3">
           {isOpen || isMobile ? (
-            <img src={logoLight} alt="UniHub" className="h-8 w-auto" />
+            <img src={logoFull} alt="UniHub" className="h-10 w-auto" />
           ) : (
-            <div className="w-8 h-8 bg-sidebar-primary-foreground rounded-lg flex items-center justify-center">
-              <img src={logoLight} alt="UniHub" className="w-6 h-6 object-contain" />
-            </div>
+            <img src={logoIcon} alt="UniHub" className="w-10 h-10 object-contain" />
           )}
         </div>
       </div>
