@@ -139,10 +139,8 @@ export function Sidebar({ isOpen, onToggle, isMobile = false }: SidebarProps) {
       isMobile && "z-50"
     )}>
       {/* Logo */}
-      <div className="h-16 flex items-center px-2 sm:px-4 border-b border-sidebar-border bg-sidebar flex-shrink-0">
-        <div className="flex items-center space-x-3">
-          <img src={logoSidebar} alt="UniHub" className={isOpen || isMobile ? "h-10 w-auto" : "w-10 h-10 object-contain"} />
-        </div>
+      <div className="h-16 flex items-center justify-center px-2 sm:px-4 border-b border-sidebar-border bg-sidebar flex-shrink-0">
+        <img src={logoSidebar} alt="UniHub" className={isOpen || isMobile ? "h-14 w-auto" : "h-12 w-auto object-contain"} />
       </div>
 
       {/* Navigation */}
