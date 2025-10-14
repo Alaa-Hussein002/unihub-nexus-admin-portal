@@ -30,7 +30,7 @@ const menuItems = [
     subItems: [
       { title: "All Users", href: "/users" },
       { title: "Roles & Permissions", href: "/users/roles" },
-      { title: "Access Control", href: "/users/access" }
+      { title: "Access Control", href: "/users/access-control" }
     ]
   },
   {

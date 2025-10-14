@@ -12,6 +12,7 @@ const EnrollmentPage = () => {
         <Route index element={<EnrollmentManagement />} />
         <Route path="import" element={<StudentImport />} />
         <Route path="groups" element={<GroupManagement />} />
+        <Route path="courses" element={<EnrollmentManagement />} />
         <Route path="*" element={<Navigate to="/enrollment" replace />} />
       </Routes>
     </AdminLayout>

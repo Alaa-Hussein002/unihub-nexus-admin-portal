@@ -8,8 +8,10 @@ const ExcusesPage = () => {
   return (
     <AdminLayout>
       <Routes>
-        <Route path="/" element={<ExcuseManagement />} />
-        <Route path="/pending" element={<PendingExcuses />} />
+        <Route index element={<ExcuseManagement />} />
+        <Route path="pending" element={<PendingExcuses />} />
+        <Route path="salary" element={<ExcuseManagement />} />
+        <Route path="audit" element={<ExcuseManagement />} />
         <Route path="*" element={<Navigate to="/excuses" replace />} />
       </Routes>
     </AdminLayout>
