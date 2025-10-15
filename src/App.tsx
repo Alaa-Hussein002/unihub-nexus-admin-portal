@@ -21,6 +21,10 @@ import LoginPage from "./components/auth/LoginPage";
 import ForgotPasswordPage from "./components/auth/ForgotPasswordPage";
 import ResetPasswordPage from "./components/auth/ResetPasswordPage";
 import NotFound from "./pages/NotFound";
+import CollegesPage from "./pages/CollegesPage";
+import DepartmentsPage from "./pages/DepartmentsPage";
+import ClassroomsPage from "./pages/ClassroomsPage";
+import ProgramsPage from "./pages/ProgramsPage";
 
 const queryClient = new QueryClient();
 
@@ -47,6 +51,10 @@ const App = () => (
           <Route path="/course-management/*" element={<CourseManagementPage />} />
           <Route path="/auditlog" element={<AuditLogPage />} />
           <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/colleges" element={<CollegesPage />} />
+          <Route path="/departments" element={<DepartmentsPage />} />
+          <Route path="/classrooms" element={<ClassroomsPage />} />
+          <Route path="/programs" element={<ProgramsPage />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

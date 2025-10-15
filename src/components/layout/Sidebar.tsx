@@ -17,106 +17,32 @@ interface SidebarProps {
 
 const menuItems = [
   {
-    title: "Dashboard",
-    icon: Home,
-    href: "/",
-    badge: null
-  },
-  {
-    title: "User Management",
-    icon: Users,
-    href: "/users",
-    badge: null,
-    subItems: [
-      { title: "All Users", href: "/users" },
-      { title: "Roles & Permissions", href: "/users/roles" },
-      { title: "Access Control", href: "/users/access-control" }
-    ]
-  },
-  {
-    title: "Timetable",
-    icon: Calendar,
-    href: "/timetable",
-    badge: null,
-    subItems: [
-      { title: "Import Schedule", href: "/timetable/import" },
-      { title: "View Timetable", href: "/timetable/view" },
-      { title: "Course Mapping", href: "/timetable/mapping" }
-    ]
-  },
-  {
-    title: "Student Enrollment",
+    title: "الكليات",
     icon: GraduationCap,
-    href: "/enrollment",
+    href: "/colleges",
     badge: null,
-    subItems: [
-      { title: "Import Students", href: "/enrollment/import" },
-      { title: "Manage Groups", href: "/enrollment/groups" },
-      { title: "Course Assignment", href: "/enrollment/courses" }
-    ]
+    subItems: undefined
   },
   {
-    title: "Excuse Management",
-    icon: FileText,
-    href: "/excuses",
-    badge: "3",
-    subItems: [
-      { title: "Pending Requests", href: "/excuses/pending" },
-      { title: "Salary Adjustments", href: "/excuses/salary" },
-      { title: "Audit Log", href: "/excuses/audit" }
-    ]
-  },
-  {
-    title: "Reports",
-    icon: BarChart3,
-    href: "/reports",
-    badge: null,
-    subItems: [
-      { title: "Financial Reports", href: "/reports/financial" },
-      { title: "Teaching Load", href: "/reports/teaching" },
-      { title: "Attendance", href: "/reports/attendance" },
-      { title: "Grades Overview", href: "/reports/grades" }
-    ]
-  },
-  {
-    title: "Integration",
-    icon: Database,
-    href: "/integration",
-    badge: null,
-    subItems: [
-      { title: "Mobile Sync", href: "/integration/mobile" },
-      { title: "API Status", href: "/integration/api" },
-      { title: "Real-time Monitor", href: "/integration/monitor" }
-    ]
-  },
-  {
-    title: "Course Management",
+    title: "الأقسام",
     icon: BookOpen,
-    href: "/course-management",
+    href: "/departments",
     badge: null,
-    subItems: [
-      { title: "Department View", href: "/course-management/departments" },
-      { title: "Grade Reports", href: "/course-management/grades" },
-      { title: "Export Data", href: "/course-management/export" }
-    ]
+    subItems: undefined
   },
   {
-    title: "Academic Staff",
-    icon: GraduationCap,
-    href: "/academic-staff",
-    badge: null
+    title: "القاعات الدراسية",
+    icon: Home,
+    href: "/classrooms",
+    badge: null,
+    subItems: undefined
   },
   {
-    title: "Audit Log",
+    title: "البرامج الدراسية",
     icon: FileText,
-    href: "/auditlog",
-    badge: null
-  },
-  {
-    title: "System Settings",
-    icon: Settings,
-    href: "/settings",
-    badge: null
+    href: "/programs",
+    badge: null,
+    subItems: undefined
   }
 ];
 
