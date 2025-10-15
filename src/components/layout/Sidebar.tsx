@@ -5,7 +5,8 @@ import { cn } from "@/lib/utils";
 import { 
   Home, Users, Calendar, GraduationCap, FileText, 
   BarChart3, Settings, ChevronDown, 
-  Clock, DollarSign, Database, BookOpen
+  Clock, DollarSign, Database, BookOpen, UserCog,
+  ClipboardList, Shield, Plug, History
 } from "lucide-react";
 import logoSidebar from "@/assets/logo-sidebar.png";
 
@@ -16,6 +17,13 @@ interface SidebarProps {
 }
 
 const menuItems = [
+  {
+    title: "Dashboard",
+    icon: Home,
+    href: "/",
+    badge: null,
+    subItems: undefined
+  },
   {
     title: "الكليات",
     icon: GraduationCap,
@@ -32,7 +40,7 @@ const menuItems = [
   },
   {
     title: "القاعات الدراسية",
-    icon: Home,
+    icon: Database,
     href: "/classrooms",
     badge: null,
     subItems: undefined
@@ -41,6 +49,80 @@ const menuItems = [
     title: "البرامج الدراسية",
     icon: FileText,
     href: "/programs",
+    badge: null,
+    subItems: undefined
+  },
+  {
+    title: "Users",
+    icon: Users,
+    href: "/users",
+    badge: null,
+    subItems: [
+      { title: "All Users", href: "/users" },
+      { title: "Roles", href: "/users/roles" },
+      { title: "Access Control", href: "/users/access-control" }
+    ]
+  },
+  {
+    title: "Academic Staff",
+    icon: UserCog,
+    href: "/academic-staff",
+    badge: null,
+    subItems: undefined
+  },
+  {
+    title: "Course Management",
+    icon: BookOpen,
+    href: "/course-management",
+    badge: null,
+    subItems: undefined
+  },
+  {
+    title: "Timetable",
+    icon: Calendar,
+    href: "/timetable",
+    badge: null,
+    subItems: undefined
+  },
+  {
+    title: "Enrollment",
+    icon: ClipboardList,
+    href: "/enrollment",
+    badge: null,
+    subItems: undefined
+  },
+  {
+    title: "Excuses",
+    icon: Clock,
+    href: "/excuses",
+    badge: null,
+    subItems: undefined
+  },
+  {
+    title: "Reports",
+    icon: BarChart3,
+    href: "/reports",
+    badge: null,
+    subItems: undefined
+  },
+  {
+    title: "Integration",
+    icon: Plug,
+    href: "/integration",
+    badge: null,
+    subItems: undefined
+  },
+  {
+    title: "Audit Log",
+    icon: History,
+    href: "/auditlog",
+    badge: null,
+    subItems: undefined
+  },
+  {
+    title: "Settings",
+    icon: Settings,
+    href: "/settings",
     badge: null,
     subItems: undefined
   }
