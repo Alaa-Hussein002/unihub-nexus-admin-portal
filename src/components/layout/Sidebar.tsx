@@ -112,7 +112,7 @@ const menuItems = [
   {
     title: "Audit Log",
     icon: History,
-    href: "/audit-log",
+    href: "/auditlog",
     badge: null,
     subItems: undefined
   },
