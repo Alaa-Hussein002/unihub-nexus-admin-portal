@@ -21,29 +21,29 @@ import { useToast } from "@/hooks/use-toast";
 const roles = [
   {
     id: 1,
-    name: "System Administrator",
-    description: "Full system access and user management",
+    name: "مسؤول النظام",
+    description: "وصول كامل للنظام وإدارة المستخدمين",
     userCount: 3,
     color: "red"
   },
   {
     id: 2,
-    name: "Department Head",
-    description: "Manage department resources and staff",
+    name: "رئيس القسم",
+    description: "إدارة موارد القسم والموظفين",
     userCount: 8,
     color: "purple"
   },
   {
     id: 3,
-    name: "Academic Staff",
-    description: "Teaching and academic responsibilities",
+    name: "الهيئة الأكاديمية",
+    description: "التدريس والمسؤوليات الأكاديمية",
     userCount: 45,
     color: "blue"
   },
   {
     id: 4,
-    name: "Administrative Staff",
-    description: "Administrative and support functions",
+    name: "الموظفون الإداريون",
+    description: "المهام الإدارية والدعم",
     userCount: 12,
     color: "green"
   }
@@ -51,44 +51,44 @@ const roles = [
 
 const permissions = {
   dashboard: {
-    name: "Dashboard",
-    actions: ["view", "manage"]
+    name: "لوحة التحكم",
+    actions: ["عرض", "إدارة"]
   },
   userManagement: {
-    name: "User Management",
-    actions: ["view", "create", "edit", "delete"]
+    name: "إدارة المستخدمين",
+    actions: ["عرض", "إنشاء", "تعديل", "حذف"]
   },
   timetableManagement: {
-    name: "Timetable Management",
-    actions: ["view", "create", "edit", "delete", "import"]
+    name: "إدارة الجداول الدراسية",
+    actions: ["عرض", "إنشاء", "تعديل", "حذف", "استيراد"]
   },
   courseManagement: {
-    name: "Course Management",
-    actions: ["view", "create", "edit", "delete"]
+    name: "إدارة المقررات",
+    actions: ["عرض", "إنشاء", "تعديل", "حذف"]
   },
   enrollmentManagement: {
-    name: "Enrollment Management",
-    actions: ["view", "create", "edit", "delete", "import"]
+    name: "إدارة التسجيل",
+    actions: ["عرض", "إنشاء", "تعديل", "حذف", "استيراد"]
   },
   excuseManagement: {
-    name: "Excuse Management",
-    actions: ["view", "create", "approve", "reject"]
+    name: "إدارة الأعذار",
+    actions: ["عرض", "إنشاء", "اعتماد", "رفض"]
   },
   reports: {
-    name: "Reports",
-    actions: ["view", "generate", "export"]
+    name: "التقارير",
+    actions: ["عرض", "إنشاء", "تصدير"]
   },
   settings: {
-    name: "System Settings",
-    actions: ["view", "manage"]
+    name: "إعدادات النظام",
+    actions: ["عرض", "إدارة"]
   },
   integrations: {
-    name: "Integrations",
-    actions: ["view", "configure"]
+    name: "التكاملات",
+    actions: ["عرض", "تكوين"]
   },
   auditLogs: {
-    name: "Audit Logs",
-    actions: ["view", "export"]
+    name: "سجلات التدقيق",
+    actions: ["عرض", "تصدير"]
   }
 };
 
@@ -99,15 +99,15 @@ const users = [
   { id: 4, name: "Mary Rodriguez", email: "mary.rodriguez@unihub.edu", role: "System Administrator" }
 ];
 
-// Form schemas
+// مخططات النماذج
 const roleSchema = z.object({
-  name: z.string().min(2, "Role name must be at least 2 characters"),
-  description: z.string().min(10, "Description must be at least 10 characters"),
+  name: z.string().min(2, "يجب أن يكون اسم الدور مكوّنًا من حرفين على الأقل"),
+  description: z.string().min(10, "يجب أن يكون الوصف بطول 10 أحرف على الأقل"),
 });
 
 const assignRoleSchema = z.object({
-  userId: z.string().min(1, "Please select a user"),
-  roleId: z.string().min(1, "Please select a role"),
+  userId: z.string().min(1, "يرجى اختيار مستخدم"),
+  roleId: z.string().min(1, "يرجى اختيار دور"),
 });
 
 type RoleFormData = z.infer<typeof roleSchema>;
@@ -123,7 +123,7 @@ export function RoleManagement() {
   const [rolePermissions, setRolePermissions] = useState<{[key: string]: string[]}>({});
   const { toast } = useToast();
 
-  // Forms
+  // النماذج
   const createRoleForm = useForm<RoleFormData>({
     resolver: zodResolver(roleSchema),
     defaultValues: {
@@ -151,20 +151,20 @@ export function RoleManagement() {
   const onCreateRole = async (data: RoleFormData) => {
     setIsLoading(true);
     try {
-      // Simulate API call
+      // محاكاة اتصال API
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       toast({
-        title: "Success",
-        description: "Role created successfully",
+        title: "نجاح",
+        description: "تم إنشاء الدور بنجاح",
       });
       
       createRoleForm.reset();
       setIsCreateRoleOpen(false);
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to create role",
+        title: "خطأ",
+        description: "فشل في إنشاء الدور",
         variant: "destructive",
       });
     } finally {
@@ -175,12 +175,12 @@ export function RoleManagement() {
   const onEditRole = async (data: RoleFormData) => {
     setIsLoading(true);
     try {
-      // Simulate API call
+      // محاكاة اتصال API
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       toast({
-        title: "Success",
-        description: "Role updated successfully",
+        title: "نجاح",
+        description: "تم تحديث الدور بنجاح",
       });
       
       editRoleForm.reset();
@@ -188,8 +188,8 @@ export function RoleManagement() {
       setEditingRole(null);
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to update role",
+        title: "خطأ",
+        description: "فشل في تحديث الدور",
         variant: "destructive",
       });
     } finally {
@@ -200,20 +200,20 @@ export function RoleManagement() {
   const onAssignRole = async (data: AssignRoleFormData) => {
     setIsLoading(true);
     try {
-      // Simulate API call
+      // محاكاة اتصال API
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       toast({
-        title: "Success",
-        description: "Role assigned successfully",
+        title: "نجاح",
+        description: "تم تعيين الدور بنجاح",
       });
       
       assignRoleForm.reset();
       setIsAssignRoleOpen(false);
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to assign role",
+        title: "خطأ",
+        description: "فشل في تعيين الدور",
         variant: "destructive",
       });
     } finally {
@@ -232,8 +232,8 @@ export function RoleManagement() {
 
   const handleDeleteRole = (roleId: number) => {
     toast({
-      title: "Success",
-      description: "Role deleted successfully",
+      title: "نجاح",
+      description: "تم حذف الدور بنجاح",
     });
   };
 
@@ -257,8 +257,8 @@ export function RoleManagement() {
 
   const savePermissions = () => {
     toast({
-      title: "Success",
-      description: "Permissions updated successfully",
+      title: "نجاح",
+      description: "تم تحديث الصلاحيات بنجاح",
     });
   };
 
@@ -281,8 +281,8 @@ export function RoleManagement() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Roles & Permissions</h1>
-          <p className="text-muted-foreground">Manage user roles and system permissions</p>
+          <h1 className="text-3xl font-bold">الأدوار والصلاحيات</h1>
+          <p className="text-muted-foreground">إدارة أدوار المستخدمين وصلاحيات النظام</p>
         </div>
         
         <div className="flex items-center gap-2">
@@ -290,12 +290,12 @@ export function RoleManagement() {
             <DialogTrigger asChild>
               <Button variant="outline">
                 <UserPlus className="w-4 h-4 mr-2" />
-                Assign Role
+                تعيين دور
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Assign Role to User</DialogTitle>
+                <DialogTitle>تعيين دور لمستخدم</DialogTitle>
               </DialogHeader>
               <Form {...assignRoleForm}>
                 <form onSubmit={assignRoleForm.handleSubmit(onAssignRole)} className="space-y-4">
@@ -304,11 +304,11 @@ export function RoleManagement() {
                     name="userId"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Select User</FormLabel>
+                        <FormLabel>اختر مستخدمًا</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Choose a user" />
+                              <SelectValue placeholder="اختر مستخدمًا" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -328,11 +328,11 @@ export function RoleManagement() {
                     name="roleId"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Select Role</FormLabel>
+                        <FormLabel>اختر دورًا</FormLabel>
                         <Select onValueChange={field.onChange} defaultValue={field.value}>
                           <FormControl>
                             <SelectTrigger>
-                              <SelectValue placeholder="Choose a role" />
+                              <SelectValue placeholder="اختر دورًا" />
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
@@ -354,11 +354,11 @@ export function RoleManagement() {
                       onClick={() => setIsAssignRoleOpen(false)}
                       disabled={isLoading}
                     >
-                      Cancel
+                      إلغاء
                     </Button>
                     <Button type="submit" disabled={isLoading}>
                       {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                      Assign Role
+                      تعيين الدور
                     </Button>
                   </div>
                 </form>
@@ -370,12 +370,12 @@ export function RoleManagement() {
             <DialogTrigger asChild>
               <Button>
                 <Plus className="w-4 h-4 mr-2" />
-                Create Role
+                إنشاء دور
               </Button>
             </DialogTrigger>
             <DialogContent>
               <DialogHeader>
-                <DialogTitle>Create New Role</DialogTitle>
+                <DialogTitle>إنشاء دور جديد</DialogTitle>
               </DialogHeader>
               <Form {...createRoleForm}>
                 <form onSubmit={createRoleForm.handleSubmit(onCreateRole)} className="space-y-4">
@@ -384,9 +384,9 @@ export function RoleManagement() {
                     name="name"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Role Name</FormLabel>
+                        <FormLabel>اسم الدور</FormLabel>
                         <FormControl>
-                          <Input placeholder="Enter role name" {...field} />
+                          <Input placeholder="أدخل اسم الدور" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -397,9 +397,9 @@ export function RoleManagement() {
                     name="description"
                     render={({ field }) => (
                       <FormItem>
-                        <FormLabel>Description</FormLabel>
+                        <FormLabel>الوصف</FormLabel>
                         <FormControl>
-                          <Textarea placeholder="Enter role description" {...field} />
+                          <Textarea placeholder="أدخل وصف الدور" {...field} />
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -412,11 +412,11 @@ export function RoleManagement() {
                       onClick={() => setIsCreateRoleOpen(false)}
                       disabled={isLoading}
                     >
-                      Cancel
+                      إلغاء
                     </Button>
                     <Button type="submit" disabled={isLoading}>
                       {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                      Create Role
+                      إنشاء الدور
                     </Button>
                   </div>
                 </form>
@@ -426,11 +426,11 @@ export function RoleManagement() {
         </div>
       </div>
 
-      {/* Edit Role Dialog */}
+      {/* مربع حوار تعديل الدور */}
       <Dialog open={isEditRoleOpen} onOpenChange={setIsEditRoleOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit Role</DialogTitle>
+            <DialogTitle>تعديل الدور</DialogTitle>
           </DialogHeader>
           <Form {...editRoleForm}>
             <form onSubmit={editRoleForm.handleSubmit(onEditRole)} className="space-y-4">
@@ -439,9 +439,9 @@ export function RoleManagement() {
                 name="name"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Role Name</FormLabel>
+                    <FormLabel>اسم الدور</FormLabel>
                     <FormControl>
-                      <Input placeholder="Enter role name" {...field} />
+                      <Input placeholder="أدخل اسم الدور" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -452,9 +452,9 @@ export function RoleManagement() {
                 name="description"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Description</FormLabel>
+                    <FormLabel>الوصف</FormLabel>
                     <FormControl>
-                      <Textarea placeholder="Enter role description" {...field} />
+                      <Textarea placeholder="أدخل وصف الدور" {...field} />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
@@ -467,11 +467,11 @@ export function RoleManagement() {
                   onClick={() => setIsEditRoleOpen(false)}
                   disabled={isLoading}
                 >
-                  Cancel
+                  إلغاء
                 </Button>
                 <Button type="submit" disabled={isLoading}>
                   {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                  Update Role
+                  تحديث الدور
                 </Button>
               </div>
             </form>
@@ -479,7 +479,7 @@ export function RoleManagement() {
         </DialogContent>
       </Dialog>
 
-      {/* Role Summary Cards */}
+      {/* بطاقات ملخص الأدوار */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         {roles.map((role) => (
           <Card key={role.id} className={`${getRoleColor(role.color)} transition-all duration-200 hover:shadow-lg`}>
@@ -487,7 +487,7 @@ export function RoleManagement() {
               <div className="flex items-center justify-between">
                 <div>
                   <h3 className="font-semibold">{role.name}</h3>
-                  <p className="text-sm opacity-80 mt-1">{role.userCount} users</p>
+                  <p className="text-sm opacity-80 mt-1">{role.userCount} مستخدم</p>
                 </div>
                 <Shield className="h-8 w-8 opacity-60" />
               </div>
@@ -497,12 +497,12 @@ export function RoleManagement() {
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Roles List */}
+        {/* قائمة الأدوار */}
         <Card>
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Shield className="h-5 w-5" />
-              Roles
+              الأدوار
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -518,7 +518,7 @@ export function RoleManagement() {
                   <div className="flex items-center justify-between">
                     <div>
                       <h4 className="font-medium">{role.name}</h4>
-                      <p className="text-sm text-muted-foreground">{role.userCount} users</p>
+                      <p className="text-sm text-muted-foreground">{role.userCount} مستخدم</p>
                     </div>
                     <div className="flex items-center gap-2">
                       <Button
@@ -549,16 +549,16 @@ export function RoleManagement() {
           </CardContent>
         </Card>
 
-        {/* Permissions Matrix */}
+        {/* مصفوفة الصلاحيات */}
         <Card className="lg:col-span-2">
           <CardHeader>
             <div className="flex items-center justify-between">
               <CardTitle className="flex items-center gap-2">
                 <Settings className="h-5 w-5" />
-                Permissions for {selectedRole.name}
+                صلاحيات {selectedRole.name}
               </CardTitle>
               <Button onClick={savePermissions}>
-                Save Permissions
+                حفظ الصلاحيات
               </Button>
             </div>
           </CardHeader>

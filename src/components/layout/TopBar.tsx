@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Search, Bell, User, Menu, Settings } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -29,7 +28,7 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
         <div className="relative w-96 max-lg:hidden">
           <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
-            placeholder="Search students, instructors, courses..."
+            placeholder="ابحث عن الطلاب، المحاضرين، المقررات..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             className="pl-10 bg-muted/50 border-0 focus:bg-background focus:shadow-md transition-all duration-200"
@@ -38,7 +37,6 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
       </div>
 
       <div className="flex items-center space-x-4">
-        <LanguageSwitcher />
         
         <Button variant="ghost" size="icon" className="relative hover:bg-accent">
           <Bell className="w-5 h-5" />
@@ -57,7 +55,7 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
           </div>
           <div className="text-sm max-lg:hidden">
             <p className="font-medium text-foreground">Admin User</p>
-            <p className="text-muted-foreground">System Administrator</p>
+            <p className="text-muted-foreground">مسؤول النظام</p>
           </div>
         </div>
       </div>

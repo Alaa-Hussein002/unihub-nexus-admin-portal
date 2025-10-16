@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -9,60 +8,61 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Settings, Database, Filter, Download, BarChart3, TableIcon } from "lucide-react";
+// التعديل 1: تم تعديل استيراد TableIcon لتجنب الخطأ
+import { Settings, Database, Filter, Download, BarChart3, Table as TableIcon } from "lucide-react";
 
 const dataSources = [
-  { id: "students", name: "Students", description: "Student information and enrollment data" },
-  { id: "courses", name: "Courses", description: "Course details and schedules" },
-  { id: "attendance", name: "Attendance", description: "Student attendance records" },
-  { id: "grades", name: "Grades", description: "Student grades and assessments" },
-  { id: "instructors", name: "Instructors", description: "Instructor information and assignments" },
-  { id: "excuses", name: "Excuses", description: "Excuse requests and approvals" }
+  { id: "students", name: "الطلاب", description: "بيانات الطلاب والتسجيل" },
+  { id: "courses", name: "المقررات", description: "تفاصيل المقررات والجداول" },
+  { id: "attendance", name: "الحضور", description: "سجلات حضور الطلاب" },
+  { id: "grades", name: "الدرجات", description: "درجات الطلاب والتقييمات" },
+  { id: "instructors", name: "المحاضرون", description: "بيانات المحاضرين والتكليفات" },
+  { id: "excuses", name: "الأعذار", description: "طلبات الأعذار والموافقات" }
 ];
 
 const availableFields = {
   students: [
-    { id: "student_id", name: "Student ID", type: "text" },
-    { id: "student_name", name: "Student Name", type: "text" },
-    { id: "email", name: "Email", type: "text" },
-    { id: "enrollment_date", name: "Enrollment Date", type: "date" },
-    { id: "gpa", name: "GPA", type: "number" },
-    { id: "academic_standing", name: "Academic Standing", type: "text" }
+    { id: "student_id", name: "الرقم الجامعي", type: "text" },
+    { id: "student_name", name: "اسم الطالب", type: "text" },
+    { id: "email", name: "البريد الإلكتروني", type: "text" },
+    { id: "enrollment_date", name: "تاريخ التسجيل", type: "date" },
+    { id: "gpa", name: "المعدل التراكمي", type: "number" },
+    { id: "academic_standing", name: "الحالة الأكاديمية", type: "text" }
   ],
   courses: [
-    { id: "course_code", name: "Course Code", type: "text" },
-    { id: "course_name", name: "Course Name", type: "text" },
-    { id: "instructor", name: "Instructor", type: "text" },
-    { id: "credits", name: "Credits", type: "number" },
-    { id: "schedule", name: "Schedule", type: "text" }
+    { id: "course_code", name: "رمز المقرر", type: "text" },
+    { id: "course_name", name: "اسم المقرر", type: "text" },
+    { id: "instructor", name: "المحاضر", type: "text" },
+    { id: "credits", name: "الساعات المعتمدة", type: "number" },
+    { id: "schedule", name: "الجدول", type: "text" }
   ],
   attendance: [
-    { id: "student_id", name: "Student ID", type: "text" },
-    { id: "course_code", name: "Course Code", type: "text" },
-    { id: "attendance_rate", name: "Attendance Rate", type: "number" },
-    { id: "sessions_attended", name: "Sessions Attended", type: "number" },
-    { id: "total_sessions", name: "Total Sessions", type: "number" }
+    { id: "student_id", name: "الرقم الجامعي", type: "text" },
+    { id: "course_code", name: "رمز المقرر", type: "text" },
+    { id: "attendance_rate", name: "نسبة الحضور", type: "number" },
+    { id: "sessions_attended", name: "جلسات الحضور", type: "number" },
+    { id: "total_sessions", name: "إجمالي الجلسات", type: "number" }
   ],
   grades: [
-    { id: "student_id", name: "Student ID", type: "text" },
-    { id: "course_code", name: "Course Code", type: "text" },
-    { id: "grade", name: "Grade", type: "text" },
-    { id: "points", name: "Grade Points", type: "number" },
-    { id: "status", name: "Pass/Fail Status", type: "text" }
+    { id: "student_id", name: "الرقم الجامعي", type: "text" },
+    { id: "course_code", name: "رمز المقرر", type: "text" },
+    { id: "grade", name: "الدرجة", type: "text" },
+    { id: "points", name: "النقاط", type: "number" },
+    { id: "status", name: "حالة النجاح/الرسوب", type: "text" }
   ],
   instructors: [
-    { id: "instructor_id", name: "Instructor ID", type: "text" },
-    { id: "instructor_name", name: "Instructor Name", type: "text" },
-    { id: "department", name: "Department", type: "text" },
-    { id: "hourly_rate", name: "Hourly Rate", type: "number" },
-    { id: "total_sessions", name: "Total Sessions", type: "number" }
+    { id: "instructor_id", name: "رقم المحاضر", type: "text" },
+    { id: "instructor_name", name: "اسم المحاضر", type: "text" },
+    { id: "department", name: "القسم", type: "text" },
+    { id: "hourly_rate", name: "الأجر بالساعة", type: "number" },
+    { id: "total_sessions", name: "إجمالي الجلسات", type: "number" }
   ],
   excuses: [
-    { id: "excuse_id", name: "Excuse ID", type: "text" },
-    { id: "instructor_id", name: "Instructor ID", type: "text" },
-    { id: "excuse_type", name: "Excuse Type", type: "text" },
-    { id: "status", name: "Status", type: "text" },
-    { id: "salary_impact", name: "Salary Impact", type: "number" }
+    { id: "excuse_id", name: "رقم العذر", type: "text" },
+    { id: "instructor_id", name: "رقم المحاضر", type: "text" },
+    { id: "excuse_type", name: "نوع العذر", type: "text" },
+    { id: "status", name: "الحالة", type: "text" },
+    { id: "salary_impact", name: "تأثير على الراتب", type: "number" }
   ]
 };
 
@@ -113,15 +113,15 @@ export function CustomReportBuilder() {
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Settings className="w-5 h-5 text-blue-600" />
-            <span>Custom Report Builder</span>
+            <span>منشئ التقارير المخصصة</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="space-y-6">
             <div>
-              <Label className="text-base font-medium">Report Name</Label>
+              <Label className="text-base font-medium">اسم التقرير</Label>
               <Input
-                placeholder="Enter report name..."
+                placeholder="أدخل اسم التقرير..."
                 value={reportName}
                 onChange={(e) => setReportName(e.target.value)}
                 className="mt-2"
@@ -132,25 +132,25 @@ export function CustomReportBuilder() {
               <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="datasource" className="flex items-center space-x-2">
                   <Database className="w-4 h-4" />
-                  <span>Data Source</span>
+                  <span>مصدر البيانات</span>
                 </TabsTrigger>
                 <TabsTrigger value="fields" className="flex items-center space-x-2">
                   <TableIcon className="w-4 h-4" />
-                  <span>Fields</span>
+                  <span>الحقول</span>
                 </TabsTrigger>
                 <TabsTrigger value="filters" className="flex items-center space-x-2">
                   <Filter className="w-4 h-4" />
-                  <span>Filters</span>
+                  <span>المرشحات</span>
                 </TabsTrigger>
                 <TabsTrigger value="output" className="flex items-center space-x-2">
                   <BarChart3 className="w-4 h-4" />
-                  <span>Output</span>
+                  <span>المخرجات</span>
                 </TabsTrigger>
               </TabsList>
 
               <TabsContent value="datasource" className="space-y-4">
                 <div>
-                  <Label className="text-base font-medium">Select Data Source</Label>
+                  <Label className="text-base font-medium">اختر مصدر البيانات</Label>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-4">
                     {dataSources.map((source) => (
                       <Card
@@ -174,7 +174,7 @@ export function CustomReportBuilder() {
 
               <TabsContent value="fields" className="space-y-4">
                 <div>
-                  <Label className="text-base font-medium">Select Fields to Include</Label>
+                  <Label className="text-base font-medium">اختر الحقول المراد تضمينها</Label>
                   {selectedDataSource ? (
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                       {currentFields.map((field) => (
@@ -194,7 +194,7 @@ export function CustomReportBuilder() {
                     </div>
                   ) : (
                     <div className="text-center py-8 text-gray-500">
-                      Please select a data source first
+                      يرجى اختيار مصدر بيانات أولاً
                     </div>
                   )}
                 </div>
@@ -203,9 +203,9 @@ export function CustomReportBuilder() {
               <TabsContent value="filters" className="space-y-4">
                 <div>
                   <div className="flex items-center justify-between">
-                    <Label className="text-base font-medium">Apply Filters</Label>
+                    <Label className="text-base font-medium">تطبيق المرشحات</Label>
                     <Button onClick={addFilter} variant="outline" size="sm">
-                      Add Filter
+                      إضافة مرشح
                     </Button>
                   </div>
                   
@@ -218,7 +218,7 @@ export function CustomReportBuilder() {
                             onValueChange={(value) => updateFilter(index, "field", value)}
                           >
                             <SelectTrigger className="w-40">
-                              <SelectValue placeholder="Field" />
+                              <SelectValue placeholder="الحقل" />
                             </SelectTrigger>
                             <SelectContent>
                               {currentFields.map((field) => (
@@ -237,15 +237,15 @@ export function CustomReportBuilder() {
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
-                              <SelectItem value="equals">Equals</SelectItem>
-                              <SelectItem value="contains">Contains</SelectItem>
-                              <SelectItem value="greater">Greater than</SelectItem>
-                              <SelectItem value="less">Less than</SelectItem>
+                              <SelectItem value="equals">يساوي</SelectItem>
+                              <SelectItem value="contains">يحتوي</SelectItem>
+                              <SelectItem value="greater">أكبر من</SelectItem>
+                              <SelectItem value="less">أقل من</SelectItem>
                             </SelectContent>
                           </Select>
                           
                           <Input
-                            placeholder="Value"
+                            placeholder="القيمة"
                             value={filter.value}
                             onChange={(e) => updateFilter(index, "value", e.target.value)}
                             className="flex-1"
@@ -256,14 +256,14 @@ export function CustomReportBuilder() {
                             variant="outline"
                             size="sm"
                           >
-                            Remove
+                            إزالة
                           </Button>
                         </div>
                       ))}
                     </div>
                   ) : (
                     <div className="text-center py-8 text-gray-500">
-                      No filters applied. Click "Add Filter" to add filters.
+                      لا توجد مرشحات مطبّقة. انقر "إضافة مرشح" لإضافة مرشحات.
                     </div>
                   )}
                 </div>
@@ -271,13 +271,13 @@ export function CustomReportBuilder() {
 
               <TabsContent value="output" className="space-y-4">
                 <div>
-                  <Label className="text-base font-medium">Output Format</Label>
+                  <Label className="text-base font-medium">صيغة المخرجات</Label>
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
                     {[
-                      { id: "table", name: "Table View", icon: TableIcon },
-                      { id: "chart", name: "Chart/Graph", icon: BarChart3 },
-                      { id: "csv", name: "CSV Export", icon: Download },
-                      { id: "pdf", name: "PDF Report", icon: Download }
+                      { id: "table", name: "عرض جدولي", icon: TableIcon },
+                      { id: "chart", name: "مخطط/رسم بياني", icon: BarChart3 },
+                      { id: "csv", name: "تصدير CSV", icon: Download },
+                      { id: "pdf", name: "تقرير PDF", icon: Download }
                     ].map((format) => (
                       <Card
                         key={format.id}
@@ -302,18 +302,18 @@ export function CustomReportBuilder() {
             <div className="flex items-center justify-between pt-6 border-t">
               <div className="text-sm text-gray-600">
                 {selectedFields.length > 0 && (
-                  <span>Selected {selectedFields.length} field(s) from {selectedDataSource}</span>
+                  <span>تم اختيار {selectedFields.length} حقل من {selectedDataSource}</span>
                 )}
               </div>
               <div className="flex items-center space-x-3">
-                <Button variant="outline">Save Template</Button>
+                <Button variant="outline">حفظ القالب</Button>
                 <Button
                   onClick={generateReport}
                   disabled={!selectedDataSource || selectedFields.length === 0 || !reportName}
                   className="bg-blue-600 hover:bg-blue-700"
                 >
                   <BarChart3 className="w-4 h-4 mr-2" />
-                  Generate Report
+                  إنشاء التقرير
                 </Button>
               </div>
             </div>
@@ -321,17 +321,18 @@ export function CustomReportBuilder() {
         </CardContent>
       </Card>
 
-      {/* Preview Section */}
+      {/* قسم المعاينة */}
       {selectedFields.length > 0 && (
         <Card className="shadow-xl bg-white">
           <CardHeader>
-            <CardTitle>Report Preview</CardTitle>
+            <CardTitle>معاينة التقرير</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="mb-4">
-              <h3 className="font-medium text-gray-900">Report: {reportName || "Untitled Report"}</h3>
+              {/* التعديل 2: تم إصلاح الخطأ المتعلق بقوس/اقتباس ناقص */}
+              <h3 className="font-medium text-gray-900">التقرير: {reportName || "تقرير بدون عنوان"}</h3> 
               <p className="text-sm text-gray-600">
-                Data Source: {dataSources.find(s => s.id === selectedDataSource)?.name}
+                مصدر البيانات: {dataSources.find(s => s.id === selectedDataSource)?.name}
               </p>
             </div>
             
@@ -350,7 +351,7 @@ export function CustomReportBuilder() {
                 <TableRow>
                   {selectedFields.map((fieldId) => (
                     <TableCell key={fieldId} className="text-gray-500 italic">
-                      Sample data
+                      بيانات تجريبية
                     </TableCell>
                   ))}
                 </TableRow>

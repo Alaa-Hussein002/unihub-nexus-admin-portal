@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, LineChart, Line } from "recharts";
 import { DollarSign, Clock, Users, TrendingUp, Download, Calendar, BarChart3, FileText, GraduationCap, Settings } from "lucide-react";
+// المكونات المستوردة الأخرى ستبقى بأسماء لاتينية
 import { CourseAttendanceReport } from "./CourseAttendanceReport";
 import { CoursePerformanceReport } from "./CoursePerformanceReport";
 import { StudentProgressReport } from "./StudentProgressReport";
@@ -18,7 +19,7 @@ const financialData = [
     sessionsCount: 24,
     totalHours: 72,
     totalPayout: 5400,
-    university: "UniHub Only",
+    university: "UniHub Only", // ستُعرب حالة العرض
     department: "Computer Science"
   },
   {
@@ -27,7 +28,7 @@ const financialData = [
     sessionsCount: 28,
     totalHours: 84,
     totalPayout: 7140,
-    university: "Multiple",
+    university: "Multiple", // ستُعرب حالة العرض
     department: "Mathematics"
   },
   {
@@ -73,44 +74,54 @@ export function ReportsManagement() {
   const avgHourlyRate = financialData.reduce((sum, item) => sum + item.hourlyRate, 0) / financialData.length;
   const totalSessions = financialData.reduce((sum, item) => sum + item.sessionsCount, 0);
 
+  // دالة مساعدة لتعريب حالة الجامعة
+  const getUniversityStatus = (status: string) => {
+    return status === "Multiple" ? "متعددة" : "UniHub فقط";
+  };
+
+  // دالة مساعدة لتعريب حالة الحضور
+  const getAttendanceStatus = (attendance: number) => {
+    return attendance >= 90 ? "ممتاز" : "يحتاج إلى اهتمام";
+  };
+
   return (
-    <div className="space-y-6">
-      <div className="flex items-center justify-between">
-        <div>
-          <h1 className="text-3xl font-bold text-gray-900">Reports & Analytics</h1>
-          <p className="text-gray-600">Comprehensive reporting and data analysis</p>
+    <div className="space-y-6 text-right"> {/* المحاذاة لليمين للنصوص العامة */}
+      <div className="flex items-center justify-between flex-row-reverse"> {/* عكس اتجاه عناصر الهيدر */}
+        <div className="text-right">
+          <h1 className="text-3xl font-bold text-gray-900">التقارير والتحليلات</h1> {/* النص المُعرب */}
+          <p className="text-gray-600">تقارير شاملة وتحليل البيانات</p> {/* النص المُعرب */}
         </div>
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-3 space-x-reverse"> {/* عكس ترتيب الأزرار */}
           <Button variant="outline" className="shadow-lg">
-            <Calendar className="w-4 h-4 mr-2" />
-            Date Range
+            <Calendar className="w-4 h-4 ml-2" /> {/* عكس موقع الأيقونة */}
+            نطاق التاريخ {/* النص المُعرب */}
           </Button>
           <Button className="bg-blue-600 hover:bg-blue-700 shadow-lg">
-            <Download className="w-4 h-4 mr-2" />
-            Export Report
+            <Download className="w-4 h-4 ml-2" /> {/* عكس موقع الأيقونة */}
+            تصدير التقرير {/* النص المُعرب */}
           </Button>
         </div>
       </div>
 
-      {/* Report Navigation */}
+      {/* Report Navigation (قائمة التنقل للتقارير) */}
       <Card className="shadow-xl bg-white">
         <CardContent className="p-6">
-          <div className="flex items-center flex-wrap gap-4">
+          <div className="flex items-center flex-wrap gap-4 justify-end"> {/* محاذاة الأزرار لليمين */}
             {[
-              { id: "financial", label: "Financial Reports", icon: DollarSign },
-              { id: "course-attendance", label: "Course Attendance", icon: Users },
-              { id: "course-performance", label: "Course Performance", icon: GraduationCap },
-              { id: "student-progress", label: "Student Progress", icon: FileText },
-              { id: "instructor-effectiveness", label: "Instructor Effectiveness", icon: TrendingUp },
-              { id: "custom-builder", label: "Custom Report Builder", icon: Settings },
-              { id: "teaching", label: "Teaching Load", icon: Clock },
-              { id: "attendance", label: "Overall Attendance", icon: Users },
-              { id: "grades", label: "Grades Overview", icon: TrendingUp }
+              { id: "financial", label: "التقارير المالية", icon: DollarSign },
+              { id: "course-attendance", label: "حضور المقررات", icon: Users },
+              { id: "course-performance", label: "أداء المقررات", icon: GraduationCap },
+              { id: "student-progress", label: "تقدم الطلاب", icon: FileText },
+              { id: "instructor-effectiveness", label: "فعالية المحاضرين", icon: TrendingUp },
+              { id: "custom-builder", label: "منشئ التقارير المخصص", icon: Settings },
+              { id: "teaching", label: "عبء التدريس", icon: Clock },
+              { id: "attendance", label: "الحضور العام", icon: Users },
+              { id: "grades", label: "نظرة عامة على الدرجات", icon: TrendingUp }
             ].map((report) => (
               <Button
                 key={report.id}
                 variant={selectedReport === report.id ? "default" : "outline"}
-                className="flex items-center space-x-2"
+                className="flex items-center space-x-2 flex-row-reverse space-x-reverse" // عكس ترتيب الأيقونة والنص
                 onClick={() => setSelectedReport(report.id)}
               >
                 <report.icon className="w-4 h-4" />
@@ -121,30 +132,30 @@ export function ReportsManagement() {
         </CardContent>
       </Card>
 
-      {/* Course Attendance Summary Report */}
+      {/* Course Attendance Summary Report - تعتمد على المكونات المعربة في الملفات الأخرى */}
       {selectedReport === "course-attendance" && <CourseAttendanceReport />}
 
-      {/* Course Performance Report */}
+      {/* Course Performance Report - تعتمد على المكونات المعربة في الملفات الأخرى */}
       {selectedReport === "course-performance" && <CoursePerformanceReport />}
 
-      {/* Student Academic Progress Report */}
+      {/* Student Academic Progress Report - تعتمد على المكونات المعربة في الملفات الأخرى */}
       {selectedReport === "student-progress" && <StudentProgressReport />}
 
-      {/* Instructor Effectiveness Report */}
+      {/* Instructor Effectiveness Report - تعتمد على المكونات المعربة في الملفات الأخرى */}
       {selectedReport === "instructor-effectiveness" && <InstructorEffectivenessReport />}
 
-      {/* Custom Report Builder */}
+      {/* Custom Report Builder - تعتمد على المكونات المعربة في الملفات الأخرى */}
       {selectedReport === "custom-builder" && <CustomReportBuilder />}
 
-      {/* Financial Reports */}
+      {/* Financial Reports (التقارير المالية) */}
       {selectedReport === "financial" && (
         <div className="space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             <Card className="shadow-xl bg-white">
               <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Total Payouts</p>
+                <div className="flex items-center justify-between flex-row-reverse"> {/* عكس ترتيب الأيقونة والبيانات */}
+                  <div className="text-right">
+                    <p className="text-sm font-medium text-gray-600">إجمالي المدفوعات</p>
                     <p className="text-3xl font-bold text-green-600">${totalPayout.toLocaleString()}</p>
                   </div>
                   <DollarSign className="w-8 h-8 text-green-600" />
@@ -153,9 +164,9 @@ export function ReportsManagement() {
             </Card>
             <Card className="shadow-xl bg-white">
               <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Avg Hourly Rate</p>
+                <div className="flex items-center justify-between flex-row-reverse">
+                  <div className="text-right">
+                    <p className="text-sm font-medium text-gray-600">متوسط الأجر بالساعة</p>
                     <p className="text-3xl font-bold text-blue-600">${avgHourlyRate.toFixed(0)}</p>
                   </div>
                   <Clock className="w-8 h-8 text-blue-600" />
@@ -164,9 +175,9 @@ export function ReportsManagement() {
             </Card>
             <Card className="shadow-xl bg-white">
               <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Total Sessions</p>
+                <div className="flex items-center justify-between flex-row-reverse">
+                  <div className="text-right">
+                    <p className="text-sm font-medium text-gray-600">إجمالي الجلسات</p>
                     <p className="text-3xl font-bold text-purple-600">{totalSessions}</p>
                   </div>
                   <BarChart3 className="w-8 h-8 text-purple-600" />
@@ -175,9 +186,9 @@ export function ReportsManagement() {
             </Card>
             <Card className="shadow-xl bg-white">
               <CardContent className="p-6">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-gray-600">Multi-University</p>
+                <div className="flex items-center justify-between flex-row-reverse">
+                  <div className="text-right">
+                    <p className="text-sm font-medium text-gray-600">متعدد الجامعات</p>
                     <p className="text-3xl font-bold text-orange-600">
                       {financialData.filter(i => i.university === "Multiple").length}
                     </p>
@@ -190,22 +201,22 @@ export function ReportsManagement() {
 
           <Card className="shadow-xl bg-white">
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
+              <CardTitle className="flex items-center space-x-2 space-x-reverse"> {/* عكس ترتيب الأيقونة والعنوان */}
                 <DollarSign className="w-5 h-5 text-green-600" />
-                <span>Instructor Financial Summary</span>
+                <span>ملخص الأداء المالي للمحاضرين</span> {/* النص المُعرب */}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Instructor</TableHead>
-                    <TableHead>Department</TableHead>
-                    <TableHead>Hourly Rate</TableHead>
-                    <TableHead>Sessions</TableHead>
-                    <TableHead>Total Hours</TableHead>
-                    <TableHead>Total Payout</TableHead>
-                    <TableHead>University Status</TableHead>
+                    <TableHead>المحاضر</TableHead> {/* تعريب العناوين */}
+                    <TableHead>القسم</TableHead>
+                    <TableHead>الأجر بالساعة</TableHead>
+                    <TableHead>الجلسات</TableHead>
+                    <TableHead>إجمالي الساعات</TableHead>
+                    <TableHead>إجمالي الدفع</TableHead>
+                    <TableHead>حالة الجامعة</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -213,18 +224,18 @@ export function ReportsManagement() {
                     <TableRow key={index}>
                       <TableCell className="font-medium">{instructor.instructor}</TableCell>
                       <TableCell>{instructor.department}</TableCell>
-                      <TableCell>${instructor.hourlyRate}/hr</TableCell>
+                      <TableCell>${instructor.hourlyRate}/ساعة</TableCell> {/* تعريب */}
                       <TableCell>{instructor.sessionsCount}</TableCell>
-                      <TableCell>{instructor.totalHours}h</TableCell>
+                      <TableCell>{instructor.totalHours}س</TableCell> {/* تعريب */}
                       <TableCell className="font-bold text-green-600">
                         ${instructor.totalPayout.toLocaleString()}
                       </TableCell>
                       <TableCell>
-                        <Badge className={instructor.university === "Multiple" 
-                          ? "bg-orange-100 text-orange-700" 
+                        <Badge className={instructor.university === "Multiple"
+                          ? "bg-orange-100 text-orange-700"
                           : "bg-blue-100 text-blue-700"
                         }>
-                          {instructor.university}
+                          {getUniversityStatus(instructor.university)} {/* استخدام الدالة المعربة */}
                         </Badge>
                       </TableCell>
                     </TableRow>
@@ -236,7 +247,7 @@ export function ReportsManagement() {
 
           <Card className="shadow-xl bg-white">
             <CardHeader>
-              <CardTitle>Instructor Workload vs Payout</CardTitle>
+              <CardTitle className="text-right">عبء عمل المحاضر مقابل المدفوعات</CardTitle> {/* النص المُعرب ومحاذاة لليمين */}
             </CardHeader>
             <CardContent>
               <ResponsiveContainer width="100%" height={300}>
@@ -253,25 +264,25 @@ export function ReportsManagement() {
         </div>
       )}
 
-      {/* Attendance Reports */}
+      {/* Attendance Reports (تقارير الحضور) */}
       {selectedReport === "attendance" && (
         <div className="space-y-6">
           <Card className="shadow-xl bg-white">
             <CardHeader>
-              <CardTitle className="flex items-center space-x-2">
+              <CardTitle className="flex items-center space-x-2 space-x-reverse"> {/* عكس ترتيب الأيقونة والعنوان */}
                 <Users className="w-5 h-5 text-blue-600" />
-                <span>Course Attendance Overview</span>
+                <span>نظرة عامة على حضور المقررات</span> {/* النص المُعرب */}
               </CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Course</TableHead>
-                    <TableHead>Total Students</TableHead>
-                    <TableHead>Attendance Rate</TableHead>
-                    <TableHead>Average Grade</TableHead>
-                    <TableHead>Status</TableHead>
+                    <TableHead>المقرر</TableHead> {/* تعريب العناوين */}
+                    <TableHead>إجمالي الطلاب</TableHead>
+                    <TableHead>معدل الحضور</TableHead>
+                    <TableHead>متوسط الدرجة</TableHead>
+                    <TableHead>الحالة</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -280,7 +291,7 @@ export function ReportsManagement() {
                       <TableCell className="font-medium">{course.course}</TableCell>
                       <TableCell>{course.totalStudents}</TableCell>
                       <TableCell>
-                        <div className="flex items-center space-x-2">
+                        <div className="flex items-center space-x-2 flex-row-reverse space-x-reverse"> {/* عكس اتجاه الـ progress bar */}
                           <div className="flex-1 bg-gray-200 rounded-full h-2">
                             <div 
                               className="bg-blue-600 h-2 rounded-full" 
@@ -293,7 +304,7 @@ export function ReportsManagement() {
                       <TableCell>{course.avgGrade}%</TableCell>
                       <TableCell>
                         <Badge className={course.attendance >= 90 ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"}>
-                          {course.attendance >= 90 ? "Excellent" : "Needs Attention"}
+                          {getAttendanceStatus(course.attendance)} {/* استخدام الدالة المعربة */}
                         </Badge>
                       </TableCell>
                     </TableRow>
@@ -306,7 +317,7 @@ export function ReportsManagement() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card className="shadow-xl bg-white">
               <CardHeader>
-                <CardTitle>Attendance Trends</CardTitle>
+                <CardTitle className="text-right">مؤشرات الحضور</CardTitle> {/* النص المُعرب ومحاذاة لليمين */}
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
@@ -323,7 +334,7 @@ export function ReportsManagement() {
 
             <Card className="shadow-xl bg-white">
               <CardHeader>
-                <CardTitle>Grade Distribution</CardTitle>
+                <CardTitle className="text-right">توزيع الدرجات</CardTitle> {/* النص المُعرب ومحاذاة لليمين */}
               </CardHeader>
               <CardContent>
                 <ResponsiveContainer width="100%" height={300}>
@@ -333,7 +344,8 @@ export function ReportsManagement() {
                       cx="50%"
                       cy="50%"
                       labelLine={false}
-                      label={({ grade, percentage }) => `${grade}: ${percentage}%`}
+                      // تعديل التسمية لتدعم RTL
+                      label={({ grade, percentage }) => `${percentage}% :${grade}`}
                       outerRadius={80}
                       fill="#8884d8"
                       dataKey="count"

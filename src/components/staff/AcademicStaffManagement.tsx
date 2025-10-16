@@ -55,7 +55,7 @@ import {
 } from "lucide-react";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell } from "recharts";
 
-// Mock data for demonstration
+// بيانات تجريبية للعرض
 const staffMembers = [
   {
     id: "STAFF-001",
@@ -184,7 +184,7 @@ const staffMembers = [
   }
 ];
 
-// Alerts and notifications data
+// بيانات التنبيهات والإشعارات
 const alertsData = [
   {
     id: "ALERT-001",
@@ -218,7 +218,7 @@ const alertsData = [
   }
 ];
 
-// Performance data for charts
+// بيانات الأداء للرسوم
 const performanceData = [
   { month: "Sep", attendance: 95, performance: 88 },
   { month: "Oct", attendance: 92, performance: 91 },
@@ -227,7 +227,7 @@ const performanceData = [
   { month: "Jan", attendance: 96, performance: 93 }
 ];
 
-// Department distribution data
+// بيانات التوزيع حسب الأقسام
 const departmentData = [
   { name: "Computer Science", value: 35, color: "#0ea5e9" },
   { name: "Mathematics", value: 25, color: "#8b5cf6" },
@@ -319,7 +319,7 @@ export function AcademicStaffManagement() {
     );
   });
 
-  // Pagination
+  // ترقيم الصفحات
   const totalPages = Math.ceil(filteredStaff.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
   const paginatedStaff = filteredStaff.slice(startIndex, startIndex + itemsPerPage);
@@ -363,56 +363,56 @@ export function AcademicStaffManagement() {
 
   const handleExportReport = (format: 'pdf' | 'excel', staffId?: string) => {
     toast({
-      title: "Report Export",
-      description: `${format.toUpperCase()} report is being generated...`,
+      title: "تصدير التقرير",
+      description: `يتم الآن إنشاء تقرير ${format.toUpperCase()}...`,
     });
-    // Here you would implement the actual export logic
+    // هنا يمكن تنفيذ منطق التصدير الفعلي
   };
 
   const handleAddStaff = () => {
     toast({
-      title: "Staff Added",
-      description: "New academic staff member has been added successfully.",
+      title: "تمت إضافة العضو",
+      description: "تمت إضافة عضو هيئة أكاديمية بنجاح.",
     });
     setIsAddStaffDialogOpen(false);
   };
 
   const handleEditStaff = () => {
     toast({
-      title: "Staff Updated",
-      description: "Staff member information has been updated successfully.",
+      title: "تم التحديث",
+      description: "تم تحديث بيانات عضو الهيئة بنجاح.",
     });
     setIsEditMode(false);
   };
 
   return (
     <div className="space-y-4 sm:space-y-6">
-      {/* Header */}
+      {/* العنوان */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-4 sm:space-y-0">
         <div className="space-y-1">
-          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-primary">Academic Staff Management</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-primary">إدارة أعضاء الهيئة الأكاديمية</h1>
           <p className="text-sm sm:text-base text-muted-foreground">
-            Comprehensive management of academic staff, teaching loads, and financial compensation
+            إدارة شاملة لأعضاء الهيئة الأكاديمية، الأعباء التدريسية، والتعويضات المالية
           </p>
         </div>
         <div className="flex flex-col sm:flex-row gap-2">
           <Button onClick={() => setIsAddStaffDialogOpen(true)} className="w-full sm:w-auto">
             <Plus className="h-4 w-4 mr-2" />
-            Add Staff
+            إضافة عضو
           </Button>
           <Button variant="outline" onClick={() => handleExportReport('excel')} className="w-full sm:w-auto">
             <FileSpreadsheet className="h-4 w-4 mr-2" />
-            Export Data
+            تصدير البيانات
           </Button>
         </div>
       </div>
 
-      {/* Alerts Section */}
+      {/* قسم التنبيهات */}
       {alertsData.filter(alert => !alert.isRead).length > 0 && (
         <div className="space-y-2">
           <h3 className="text-lg font-semibold text-primary flex items-center gap-2">
             <Bell className="h-5 w-5" />
-            Active Alerts ({alertsData.filter(alert => !alert.isRead).length})
+            تنبيهات نشطة ({alertsData.filter(alert => !alert.isRead).length})
           </h3>
           <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
             {alertsData.filter(alert => !alert.isRead).slice(0, 3).map((alert) => (
@@ -433,37 +433,37 @@ export function AcademicStaffManagement() {
         </div>
       )}
 
-      {/* Overview Cards */}
+      {/* بطاقات نظرة عامة */}
       <div className="grid gap-3 sm:gap-4 grid-cols-2 lg:grid-cols-4">
         <Card className="shadow-sm hover:shadow-md transition-shadow bg-gradient-to-br from-background to-blue-50/50 dark:to-blue-950/20 border-0">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-xs sm:text-sm font-medium">Total Staff</CardTitle>
+            <CardTitle className="text-xs sm:text-sm font-medium">إجمالي الأعضاء</CardTitle>
             <Users className="h-4 w-4 text-primary" />
           </CardHeader>
           <CardContent>
             <div className="text-xl sm:text-2xl font-bold text-primary">{staffMembers.length}</div>
             <p className="text-xs text-muted-foreground">
-              Active academic staff
+              أعضاء هيئة أكاديمية نشطون
             </p>
           </CardContent>
         </Card>
 
         <Card className="shadow-sm hover:shadow-md transition-shadow bg-gradient-to-br from-background to-green-50/50 dark:to-green-950/20 border-0">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-xs sm:text-sm font-medium">Today's Lectures</CardTitle>
+            <CardTitle className="text-xs sm:text-sm font-medium">محاضرات اليوم</CardTitle>
             <BookOpen className="h-4 w-4 text-green-600" />
           </CardHeader>
           <CardContent>
             <div className="text-xl sm:text-2xl font-bold text-green-600">24</div>
             <p className="text-xs text-muted-foreground">
-              Scheduled for today
+              مجدولة لليوم
             </p>
           </CardContent>
         </Card>
 
         <Card className="shadow-sm hover:shadow-md transition-shadow bg-gradient-to-br from-background to-yellow-50/50 dark:to-yellow-950/20 border-0">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-xs sm:text-sm font-medium">Avg Performance</CardTitle>
+            <CardTitle className="text-xs sm:text-sm font-medium">متوسط الأداء</CardTitle>
             <Target className="h-4 w-4 text-yellow-600" />
           </CardHeader>
           <CardContent>
@@ -471,14 +471,14 @@ export function AcademicStaffManagement() {
               {Math.round(staffMembers.reduce((acc, s) => acc + s.performance, 0) / staffMembers.length)}%
             </div>
             <p className="text-xs text-muted-foreground">
-              Overall performance score
+              درجة الأداء الإجمالية
             </p>
           </CardContent>
         </Card>
 
         <Card className="shadow-sm hover:shadow-md transition-shadow bg-gradient-to-br from-background to-purple-50/50 dark:to-purple-950/20 border-0">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-xs sm:text-sm font-medium">Pending Payments</CardTitle>
+            <CardTitle className="text-xs sm:text-sm font-medium">مدفوعات معلّقة</CardTitle>
             <DollarSign className="h-4 w-4 text-purple-600" />
           </CardHeader>
           <CardContent>
@@ -486,35 +486,35 @@ export function AcademicStaffManagement() {
               ${staffMembers.reduce((acc, s) => acc + s.netPay, 0).toLocaleString()}
             </div>
             <p className="text-xs text-muted-foreground">
-              Monthly net payroll
+              صافي الرواتب الشهري
             </p>
           </CardContent>
         </Card>
       </div>
 
-      {/* Main Content */}
+      {/* المحتوى الرئيسي */}
       <div className="grid gap-4 lg:gap-6 lg:grid-cols-3">
-        {/* Staff Directory */}
+        {/* دليل الأعضاء */}
         <div className="lg:col-span-2">
           <Card className="shadow-sm">
             <CardHeader className="pb-4">
               <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between space-y-2 sm:space-y-0">
                 <div>
-                  <CardTitle className="text-lg">Staff Directory</CardTitle>
-                  <CardDescription>Manage academic staff information and assignments</CardDescription>
+                  <CardTitle className="text-lg">دليل الأعضاء</CardTitle>
+                  <CardDescription>إدارة معلومات أعضاء الهيئة والتكليفات</CardDescription>
                 </div>
-                <Badge variant="secondary" className="w-fit">
-                  {filteredStaff.length} of {staffMembers.length} staff
+                <Badge variant="secondary" className="والف">
+                  {filteredStaff.length} من {staffMembers.length} عضو
                 </Badge>
               </div>
             </CardHeader>
             <CardContent className="space-y-4">
-              {/* Filters */}
+              {/* المرشحات */}
               <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                 <div className="relative">
                   <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
                   <Input
-                    placeholder="Search staff..."
+                    placeholder="ابحث عن الأعضاء..."
                     className="pl-8"
                     value={searchTerm}
                     onChange={(e) => setSearchTerm(e.target.value)}
@@ -523,55 +523,55 @@ export function AcademicStaffManagement() {
 
                 <Select value={filterRank} onValueChange={setFilterRank}>
                   <SelectTrigger>
-                    <SelectValue placeholder="All ranks" />
+                    <SelectValue placeholder="كل الرتب الأكاديمية" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Ranks</SelectItem>
-                    <SelectItem value="Professor">Professor</SelectItem>
-                    <SelectItem value="Associate Professor">Associate Professor</SelectItem>
-                    <SelectItem value="Assistant Professor">Assistant Professor</SelectItem>
-                    <SelectItem value="Lecturer">Lecturer</SelectItem>
+                    <SelectItem value="all">كل الرتب</SelectItem>
+                    <SelectItem value="Professor">أستاذ</SelectItem>
+                    <SelectItem value="Associate Professor">أستاذ مشارك</SelectItem>
+                    <SelectItem value="Assistant Professor">أستاذ مساعد</SelectItem>
+                    <SelectItem value="Lecturer">محاضر</SelectItem>
                   </SelectContent>
                 </Select>
 
                 <Select value={filterDepartment} onValueChange={setFilterDepartment}>
                   <SelectTrigger>
-                    <SelectValue placeholder="All departments" />
+                    <SelectValue placeholder="كل الأقسام" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Departments</SelectItem>
-                    <SelectItem value="Computer Science">Computer Science</SelectItem>
-                    <SelectItem value="Mathematics">Mathematics</SelectItem>
-                    <SelectItem value="Physics">Physics</SelectItem>
-                    <SelectItem value="Chemistry">Chemistry</SelectItem>
-                    <SelectItem value="Engineering">Engineering</SelectItem>
+                    <SelectItem value="all">كل الأقسام</SelectItem>
+                    <SelectItem value="Computer Science">علوم الحاسب</SelectItem>
+                    <SelectItem value="Mathematics">الرياضيات</SelectItem>
+                    <SelectItem value="Physics">الفيزياء</SelectItem>
+                    <SelectItem value="Chemistry">الكيمياء</SelectItem>
+                    <SelectItem value="Engineering">الهندسة</SelectItem>
                   </SelectContent>
                 </Select>
 
                 <Select value={filterStatus} onValueChange={setFilterStatus}>
                   <SelectTrigger>
-                    <SelectValue placeholder="All status" />
+                    <SelectValue placeholder="كل الحالات" />
                   </SelectTrigger>
                   <SelectContent>
-                    <SelectItem value="all">All Status</SelectItem>
-                    <SelectItem value="Full-time">Full-time</SelectItem>
-                    <SelectItem value="Part-time">Part-time</SelectItem>
+                    <SelectItem value="all">كل الحالات</SelectItem>
+                    <SelectItem value="Full-time">دوام كامل</SelectItem>
+                    <SelectItem value="Part-time">دوام جزئي</SelectItem>
                   </SelectContent>
                 </Select>
               </div>
 
-              {/* Staff Table */}
+              {/* جدول الأعضاء */}
               <div className="rounded-md border overflow-x-auto">
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead className="min-w-[200px]">Name</TableHead>
-                      <TableHead className="hidden sm:table-cell">Rank</TableHead>
-                      <TableHead className="hidden md:table-cell">Department</TableHead>
-                      <TableHead className="hidden lg:table-cell">Rate</TableHead>
-                      <TableHead className="hidden xl:table-cell">Status</TableHead>
-                      <TableHead>Performance</TableHead>
-                      <TableHead className="w-[100px]">Actions</TableHead>
+                      <TableHead className="min-w-[200px]">الاسم</TableHead>
+                      <TableHead className="hidden sm:table-cell">الرتبة الأكاديمية</TableHead>
+                      <TableHead className="hidden md:table-cell">القسم</TableHead>
+                      <TableHead className="hidden lg:table-cell">الأجر</TableHead>
+                      <TableHead className="hidden xl:table-cell">الحالة</TableHead>
+                      <TableHead>الأداء</TableHead>
+                      <TableHead className="w-[100px]">إجراءات</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -608,7 +608,7 @@ export function AcademicStaffManagement() {
                         <TableCell className="hidden md:table-cell">{staff.department}</TableCell>
                         <TableCell className="hidden lg:table-cell">
                           <span className="text-sm font-medium">${staff.hourlyRate}</span>
-                          <span className="text-xs text-muted-foreground">/hr</span>
+                          <span className="text-xs text-muted-foreground">/ساعة</span>
                         </TableCell>
                         <TableCell className="hidden xl:table-cell">
                           <Badge variant="outline" className={getStatusBadgeColor(staff.employmentStatus)}>
@@ -637,7 +637,7 @@ export function AcademicStaffManagement() {
                 </Table>
               </div>
 
-              {/* Pagination */}
+              {/* ترقيم الصفحات */}
               {totalPages > 1 && (
                 <Pagination>
                   <PaginationContent>
@@ -682,18 +682,18 @@ export function AcademicStaffManagement() {
           </Card>
         </div>
 
-        {/* Staff Details Panel */}
+        {/* لوحة تفاصيل العضو */}
         <div className="space-y-4">
           {selectedStaff ? (
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
               <TabsList className="grid w-full grid-cols-3">
-                <TabsTrigger value="overview" className="text-xs sm:text-sm">Overview</TabsTrigger>
-                <TabsTrigger value="financial" className="text-xs sm:text-sm">Financial</TabsTrigger>
-                <TabsTrigger value="performance" className="text-xs sm:text-sm">Performance</TabsTrigger>
+                <TabsTrigger value="overview" className="text-xs sm:text-sm">نظرة عامة</TabsTrigger>
+                <TabsTrigger value="financial" className="text-xs sm:text-sm">المالية</TabsTrigger>
+                <TabsTrigger value="performance" className="text-xs sm:text-sm">الأداء</TabsTrigger>
               </TabsList>
 
               <TabsContent value="overview" className="space-y-4 mt-4">
-                {/* Staff Profile Card */}
+                {/* بطاقة الملف الشخصي */}
                 <Card className="shadow-sm">
                   <CardHeader className="pb-3">
                     <div className="flex items-center justify-between">
@@ -717,7 +717,7 @@ export function AcademicStaffManagement() {
                         onClick={() => setIsEditMode(!isEditMode)}
                       >
                         <Edit className="h-4 w-4 mr-2" />
-                        Edit
+                        تعديل
                       </Button>
                     </div>
                   </CardHeader>
@@ -726,37 +726,37 @@ export function AcademicStaffManagement() {
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <Mail className="h-4 w-4 text-muted-foreground" />
-                          <span className="text-muted-foreground">Email:</span>
+                          <span className="text-muted-foreground">البريد الإلكتروني:</span>
                         </div>
                         <span className="font-medium">{selectedStaff.email}</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <Phone className="h-4 w-4 text-muted-foreground" />
-                          <span className="text-muted-foreground">Phone:</span>
+                          <span className="text-muted-foreground">الهاتف:</span>
                         </div>
                         <span className="font-medium">{selectedStaff.phone}</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <MapPin className="h-4 w-4 text-muted-foreground" />
-                          <span className="text-muted-foreground">Office:</span>
+                          <span className="text-muted-foreground">المكتب:</span>
                         </div>
                         <span className="font-medium">{selectedStaff.officeNumber}</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <CalendarIcon className="h-4 w-4 text-muted-foreground" />
-                          <span className="text-muted-foreground">Join Date:</span>
+                          <span className="text-muted-foreground">تاريخ الانضمام:</span>
                         </div>
                         <span className="font-medium">{new Date(selectedStaff.joinDate).toLocaleDateString()}</span>
                       </div>
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
                           <DollarSign className="h-4 w-4 text-muted-foreground" />
-                          <span className="text-muted-foreground">Hourly Rate:</span>
+                          <span className="text-muted-foreground">الأجر بالساعة:</span>
                         </div>
-                        <span className="font-medium text-primary">${selectedStaff.hourlyRate}/hr</span>
+                        <span className="font-medium text-primary">${selectedStaff.hourlyRate}/ساعة</span>
                       </div>
                     </div>
 
@@ -767,14 +767,14 @@ export function AcademicStaffManagement() {
                             <CheckCircle className="h-4 w-4 text-green-500" />
                             <span className="text-lg font-bold text-green-600">{selectedStaff.attendedLectures}</span>
                           </div>
-                          <p className="text-xs text-muted-foreground">Attended</p>
+                          <p className="text-xs text-muted-foreground">حضور</p>
                         </div>
                         <div className="text-center">
                           <div className="flex items-center justify-center gap-2">
                             <XCircle className="h-4 w-4 text-red-500" />
                             <span className="text-lg font-bold text-red-600">{selectedStaff.missedLectures}</span>
                           </div>
-                          <p className="text-xs text-muted-foreground">Missed</p>
+                          <p className="text-xs text-muted-foreground">غياب</p>
                         </div>
                       </div>
                     </div>
@@ -787,7 +787,7 @@ export function AcademicStaffManagement() {
                         onClick={() => handleExportReport('pdf', selectedStaff.id)}
                       >
                         <Printer className="h-4 w-4 mr-2" />
-                        Report
+                        تقرير
                       </Button>
                       <Button 
                         variant="outline" 
@@ -796,34 +796,34 @@ export function AcademicStaffManagement() {
                         onClick={() => handleExportReport('excel', selectedStaff.id)}
                       >
                         <FileSpreadsheet className="h-4 w-4 mr-2" />
-                        Export
+                        تصدير
                       </Button>
                     </div>
                   </CardContent>
                 </Card>
 
-                {/* Teaching Status Card */}
+                {/* بطاقة حالة التدريس */}
                 <Card className="shadow-sm">
                   <CardHeader className="pb-3">
                     <CardTitle className="text-base flex items-center gap-2">
                       <Building className="h-4 w-4" />
-                      Teaching Status
+                      حالة التدريس
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">Multi-University:</span>
+                        <span className="text-sm text-muted-foreground">متعدد الجامعات:</span>
                         <Badge variant={selectedStaff.multiUniversity ? "default" : "outline"}>
-                          {selectedStaff.multiUniversity ? "Yes" : "No"}
+                          {selectedStaff.multiUniversity ? "نعم" : "لا"}
                         </Badge>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">Required Lectures:</span>
+                        <span className="text-sm text-muted-foreground">المحاضرات المطلوبة:</span>
                         <span className="font-medium">{selectedStaff.requiredLectures}</span>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">Completion Rate:</span>
+                        <span className="text-sm text-muted-foreground">نسبة الإنجاز:</span>
                         <span className={cn("font-medium", getPerformanceColor(getAttendancePercentage(selectedStaff.attendedLectures, selectedStaff.totalLectures)))}>
                           {getAttendancePercentage(selectedStaff.attendedLectures, selectedStaff.totalLectures)}%
                         </span>
@@ -838,36 +838,36 @@ export function AcademicStaffManagement() {
               </TabsContent>
 
               <TabsContent value="financial" className="space-y-4 mt-4">
-                {/* Financial Summary */}
+                {/* الملخص المالي */}
                 <Card className="shadow-sm">
                   <CardHeader className="pb-3">
                     <CardTitle className="text-base flex items-center gap-2">
                       <DollarSign className="h-4 w-4" />
-                      Financial Summary
+                      الملخص المالي
                     </CardTitle>
                   </CardHeader>
                   <CardContent className="space-y-3">
                     <div className="space-y-2">
                       <div className="flex justify-between items-center p-3 bg-blue-50 dark:bg-blue-950/20 rounded-lg">
-                        <span className="text-sm font-medium">Gross Pay</span>
+                        <span className="text-sm font-medium">إجمالي الأجر</span>
                         <span className="text-lg font-bold text-blue-600">
                           ${selectedStaff.grossPay.toLocaleString()}
                         </span>
                       </div>
                       <div className="flex justify-between items-center p-3 bg-red-50 dark:bg-red-950/20 rounded-lg">
-                        <span className="text-sm font-medium">Tax Deduction</span>
+                        <span className="text-sm font-medium">الضريبة المقتطعة</span>
                         <span className="text-lg font-bold text-red-600">
                           -${selectedStaff.taxDeduction.toLocaleString()}
                         </span>
                       </div>
                       <div className="flex justify-between items-center p-3 bg-green-50 dark:bg-green-950/20 rounded-lg">
-                        <span className="text-sm font-medium">Bonuses</span>
+                        <span className="text-sm font-medium">المكافآت</span>
                         <span className="text-lg font-bold text-green-600">
                           +${selectedStaff.bonuses.toLocaleString()}
                         </span>
                       </div>
                       <div className="flex justify-between items-center p-3 bg-primary/10 rounded-lg border-2 border-primary/20">
-                        <span className="text-sm font-bold">Net Pay</span>
+                        <span className="text-sm font-bold">صافي الأجر</span>
                         <span className="text-xl font-bold text-primary">
                           ${selectedStaff.netPay.toLocaleString()}
                         </span>
@@ -875,18 +875,18 @@ export function AcademicStaffManagement() {
                     </div>
 
                     <div className="pt-3 border-t space-y-2">
-                      <h4 className="font-medium text-sm">Monthly Breakdown</h4>
+                      <h4 className="font-medium text-sm">التفصيل الشهري</h4>
                       <div className="text-xs text-muted-foreground space-y-1">
                         <div className="flex justify-between">
-                          <span>Base Rate ({selectedStaff.attendedLectures} hrs × ${selectedStaff.hourlyRate})</span>
+                          <span>الأجر الأساسي ({selectedStaff.attendedLectures} ساعة × ${selectedStaff.hourlyRate})</span>
                           <span>${(selectedStaff.attendedLectures * selectedStaff.hourlyRate).toLocaleString()}</span>
                         </div>
                         <div className="flex justify-between">
-                          <span>Tax Rate</span>
+                          <span>نسبة الضريبة</span>
                           <span>{Math.round((selectedStaff.taxDeduction / selectedStaff.grossPay) * 100)}%</span>
                         </div>
                         <div className="flex justify-between">
-                          <span>Performance Bonus</span>
+                          <span>مكافأة الأداء</span>
                           <span>${selectedStaff.bonuses.toLocaleString()}</span>
                         </div>
                       </div>
@@ -894,10 +894,10 @@ export function AcademicStaffManagement() {
                   </CardContent>
                 </Card>
 
-                {/* Export Options */}
+                {/* خيارات التصدير */}
                 <Card className="shadow-sm">
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-base">Export Financial Report</CardTitle>
+                    <CardTitle className="text-base">تصدير التقرير المالي</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="grid grid-cols-2 gap-2">
@@ -906,8 +906,8 @@ export function AcademicStaffManagement() {
                         size="sm"
                         onClick={() => handleExportReport('pdf', selectedStaff.id)}
                       >
-                        <FileText className="h-4 w-4 mr-2" />
-                        PDF Report
+                        <FileText className="ه-4 w-4 mr-2" />
+                        تقرير PDF
                       </Button>
                       <Button 
                         variant="outline" 
@@ -915,7 +915,7 @@ export function AcademicStaffManagement() {
                         onClick={() => handleExportReport('excel', selectedStaff.id)}
                       >
                         <FileSpreadsheet className="h-4 w-4 mr-2" />
-                        Excel Export
+                        تصدير Excel
                       </Button>
                     </div>
                   </CardContent>
@@ -923,12 +923,12 @@ export function AcademicStaffManagement() {
               </TabsContent>
 
               <TabsContent value="performance" className="space-y-4 mt-4">
-                {/* Performance Chart */}
+                {/* منحنى الأداء */}
                 <Card className="shadow-sm">
                   <CardHeader className="pb-3">
                     <CardTitle className="text-base flex items-center gap-2">
                       <TrendingUp className="h-4 w-4" />
-                      Performance Trends
+                      اتجاهات الأداء
                     </CardTitle>
                   </CardHeader>
                   <CardContent>
@@ -951,7 +951,7 @@ export function AcademicStaffManagement() {
                           stroke="#3b82f6" 
                           strokeWidth={2}
                           dot={{ r: 4 }}
-                          name="Attendance %"
+                          name="نسبة الحضور"
                         />
                         <Line 
                           type="monotone" 
@@ -959,22 +959,22 @@ export function AcademicStaffManagement() {
                           stroke="#10b981" 
                           strokeWidth={2}
                           dot={{ r: 4 }}
-                          name="Performance %"
+                          name="نسبة الأداء"
                         />
                       </LineChart>
                     </ResponsiveContainer>
                   </CardContent>
                 </Card>
 
-                {/* Performance Metrics */}
+                {/* مؤشرات الأداء */}
                 <Card className="shadow-sm">
                   <CardHeader className="pb-3">
-                    <CardTitle className="text-base">Performance Metrics</CardTitle>
+                    <CardTitle className="text-base">مؤشرات الأداء</CardTitle>
                   </CardHeader>
                   <CardContent>
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">Overall Performance:</span>
+                        <span className="text-sm text-muted-foreground">الأداء الإجمالي:</span>
                         <div className="flex items-center gap-2">
                           <span className={cn("font-medium", getPerformanceColor(selectedStaff.performance))}>
                             {selectedStaff.performance}%
@@ -983,7 +983,7 @@ export function AcademicStaffManagement() {
                         </div>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">Attendance Rate:</span>
+                        <span className="text-sm text-muted-foreground">معدل الحضور:</span>
                         <div className="flex items-center gap-2">
                           <span className={cn("font-medium", getPerformanceColor(getAttendancePercentage(selectedStaff.attendedLectures, selectedStaff.totalLectures)))}>
                             {getAttendancePercentage(selectedStaff.attendedLectures, selectedStaff.totalLectures)}%
@@ -992,7 +992,7 @@ export function AcademicStaffManagement() {
                         </div>
                       </div>
                       <div className="flex items-center justify-between">
-                        <span className="text-sm text-muted-foreground">Punctuality:</span>
+                        <span className="text-sm text-muted-foreground">الانضباط الزمني:</span>
                         <div className="flex items-center gap-2">
                           <span className={cn("font-medium", getPerformanceColor(96))}>96%</span>
                           <Progress value={96} className="w-16 h-2" />
@@ -1002,13 +1002,13 @@ export function AcademicStaffManagement() {
                   </CardContent>
                 </Card>
 
-                {/* Alerts for this staff */}
+                {/* تنبيهات هذا العضو */}
                 {alertsData.filter(alert => alert.staffId === selectedStaff.id).length > 0 && (
                   <Card className="shadow-sm">
                     <CardHeader className="pb-3">
                       <CardTitle className="text-base flex items-center gap-2">
                         <Bell className="h-4 w-4" />
-                        Active Alerts
+                        تنبيهات نشطة
                       </CardTitle>
                     </CardHeader>
                     <CardContent>
@@ -1039,14 +1039,14 @@ export function AcademicStaffManagement() {
                 <div className="text-center space-y-3">
                   <User className="h-16 w-16 text-muted-foreground mx-auto opacity-50" />
                   <div className="space-y-1">
-                    <h3 className="text-lg font-medium">Select a Staff Member</h3>
+                    <h3 className="text-lg font-medium">اختر عضو هيئة</h3>
                     <p className="text-sm text-muted-foreground">
-                      Choose a staff member from the directory to view their detailed information, financial reports, and performance metrics.
+                      اختر عضوًا من الدليل لعرض معلوماته التفصيلية، التقارير المالية، ومؤشرات الأداء.
                     </p>
                   </div>
                   <Button variant="outline" onClick={() => setIsAddStaffDialogOpen(true)}>
                     <Plus className="h-4 w-4 mr-2" />
-                    Add New Staff
+                    إضافة عضو جديد
                   </Button>
                 </div>
               </CardContent>
@@ -1055,98 +1055,98 @@ export function AcademicStaffManagement() {
         </div>
       </div>
 
-      {/* Add Staff Dialog */}
+      {/* نافذة إضافة عضو */}
       <Dialog open={isAddStaffDialogOpen} onOpenChange={setIsAddStaffDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Add New Staff Member</DialogTitle>
+            <DialogTitle>إضافة عضو هيئة جديد</DialogTitle>
             <DialogDescription>
-              Enter the details for the new academic staff member.
+              أدخل بيانات عضو الهيئة الأكاديمية الجديد.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="name">Full Name</Label>
+              <Label htmlFor="name">الاسم الكامل</Label>
               <Input id="name" placeholder="Dr. John Smith" />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="rank">Academic Rank</Label>
+              <Label htmlFor="rank">الرتبة الأكاديمية</Label>
               <Select>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select rank" />
+                  <SelectValue placeholder="اختر الرتبة" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="professor">Professor</SelectItem>
-                  <SelectItem value="associate">Associate Professor</SelectItem>
-                  <SelectItem value="assistant">Assistant Professor</SelectItem>
-                  <SelectItem value="lecturer">Lecturer</SelectItem>
+                  <SelectItem value="professor">أستاذ</SelectItem>
+                  <SelectItem value="associate">أستاذ مشارك</SelectItem>
+                  <SelectItem value="assistant">أستاذ مساعد</SelectItem>
+                  <SelectItem value="lecturer">محاضر</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="department">Department</Label>
+              <Label htmlFor="department">القسم</Label>
               <Select>
                 <SelectTrigger>
-                  <SelectValue placeholder="Select department" />
+                  <SelectValue placeholder="اختر القسم" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="cs">Computer Science</SelectItem>
-                  <SelectItem value="math">Mathematics</SelectItem>
-                  <SelectItem value="physics">Physics</SelectItem>
-                  <SelectItem value="chemistry">Chemistry</SelectItem>
-                  <SelectItem value="engineering">Engineering</SelectItem>
+                  <SelectItem value="cs">علوم الحاسب</SelectItem>
+                  <SelectItem value="math">الرياضيات</SelectItem>
+                  <SelectItem value="physics">الفيزياء</SelectItem>
+                  <SelectItem value="chemistry">الكيمياء</SelectItem>
+                  <SelectItem value="engineering">الهندسة</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="rate">Hourly Rate ($)</Label>
+              <Label htmlFor="rate">الأجر بالساعة ($)</Label>
               <Input id="rate" type="number" placeholder="120" />
             </div>
           </div>
           <div className="flex justify-end gap-2">
             <Button variant="outline" onClick={() => setIsAddStaffDialogOpen(false)}>
-              Cancel
+              إلغاء
             </Button>
             <Button onClick={handleAddStaff}>
-              Add Staff
+              إضافة العضو
             </Button>
           </div>
         </DialogContent>
       </Dialog>
 
-      {/* Compensatory Lecture Dialog */}
+      {/* نافذة محاضرة تعويضية */}
       <Dialog open={isCompensatoryDialogOpen} onOpenChange={setIsCompensatoryDialogOpen}>
         <DialogContent className="sm:max-w-md">
           <DialogHeader>
-            <DialogTitle>Schedule Compensatory Lecture</DialogTitle>
+            <DialogTitle>جدولة محاضرة تعويضية</DialogTitle>
             <DialogDescription>
-              Schedule a make-up lecture for missed sessions.
+              جدولة محاضرة تعويضية للجلسات الفائتة.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
             <div className="grid gap-2">
-              <Label htmlFor="comp-date">Date</Label>
+              <Label htmlFor="comp-date">التاريخ</Label>
               <Input id="comp-date" type="date" />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="comp-time">Time</Label>
+              <Label htmlFor="comp-time">الوقت</Label>
               <Input id="comp-time" placeholder="14:00-15:30" />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="comp-course">Course</Label>
+              <Label htmlFor="comp-course">المقرر</Label>
               <Input id="comp-course" placeholder="Advanced Algorithms" />
             </div>
             <div className="grid gap-2">
-              <Label htmlFor="comp-reason">Reason for Original Absence</Label>
-              <Textarea id="comp-reason" placeholder="Medical leave, conference attendance, etc." />
+              <Label htmlFor="comp-reason">سبب الغياب الأصلي</Label>
+              <Textarea id="comp-reason" placeholder="إجازة مرضية، حضور مؤتمر، إلخ." />
             </div>
           </div>
           <div className="flex justify-end gap-2">
             <Button variant="outline" onClick={() => setIsCompensatoryDialogOpen(false)}>
-              Cancel
+              إلغاء
             </Button>
             <Button>
-              Schedule Lecture
+              جدولة المحاضرة
             </Button>
           </div>
         </DialogContent>

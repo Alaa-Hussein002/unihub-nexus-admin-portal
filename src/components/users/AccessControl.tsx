@@ -16,7 +16,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { useToast } from "@/hooks/use-toast";
 
-// Mock data
+// بيانات تجريبية
 const securityPolicies = {
   passwordComplexity: {
     minLength: 8,
@@ -37,9 +37,9 @@ const securityPolicies = {
 };
 
 const ipRestrictions = [
-  { id: 1, type: "whitelist", address: "192.168.1.0/24", description: "Internal network", status: "active" },
-  { id: 2, type: "whitelist", address: "10.0.0.0/8", description: "VPN network", status: "active" },
-  { id: 3, type: "blacklist", address: "203.0.113.0/24", description: "Blocked region", status: "active" },
+  { id: 1, type: "whitelist", address: "192.168.1.0/24", description: "شبكة داخلية", status: "active" },
+  { id: 2, type: "whitelist", address: "10.0.0.0/8", description: "شبكة VPN", status: "active" },
+  { id: 3, type: "blacklist", address: "203.0.113.0/24", description: "منطقة محجوبة", status: "active" },
 ];
 
 const sessionSettings = {
@@ -50,9 +50,9 @@ const sessionSettings = {
 };
 
 const activeSessions = [
-  { id: 1, user: "Dr. Sarah Johnson", ip: "192.168.1.100", location: "Office", device: "Windows Chrome", loginTime: "2024-01-15 09:30", lastActivity: "2024-01-15 10:45" },
-  { id: 2, user: "Prof. Ahmed Hassan", ip: "10.0.1.50", location: "Home", device: "MacOS Safari", loginTime: "2024-01-15 08:00", lastActivity: "2024-01-15 10:50" },
-  { id: 3, user: "Mary Rodriguez", ip: "192.168.1.200", location: "Admin Office", device: "Windows Edge", loginTime: "2024-01-15 07:45", lastActivity: "2024-01-15 10:48" },
+  { id: 1, user: "Dr. Sarah Johnson", ip: "192.168.1.100", location: "المكتب", device: "Windows Chrome", loginTime: "2024-01-15 09:30", lastActivity: "2024-01-15 10:45" },
+  { id: 2, user: "Prof. Ahmed Hassan", ip: "10.0.1.50", location: "المنزل", device: "MacOS Safari", loginTime: "2024-01-15 08:00", lastActivity: "2024-01-15 10:50" },
+  { id: 3, user: "Mary Rodriguez", ip: "192.168.1.200", location: "مكتب الإدارة", device: "Windows Edge", loginTime: "2024-01-15 07:45", lastActivity: "2024-01-15 10:48" },
 ];
 
 const auditLogs = [
@@ -62,7 +62,7 @@ const auditLogs = [
   { id: 4, timestamp: "2024-01-15 10:42:10", user: "Prof. Ahmed Hassan", action: "Data Export", resource: "User Reports", ip: "10.0.1.50", status: "Success" },
 ];
 
-// Form schemas
+// مخططات النماذج
 const securityPolicySchema = z.object({
   minPasswordLength: z.number().min(6).max(50),
   maxFailedAttempts: z.number().min(3).max(10),
@@ -71,8 +71,8 @@ const securityPolicySchema = z.object({
 
 const ipRestrictionSchema = z.object({
   type: z.enum(["whitelist", "blacklist"]),
-  address: z.string().min(7, "Please enter a valid IP address or CIDR range"),
-  description: z.string().min(1, "Description is required"),
+  address: z.string().min(7, "يرجى إدخال عنوان IP صالح أو مدى CIDR"),
+  description: z.string().min(1, "الوصف مطلوب"),
 });
 
 const sessionSettingsSchema = z.object({
@@ -93,7 +93,7 @@ const AccessControl = () => {
   const [logFilter, setLogFilter] = useState("all");
   const { toast } = useToast();
 
-  // Forms
+  // النماذج
   const securityForm = useForm<SecurityPolicyFormData>({
     resolver: zodResolver(securityPolicySchema),
     defaultValues: {
@@ -126,13 +126,13 @@ const AccessControl = () => {
     try {
       await new Promise(resolve => setTimeout(resolve, 1000));
       toast({
-        title: "Success",
-        description: "Security policy updated successfully",
+        title: "نجاح",
+        description: "تم تحديث سياسة الأمان بنجاح",
       });
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to update security policy",
+        title: "خطأ",
+        description: "فشل تحديث سياسة الأمان",
         variant: "destructive",
       });
     } finally {
@@ -145,15 +145,15 @@ const AccessControl = () => {
     try {
       await new Promise(resolve => setTimeout(resolve, 1000));
       toast({
-        title: "Success",
-        description: "IP restriction added successfully",
+        title: "نجاح",
+        description: "تمت إضافة قاعدة تقييد IP بنجاح",
       });
       ipForm.reset();
       setIsAddingIpRule(false);
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to add IP restriction",
+        title: "خطأ",
+        description: "فشل في إضافة قاعدة تقييد IP",
         variant: "destructive",
       });
     } finally {
@@ -166,13 +166,13 @@ const AccessControl = () => {
     try {
       await new Promise(resolve => setTimeout(resolve, 1000));
       toast({
-        title: "Success",
-        description: "Session settings updated successfully",
+        title: "نجاح",
+        description: "تم تحديث إعدادات الجلسات بنجاح",
       });
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to update session settings",
+        title: "خطأ",
+        description: "فشل في تحديث إعدادات الجلسات",
         variant: "destructive",
       });
     } finally {
@@ -182,30 +182,30 @@ const AccessControl = () => {
 
   const handleTestConnectivity = () => {
     toast({
-      title: "Connectivity Test",
-      description: "Testing connectivity from current IP address...",
+      title: "اختبار الاتصال",
+      description: "جارٍ اختبار الاتصال من عنوان IP الحالي...",
     });
     
-    // Simulate test
+    // محاكاة الاختبار
     setTimeout(() => {
       toast({
-        title: "Test Successful",
-        description: "Your current IP can access the system",
+        title: "تم الاختبار بنجاح",
+        description: "يمكن لعنوان IP الحالي الوصول إلى النظام",
       });
     }, 2000);
   };
 
   const handleForceLogout = (sessionId: number) => {
     toast({
-      title: "Success",
-      description: "User session terminated successfully",
+      title: "نجاح",
+      description: "تم إنهاء جلسة المستخدم بنجاح",
     });
   };
 
   const handleExportLogs = () => {
     toast({
-      title: "Success",
-      description: "Audit logs exported successfully",
+      title: "نجاح",
+      description: "تم تصدير سجلات التدقيق بنجاح",
     });
   };
 
@@ -224,8 +224,8 @@ const AccessControl = () => {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">Access Control</h1>
-          <p className="text-muted-foreground">Manage security policies and access controls</p>
+          <h1 className="text-3xl font-bold">التحكم في الوصول</h1>
+          <p className="text-muted-foreground">إدارة سياسات الأمان وضوابط الوصول</p>
         </div>
       </div>
 
@@ -233,23 +233,23 @@ const AccessControl = () => {
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="security" className="flex items-center gap-2">
             <Shield className="h-4 w-4" />
-            Security Policy
+            سياسة الأمان
           </TabsTrigger>
           <TabsTrigger value="ip" className="flex items-center gap-2">
             <Globe className="h-4 w-4" />
-            IP Restrictions
+            قيود عناوين IP
           </TabsTrigger>
           <TabsTrigger value="sessions" className="flex items-center gap-2">
             <Clock className="h-4 w-4" />
-            Session Management
+            إدارة الجلسات
           </TabsTrigger>
           <TabsTrigger value="logs" className="flex items-center gap-2">
             <Eye className="h-4 w-4" />
-            Access Logs
+            سجلات الوصول
           </TabsTrigger>
         </TabsList>
 
-        {/* Security Policy Tab */}
+        {/* تبويب سياسة الأمان */}
         <TabsContent value="security" className="space-y-6">
           <Form {...securityForm}>
             <form onSubmit={securityForm.handleSubmit(onUpdateSecurityPolicy)} className="space-y-6">
@@ -258,9 +258,9 @@ const AccessControl = () => {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Shield className="h-5 w-5 text-blue-600" />
-                      Password Policy
+                      سياسة كلمة المرور
                     </CardTitle>
-                    <CardDescription>Configure password complexity requirements</CardDescription>
+                    <CardDescription>ضبط متطلبات تعقيد كلمة المرور</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <FormField
@@ -268,7 +268,7 @@ const AccessControl = () => {
                       name="minPasswordLength"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Minimum Password Length</FormLabel>
+                          <FormLabel>الحد الأدنى لطول كلمة المرور</FormLabel>
                           <FormControl>
                             <Input type="number" {...field} onChange={e => field.onChange(parseInt(e.target.value))} />
                           </FormControl>
@@ -279,29 +279,29 @@ const AccessControl = () => {
                     <div className="space-y-3">
                       <div className="flex items-center justify-between">
                         <div>
-                          <Label>Require Uppercase</Label>
-                          <p className="text-sm text-muted-foreground">At least one uppercase letter</p>
+                          <Label>يتطلب حروف كبيرة</Label>
+                          <p className="text-sm text-muted-foreground">على الأقل حرف كبير واحد</p>
                         </div>
                         <Switch defaultChecked={securityPolicies.passwordComplexity.requireUppercase} />
                       </div>
                       <div className="flex items-center justify-between">
                         <div>
-                          <Label>Require Lowercase</Label>
-                          <p className="text-sm text-muted-foreground">At least one lowercase letter</p>
+                          <Label>يتطلب حروف صغيرة</Label>
+                          <p className="text-sm text-muted-foreground">على الأقل حرف صغير واحد</p>
                         </div>
                         <Switch defaultChecked={securityPolicies.passwordComplexity.requireLowercase} />
                       </div>
                       <div className="flex items-center justify-between">
                         <div>
-                          <Label>Require Numbers</Label>
-                          <p className="text-sm text-muted-foreground">At least one number</p>
+                          <Label>يتطلب أرقام</Label>
+                          <p className="text-sm text-muted-foreground">على الأقل رقم واحد</p>
                         </div>
                         <Switch defaultChecked={securityPolicies.passwordComplexity.requireNumbers} />
                       </div>
                       <div className="flex items-center justify-between">
                         <div>
-                          <Label>Require Symbols</Label>
-                          <p className="text-sm text-muted-foreground">At least one special character</p>
+                          <Label>يتطلب رموز</Label>
+                          <p className="text-sm text-muted-foreground">على الأقل رمز خاص واحد</p>
                         </div>
                         <Switch defaultChecked={securityPolicies.passwordComplexity.requireSymbols} />
                       </div>
@@ -313,9 +313,9 @@ const AccessControl = () => {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Settings className="h-5 w-5 text-green-600" />
-                      Authentication Policy
+                      سياسة المصادقة
                     </CardTitle>
-                    <CardDescription>Configure login and authentication settings</CardDescription>
+                    <CardDescription>ضبط إعدادات تسجيل الدخول والمصادقة</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <FormField
@@ -323,7 +323,7 @@ const AccessControl = () => {
                       name="maxFailedAttempts"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Max Failed Login Attempts</FormLabel>
+                          <FormLabel>الحد الأقصى لمحاولات تسجيل الدخول الفاشلة</FormLabel>
                           <FormControl>
                             <Input type="number" {...field} onChange={e => field.onChange(parseInt(e.target.value))} />
                           </FormControl>
@@ -336,7 +336,7 @@ const AccessControl = () => {
                       name="lockoutDuration"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Account Lockout Duration (minutes)</FormLabel>
+                          <FormLabel>مدة قفل الحساب (بالدقائق)</FormLabel>
                           <FormControl>
                             <Input type="number" {...field} onChange={e => field.onChange(parseInt(e.target.value))} />
                           </FormControl>
@@ -346,8 +346,8 @@ const AccessControl = () => {
                     />
                     <div className="flex items-center justify-between">
                       <div>
-                        <Label>Enable Two-Factor Authentication</Label>
-                        <p className="text-sm text-muted-foreground">Require 2FA for privileged accounts</p>
+                        <Label>تفعيل المصادقة الثنائية</Label>
+                        <p className="text-sm text-muted-foreground">طلب المصادقة الثنائية للحسابات ذات الصلاحيات</p>
                       </div>
                       <Switch defaultChecked={securityPolicies.twoFactorAuth.enabled} />
                     </div>
@@ -358,27 +358,27 @@ const AccessControl = () => {
               <div className="flex justify-end">
                 <Button type="submit" disabled={isLoading}>
                   {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                  Update Security Policy
+                  تحديث سياسة الأمان
                 </Button>
               </div>
             </form>
           </Form>
         </TabsContent>
 
-        {/* IP Restrictions Tab */}
+        {/* تبويب قيود IP */}
         <TabsContent value="ip" className="space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-lg font-semibold">IP Address Restrictions</h3>
-              <p className="text-sm text-muted-foreground">Control access based on IP addresses and networks</p>
+              <h3 className="text-lg font-semibold">قيود عناوين IP</h3>
+              <p className="text-sm text-muted-foreground">التحكم في الوصول بناءً على عناوين IP والشبكات</p>
             </div>
             <div className="flex gap-2">
               <Button variant="outline" onClick={handleTestConnectivity}>
-                Test Connectivity
+                اختبار الاتصال
               </Button>
               <Button onClick={() => setIsAddingIpRule(true)}>
                 <Plus className="w-4 h-4 mr-2" />
-                Add Rule
+                إضافة قاعدة
               </Button>
             </div>
           </div>
@@ -386,7 +386,7 @@ const AccessControl = () => {
           {isAddingIpRule && (
             <Card>
               <CardHeader>
-                <CardTitle>Add IP Restriction Rule</CardTitle>
+                <CardTitle>إضافة قاعدة تقييد IP</CardTitle>
               </CardHeader>
               <CardContent>
                 <Form {...ipForm}>
@@ -397,16 +397,16 @@ const AccessControl = () => {
                         name="type"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Rule Type</FormLabel>
+                            <FormLabel>نوع القاعدة</FormLabel>
                             <Select onValueChange={field.onChange} defaultValue={field.value}>
                               <FormControl>
                                 <SelectTrigger>
-                                  <SelectValue placeholder="Select type" />
+                                  <SelectValue placeholder="اختر النوع" />
                                 </SelectTrigger>
                               </FormControl>
                               <SelectContent>
-                                <SelectItem value="whitelist">Whitelist (Allow)</SelectItem>
-                                <SelectItem value="blacklist">Blacklist (Block)</SelectItem>
+                                <SelectItem value="whitelist">القائمة البيضاء (سماح)</SelectItem>
+                                <SelectItem value="blacklist">القائمة السوداء (حظر)</SelectItem>
                               </SelectContent>
                             </Select>
                             <FormMessage />
@@ -418,7 +418,7 @@ const AccessControl = () => {
                         name="address"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>IP Address/CIDR</FormLabel>
+                            <FormLabel>عنوان IP/CIDR</FormLabel>
                             <FormControl>
                               <Input placeholder="192.168.1.0/24" {...field} />
                             </FormControl>
@@ -431,9 +431,9 @@ const AccessControl = () => {
                         name="description"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Description</FormLabel>
+                            <FormLabel>الوصف</FormLabel>
                             <FormControl>
-                              <Input placeholder="Description" {...field} />
+                              <Input placeholder="أدخل الوصف" {...field} />
                             </FormControl>
                             <FormMessage />
                           </FormItem>
@@ -447,11 +447,11 @@ const AccessControl = () => {
                         onClick={() => setIsAddingIpRule(false)}
                         disabled={isLoading}
                       >
-                        Cancel
+                        إلغاء
                       </Button>
                       <Button type="submit" disabled={isLoading}>
                         {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                        Add Rule
+                        إضافة قاعدة
                       </Button>
                     </div>
                   </form>
@@ -465,11 +465,11 @@ const AccessControl = () => {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Type</TableHead>
-                    <TableHead>IP Address/CIDR</TableHead>
-                    <TableHead>Description</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Actions</TableHead>
+                    <TableHead>النوع</TableHead>
+                    <TableHead>عنوان IP/CIDR</TableHead>
+                    <TableHead>الوصف</TableHead>
+                    <TableHead>الحالة</TableHead>
+                    <TableHead>الإجراءات</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -477,7 +477,7 @@ const AccessControl = () => {
                     <TableRow key={rule.id}>
                       <TableCell>
                         <Badge className={rule.type === "whitelist" ? "bg-green-100 text-green-700" : "bg-red-100 text-red-700"}>
-                          {rule.type === "whitelist" ? "Allow" : "Block"}
+                          {rule.type === "whitelist" ? "سماح" : "حظر"}
                         </Badge>
                       </TableCell>
                       <TableCell className="font-mono">{rule.address}</TableCell>
@@ -500,7 +500,7 @@ const AccessControl = () => {
           </Card>
         </TabsContent>
 
-        {/* Session Management Tab */}
+        {/* تبويب إدارة الجلسات */}
         <TabsContent value="sessions" className="space-y-6">
           <Form {...sessionForm}>
             <form onSubmit={sessionForm.handleSubmit(onUpdateSessionSettings)} className="space-y-6">
@@ -509,9 +509,9 @@ const AccessControl = () => {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Clock className="h-5 w-5 text-blue-600" />
-                      Session Timeout
+                      مهلة الجلسة
                     </CardTitle>
-                    <CardDescription>Configure global session timeout</CardDescription>
+                    <CardDescription>ضبط مهلة الجلسة العامة</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <FormField
@@ -519,7 +519,7 @@ const AccessControl = () => {
                       name="globalTimeout"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Timeout (minutes)</FormLabel>
+                          <FormLabel>المهلة (بالدقائق)</FormLabel>
                           <FormControl>
                             <Input type="number" {...field} onChange={e => field.onChange(parseInt(e.target.value))} />
                           </FormControl>
@@ -529,13 +529,13 @@ const AccessControl = () => {
                     />
                     <div className="flex items-center justify-between">
                       <div>
-                        <Label>Warn Before Timeout</Label>
-                        <p className="text-sm text-muted-foreground">Show warning 5 minutes before</p>
+                        <Label>تحذير قبل انتهاء المهلة</Label>
+                        <p className="text-sm text-muted-foreground">إظهار تحذير قبل 5 دقائق</p>
                       </div>
                       <Switch defaultChecked={true} />
                     </div>
                     <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
-                      Update Timeout
+                      تحديث المهلة
                     </Button>
                   </CardContent>
                 </Card>
@@ -544,9 +544,9 @@ const AccessControl = () => {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Users className="h-5 w-5 text-green-600" />
-                      Concurrent Sessions
+                      الجلسات المتزامنة
                     </CardTitle>
-                    <CardDescription>Manage multiple session access</CardDescription>
+                    <CardDescription>إدارة الوصول عبر جلسات متعددة</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <FormField
@@ -554,7 +554,7 @@ const AccessControl = () => {
                       name="maxConcurrentSessions"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Max Concurrent Sessions</FormLabel>
+                          <FormLabel>الحد الأقصى للجلسات المتزامنة</FormLabel>
                           <FormControl>
                             <Input type="number" {...field} onChange={e => field.onChange(parseInt(e.target.value))} />
                           </FormControl>
@@ -564,8 +564,8 @@ const AccessControl = () => {
                     />
                     <div className="flex items-center justify-between">
                       <div>
-                        <Label>Enable "Remember Me"</Label>
-                        <p className="text-sm text-muted-foreground">Allow extended login sessions</p>
+                        <Label>تفعيل "تذكرني"</Label>
+                        <p className="text-sm text-muted-foreground">السماح بجلسات تسجيل دخول ممتدة</p>
                       </div>
                       <Switch defaultChecked={sessionSettings.rememberMeEnabled} />
                     </div>
@@ -574,7 +574,7 @@ const AccessControl = () => {
                       name="rememberMeDuration"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Remember Me Duration (days)</FormLabel>
+                          <FormLabel>مدة "تذكرني" (أيام)</FormLabel>
                           <FormControl>
                             <Input type="number" {...field} onChange={e => field.onChange(parseInt(e.target.value))} />
                           </FormControl>
@@ -584,7 +584,7 @@ const AccessControl = () => {
                     />
                     <Button type="submit" className="w-full" disabled={isLoading}>
                       {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                      Update Concurrent Settings
+                      تحديث إعدادات التزامن
                     </Button>
                   </CardContent>
                 </Card>
@@ -593,17 +593,17 @@ const AccessControl = () => {
                   <CardHeader>
                     <CardTitle className="flex items-center gap-2">
                       <Eye className="h-5 w-5 text-purple-600" />
-                      Active Sessions
+                      الجلسات النشطة
                     </CardTitle>
-                    <CardDescription>{activeSessions.length} sessions currently active</CardDescription>
+                    <CardDescription>{activeSessions.length} جلسة نشطة حالياً</CardDescription>
                   </CardHeader>
                   <CardContent className="space-y-4">
                     <div className="text-center">
                       <p className="text-3xl font-bold text-purple-700">{activeSessions.length}</p>
-                      <p className="text-sm text-purple-600">Active Sessions</p>
+                      <p className="text-sm text-purple-600">جلسات نشطة</p>
                     </div>
                     <Button className="w-full bg-purple-600 hover:bg-purple-700 text-white">
-                      View All Sessions
+                      عرض جميع الجلسات
                     </Button>
                   </CardContent>
                 </Card>
@@ -614,9 +614,9 @@ const AccessControl = () => {
           <Card>
             <CardHeader>
               <div className="flex items-center justify-between">
-                <CardTitle>Active User Sessions</CardTitle>
+                <CardTitle>جلسات المستخدمين النشطة</CardTitle>
                 <div className="flex items-center gap-2">
-                  <Input placeholder="Search active sessions..." className="w-64" />
+                  <Input placeholder="ابحث في الجلسات النشطة..." className="w-64" />
                 </div>
               </div>
             </CardHeader>
@@ -624,13 +624,13 @@ const AccessControl = () => {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>User</TableHead>
-                    <TableHead>IP Address</TableHead>
-                    <TableHead>Location</TableHead>
-                    <TableHead>Device</TableHead>
-                    <TableHead>Login Time</TableHead>
-                    <TableHead>Last Activity</TableHead>
-                    <TableHead>Actions</TableHead>
+                    <TableHead>المستخدم</TableHead>
+                    <TableHead>عنوان IP</TableHead>
+                    <TableHead>الموقع</TableHead>
+                    <TableHead>الجهاز</TableHead>
+                    <TableHead>وقت تسجيل الدخول</TableHead>
+                    <TableHead>آخر نشاط</TableHead>
+                    <TableHead>الإجراءات</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -648,7 +648,7 @@ const AccessControl = () => {
                           size="sm"
                           onClick={() => handleForceLogout(session.id)}
                         >
-                          Force Logout
+                          تسجيل خروج إجباري
                         </Button>
                       </TableCell>
                     </TableRow>
@@ -659,33 +659,33 @@ const AccessControl = () => {
           </Card>
         </TabsContent>
 
-        {/* Access Logs Tab */}
+        {/* تبويب سجلات الوصول */}
         <TabsContent value="logs" className="space-y-6">
           <div className="flex items-center justify-between">
             <div>
-              <h3 className="text-lg font-semibold">Access Logs</h3>
-              <p className="text-sm text-muted-foreground">Monitor system access and security events</p>
+              <h3 className="text-lg font-semibold">سجلات الوصول</h3>
+              <p className="text-sm text-muted-foreground">مراقبة وصول النظام والأحداث الأمنية</p>
             </div>
             <div className="flex items-center gap-4">
               <Input 
-                placeholder="Search logs..." 
+                placeholder="ابحث في السجلات..." 
                 className="w-64"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
               <Select value={logFilter} onValueChange={setLogFilter}>
                 <SelectTrigger className="w-32">
-                  <SelectValue placeholder="Filter" />
+                  <SelectValue placeholder="تصفية" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Events</SelectItem>
-                  <SelectItem value="success">Success</SelectItem>
-                  <SelectItem value="failed">Failed</SelectItem>
+                  <SelectItem value="all">كل الأحداث</SelectItem>
+                  <SelectItem value="success">ناجحة</SelectItem>
+                  <SelectItem value="failed">فاشلة</SelectItem>
                 </SelectContent>
               </Select>
               <Button onClick={handleExportLogs}>
                 <Download className="w-4 h-4 mr-2" />
-                Export
+                تصدير
               </Button>
             </div>
           </div>
@@ -695,12 +695,12 @@ const AccessControl = () => {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Timestamp</TableHead>
-                    <TableHead>User</TableHead>
-                    <TableHead>Action</TableHead>
-                    <TableHead>Resource</TableHead>
-                    <TableHead>IP Address</TableHead>
-                    <TableHead>Status</TableHead>
+                    <TableHead>الطابع الزمني</TableHead>
+                    <TableHead>المستخدم</TableHead>
+                    <TableHead>الإجراء</TableHead>
+                    <TableHead>المورد</TableHead>
+                    <TableHead>عنوان IP</TableHead>
+                    <TableHead>الحالة</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>

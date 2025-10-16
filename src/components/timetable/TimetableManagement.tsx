@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -73,8 +72,8 @@ export function TimetableManagement() {
     setTimeout(() => {
       setImportStatus("success");
       toast({
-        title: "Import Successful",
-        description: "Timetable data has been imported successfully.",
+        title: "تم الاستيراد بنجاح",
+        description: "تم استيراد بيانات الجدول بنجاح.",
         className: "bg-blue-50 border-blue-200 text-blue-900",
       });
     }, 3000);
@@ -83,8 +82,8 @@ export function TimetableManagement() {
   const handleFileUpload = () => {
     setShowPreview(true);
     toast({
-      title: "File Uploaded",
-      description: "Preview your data and configure mappings before importing.",
+      title: "تم رفع الملف",
+      description: "قم بمعاينة البيانات وتعيين مطابقة الحقول قبل الاستيراد.",
       className: "bg-blue-50 border-blue-200 text-blue-900",
     });
   };
@@ -100,24 +99,24 @@ export function TimetableManagement() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Timetable Management</h1>
-          <p className="text-muted-foreground">Import and manage academic schedules</p>
+          <h1 className="text-3xl font-bold text-foreground">إدارة الجداول الدراسية</h1>
+          <p className="text-muted-foreground">استيراد وإدارة الجداول الأكاديمية</p>
         </div>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="import">Import Schedule</TabsTrigger>
-          <TabsTrigger value="view">View Timetable</TabsTrigger>
+          <TabsTrigger value="import">استيراد الجدول</TabsTrigger>
+          <TabsTrigger value="view">عرض الجدول</TabsTrigger>
         </TabsList>
 
         <TabsContent value="import" className="space-y-6">
-          {/* Import Source Selection */}
+          {/* اختيار مصدر الاستيراد */}
           <Card className="shadow-lg border-border">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <Upload className="w-5 h-5 text-primary" />
-                <span>Import Source</span>
+                <span>مصدر الاستيراد</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -128,7 +127,7 @@ export function TimetableManagement() {
                   className="h-24 flex flex-col space-y-2"
                 >
                   <Database className="w-6 h-6" />
-                  <span>API Integration</span>
+                  <span>تكامل API</span>
                   <span className="text-xs opacity-75">ASC Timetables</span>
                 </Button>
                 
@@ -138,7 +137,7 @@ export function TimetableManagement() {
                   className="h-24 flex flex-col space-y-2"
                 >
                   <FileUp className="w-6 h-6" />
-                  <span>File Upload</span>
+                  <span>رفع ملف</span>
                   <span className="text-xs opacity-75">CSV, Excel, JSON, XML</span>
                 </Button>
                 
@@ -148,26 +147,26 @@ export function TimetableManagement() {
                   className="h-24 flex flex-col space-y-2"
                 >
                   <Edit className="w-6 h-6" />
-                  <span>Manual Entry</span>
-                  <span className="text-xs opacity-75">Form input</span>
+                  <span>إدخال يدوي</span>
+                  <span className="text-xs opacity-75">نموذج إدخال</span>
                 </Button>
               </div>
             </CardContent>
           </Card>
 
-          {/* Import Interface */}
+          {/* واجهة الاستيراد */}
           {importSource === "file" && (
             <Card className="shadow-lg border-border">
               <CardHeader>
-                <CardTitle>File Upload</CardTitle>
+                <CardTitle>رفع ملف</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="border-2 border-dashed border-border rounded-lg p-8 text-center hover:border-primary/50 transition-colors">
                   <FileUp className="w-12 h-12 mx-auto text-muted-foreground mb-4" />
-                  <p className="text-muted-foreground mb-4">Drop files here or click to browse</p>
+                  <p className="text-muted-foreground mb-4">أسقط الملفات هنا أو انقر للتصفح</p>
                   <Button onClick={handleFileUpload}>
                     <Upload className="w-4 h-4 mr-2" />
-                    Upload File
+                    رفع الملف
                   </Button>
                 </div>
               </CardContent>
@@ -177,12 +176,12 @@ export function TimetableManagement() {
           {importSource === "api" && (
             <Card className="shadow-lg border-border">
               <CardHeader>
-                <CardTitle>API Integration</CardTitle>
+                <CardTitle>تكامل API</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   <div>
-                    <label className="text-sm font-medium">API Endpoint</label>
+                    <label className="text-sm font-medium">نقطة نهاية API</label>
                     <Input value="https://asc.university.edu/api/timetables" readOnly />
                   </div>
                   <Button 
@@ -195,31 +194,31 @@ export function TimetableManagement() {
                     ) : (
                       <Download className="w-4 h-4 mr-2" />
                     )}
-                    {importStatus === "importing" ? "Importing..." : "Fetch Data"}
+                    {importStatus === "importing" ? "جارٍ الاستيراد..." : "جلب البيانات"}
                   </Button>
                 </div>
               </CardContent>
             </Card>
           )}
 
-          {/* Data Preview */}
+          {/* معاينة البيانات */}
           {showPreview && (
             <Card className="shadow-lg border-border">
               <CardHeader>
-                <CardTitle>Data Preview & Mapping</CardTitle>
+                <CardTitle>معاينة البيانات ومطابقة الحقول</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="overflow-x-auto">
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Course</TableHead>
-                        <TableHead>Instructor</TableHead>
-                        <TableHead>Room</TableHead>
-                        <TableHead>Time</TableHead>
-                        <TableHead>Group</TableHead>
-                        <TableHead>Type</TableHead>
-                        <TableHead>Status</TableHead>
+                        <TableHead>المقرر</TableHead>
+                        <TableHead>المحاضر</TableHead>
+                        <TableHead>القاعة</TableHead>
+                        <TableHead>الوقت</TableHead>
+                        <TableHead>المجموعة</TableHead>
+                        <TableHead>النوع</TableHead>
+                        <TableHead>الحالة</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -246,20 +245,20 @@ export function TimetableManagement() {
                 <div className="mt-4 flex justify-end">
                   <Button onClick={handleImport}>
                     <Upload className="w-4 h-4 mr-2" />
-                    Import Data
+                    استيراد البيانات
                   </Button>
                 </div>
               </CardContent>
             </Card>
           )}
 
-          {/* Conflicts & Warnings */}
+          {/* التعارضات والتنبيهات */}
           {conflicts.length > 0 && (
             <Card className="shadow-lg border-destructive">
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2 text-destructive">
                   <AlertTriangle className="w-5 h-5" />
-                  <span>Conflicts Detected</span>
+                  <span>تم اكتشاف تعارضات</span>
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -282,19 +281,19 @@ export function TimetableManagement() {
             </Card>
           )}
 
-          {/* Import History */}
+          {/* سجل الاستيراد */}
           <Card className="shadow-lg border-border">
             <CardHeader>
-              <CardTitle>Import History</CardTitle>
+              <CardTitle>سجل الاستيراد</CardTitle>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Timestamp</TableHead>
-                    <TableHead>Source</TableHead>
-                    <TableHead>Records</TableHead>
-                    <TableHead>Status</TableHead>
+                    <TableHead>الطابع الزمني</TableHead>
+                    <TableHead>المصدر</TableHead>
+                    <TableHead>عدد السجلات</TableHead>
+                    <TableHead>الحالة</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -317,71 +316,71 @@ export function TimetableManagement() {
         </TabsContent>
 
         <TabsContent value="view" className="space-y-6">
-          {/* Semester and Department Selection */}
+          {/* مرشحات الجدول */}
           <Card className="shadow-lg border-border">
             <CardHeader>
-              <CardTitle>Schedule Filters</CardTitle>
+              <CardTitle>عوامل تصفية الجدول</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Semester</label>
+                  <label className="text-sm font-medium mb-2 block">الفصل الدراسي</label>
                   <Select value={semester} onValueChange={setSemester}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Fall">Fall 2024</SelectItem>
-                      <SelectItem value="Spring">Spring 2024</SelectItem>
+                      <SelectItem value="Fall">خريف 2024</SelectItem>
+                      <SelectItem value="Spring">ربيع 2024</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Department</label>
+                  <label className="text-sm font-medium mb-2 block">القسم</label>
                   <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Computer Science">Computer Science</SelectItem>
-                      <SelectItem value="Engineering">Engineering</SelectItem>
+                      <SelectItem value="Computer Science">علوم الحاسب</SelectItem>
+                      <SelectItem value="Engineering">الهندسة</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Level</label>
+                  <label className="text-sm font-medium mb-2 block">المستوى</label>
                   <Select value={selectedLevel} onValueChange={setSelectedLevel}>
                     <SelectTrigger>
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="Level 1">Level 1</SelectItem>
-                      <SelectItem value="Level 2">Level 2</SelectItem>
-                      <SelectItem value="Level 3">Level 3</SelectItem>
+                      <SelectItem value="Level 1">المستوى 1</SelectItem>
+                      <SelectItem value="Level 2">المستوى 2</SelectItem>
+                      <SelectItem value="Level 3">المستوى 3</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
                 
                 <div>
-                  <label className="text-sm font-medium mb-2 block">Export</label>
+                  <label className="text-sm font-medium mb-2 block">تصدير</label>
                   <Button variant="outline" className="w-full">
                     <Download className="w-4 h-4 mr-2" />
-                    Export PDF
+                    تصدير PDF
                   </Button>
                 </div>
               </div>
             </CardContent>
           </Card>
 
-          {/* Additional Filters */}
+          {/* عوامل تصفية إضافية */}
           <Card className="shadow-lg border-border">
             <CardContent className="pt-6">
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div>
                   <Input 
-                    placeholder="Filter by Group..."
+                    placeholder="تصفية حسب المجموعة..."
                     value={filterGroup}
                     onChange={(e) => setFilterGroup(e.target.value)}
                     className="w-full"
@@ -389,7 +388,7 @@ export function TimetableManagement() {
                 </div>
                 <div>
                   <Input 
-                    placeholder="Filter by Instructor..."
+                    placeholder="تصفية حسب المحاضر..."
                     value={filterInstructor}
                     onChange={(e) => setFilterInstructor(e.target.value)}
                     className="w-full"
@@ -397,7 +396,7 @@ export function TimetableManagement() {
                 </div>
                 <div>
                   <Input 
-                    placeholder="Filter by Room..."
+                    placeholder="تصفية حسب القاعة..."
                     value={filterRoom}
                     onChange={(e) => setFilterRoom(e.target.value)}
                     className="w-full"
@@ -407,19 +406,19 @@ export function TimetableManagement() {
             </CardContent>
           </Card>
 
-          {/* Timetable Grid */}
+          {/* شبكة الجدول */}
           <Card className="shadow-lg border-border">
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <Calendar className="w-5 h-5 text-primary" />
-                <span>{selectedDepartment} - {selectedLevel} Schedule</span>
+                <span>جدول {selectedDepartment} - {selectedLevel}</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
-              {/* Desktop View */}
+              {/* عرض سطح المكتب */}
               <div className="hidden md:block overflow-x-auto">
                 <div className="grid grid-cols-6 gap-2 min-w-[800px]">
-                  <div className="font-medium text-center p-3 bg-muted rounded-lg">Time</div>
+                  <div className="font-medium text-center p-3 bg-muted rounded-lg">الوقت</div>
                   {weekDays.map(day => (
                     <div key={day} className="font-medium text-center p-3 bg-muted rounded-lg">
                       {day}
@@ -463,7 +462,7 @@ export function TimetableManagement() {
                               </div>
                             ) : (
                               <div className="h-24 border-2 border-dashed border-muted rounded-lg flex items-center justify-center text-muted-foreground hover:border-primary/50 transition-colors">
-                                <span className="text-xs">Free</span>
+                                <span className="text-xs">متاح</span>
                               </div>
                             )}
                           </div>
@@ -474,7 +473,7 @@ export function TimetableManagement() {
                 </div>
               </div>
 
-              {/* Mobile View */}
+              {/* عرض الجوال */}
               <div className="md:hidden space-y-4">
                 {weekDays.map(day => (
                   <div key={day} className="space-y-2">

@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -41,7 +40,7 @@ export function CourseAttendanceReport() {
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Users className="w-5 h-5 text-blue-600" />
-            <span>Course Attendance Summary</span>
+            <span>ملخص حضور المقررات</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -53,7 +52,7 @@ export function CourseAttendanceReport() {
               <Tooltip 
                 formatter={(value, name) => [
                   `${value}%`, 
-                  name === 'average' ? 'Average Attendance' : 'Students'
+                  name === 'average' ? 'متوسط الحضور' : 'الطلاب'
                 ]}
               />
               <Bar dataKey="average" fill="#3b82f6" />
@@ -70,10 +69,10 @@ export function CourseAttendanceReport() {
               <div className="flex items-center space-x-4">
                 <div className="flex items-center space-x-2">
                   <TrendingUp className="w-4 h-4 text-green-600" />
-                  <span className="text-sm text-gray-600">Avg: {courseData.averageAttendance}%</span>
+                  <span className="text-sm text-gray-600">المتوسط: {courseData.averageAttendance}%</span>
                 </div>
                 <Badge className="bg-blue-100 text-blue-700">
-                  {courseData.students.length} Students
+                  {courseData.students.length} طلاب
                 </Badge>
               </div>
             </CardTitle>
@@ -82,10 +81,10 @@ export function CourseAttendanceReport() {
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Student ID</TableHead>
-                  <TableHead>Student Name</TableHead>
-                  <TableHead>Attendance Rate</TableHead>
-                  <TableHead>Status</TableHead>
+                  <TableHead>الرقم الجامعي</TableHead>
+                  <TableHead>اسم الطالب</TableHead>
+                  <TableHead>نسبة الحضور</TableHead>
+                  <TableHead>الحالة</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -109,13 +108,13 @@ export function CourseAttendanceReport() {
                     </TableCell>
                     <TableCell>
                       {student.attendance >= 85 ? (
-                        <Badge className="bg-green-100 text-green-700">Excellent</Badge>
+                        <Badge className="bg-green-100 text-green-700">ممتاز</Badge>
                       ) : student.attendance >= 70 ? (
-                        <Badge className="bg-yellow-100 text-yellow-700">Good</Badge>
+                        <Badge className="bg-yellow-100 text-yellow-700">جيد</Badge>
                       ) : (
                         <Badge className="bg-red-100 text-red-700">
                           <AlertTriangle className="w-3 h-3 mr-1" />
-                          At Risk
+                          معرض للخطر
                         </Badge>
                       )}
                     </TableCell>

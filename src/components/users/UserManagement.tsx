@@ -61,19 +61,19 @@ const users = [
   }
 ];
 
-// Form schemas
+// مخططات النماذج
 const userSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  phone: z.string().min(10, "Phone number must be at least 10 digits"),
-  role: z.string().min(1, "Please select a role"),
+  name: z.string().min(2, "يجب أن يحتوي الاسم على حرفين على الأقل"),
+  email: z.string().email("يرجى إدخال بريد إلكتروني صالح"),
+  phone: z.string().min(10, "يجب أن يحتوي رقم الهاتف على 10 أرقام على الأقل"),
+  role: z.string().min(1, "يرجى اختيار الدور"),
 });
 
 const editUserSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Please enter a valid email address"),
-  phone: z.string().min(10, "Phone number must be at least 10 digits"),
-  role: z.string().min(1, "Please select a role"),
+  name: z.string().min(2, "يجب أن يحتوي الاسم على حرفين على الأقل"),
+  email: z.string().email("يرجى إدخال بريد إلكتروني صالح"),
+  phone: z.string().min(10, "يجب أن يحتوي رقم الهاتف على 10 أرقام على الأقل"),
+  role: z.string().min(1, "يرجى اختيار الدور"),
 });
 
 type UserFormData = z.infer<typeof userSchema>;
@@ -90,7 +90,7 @@ export function UserManagement() {
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
 
-  // Forms
+  // النماذج
   const addUserForm = useForm<UserFormData>({
     resolver: zodResolver(userSchema),
     defaultValues: {
@@ -146,20 +146,20 @@ export function UserManagement() {
   const onAddUser = async (data: UserFormData) => {
     setIsLoading(true);
     try {
-      // Simulate API call
+      // محاكاة اتصال API
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       toast({
-        title: "Success",
-        description: "User created successfully",
+        title: "نجاح",
+        description: "تم إنشاء المستخدم بنجاح",
       });
       
       addUserForm.reset();
       setIsAddUserOpen(false);
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to create user",
+        title: "خطأ",
+        description: "فشل في إنشاء المستخدم",
         variant: "destructive",
       });
     } finally {
@@ -170,12 +170,12 @@ export function UserManagement() {
   const onEditUser = async (data: EditUserFormData) => {
     setIsLoading(true);
     try {
-      // Simulate API call
+      // محاكاة اتصال API
       await new Promise(resolve => setTimeout(resolve, 1000));
       
       toast({
-        title: "Success",
-        description: "User updated successfully",
+        title: "نجاح",
+        description: "تم تحديث المستخدم بنجاح",
       });
       
       editUserForm.reset();
@@ -183,8 +183,8 @@ export function UserManagement() {
       setEditingUser(null);
     } catch (error) {
       toast({
-        title: "Error",
-        description: "Failed to update user",
+        title: "خطأ",
+        description: "فشل في تحديث المستخدم",
         variant: "destructive",
       });
     } finally {
@@ -205,29 +205,29 @@ export function UserManagement() {
 
   const toggleUserStatus = (userId: number) => {
     toast({
-      title: "Success",
-      description: "User status updated successfully",
+      title: "نجاح",
+      description: "تم تحديث حالة المستخدم بنجاح",
     });
   };
 
   const handleDeleteUser = (userId: number) => {
     toast({
-      title: "Success",
-      description: "User deleted successfully",
+      title: "نجاح",
+      description: "تم حذف المستخدم بنجاح",
     });
   };
 
   const handleBulkExport = () => {
     toast({
-      title: "Success",
-      description: "Users exported successfully",
+      title: "نجاح",
+      description: "تم تصدير المستخدمين بنجاح",
     });
   };
 
   const handleImportUsers = () => {
     toast({
-      title: "Success",
-      description: "Users imported successfully",
+      title: "نجاح",
+      description: "تم استيراد المستخدمين بنجاح",
     });
   };
 
@@ -250,29 +250,29 @@ export function UserManagement() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold">User Management</h1>
-          <p className="text-muted-foreground">Manage admin users and department heads</p>
+          <h1 className="text-3xl font-bold">إدارة المستخدمين</h1>
+          <p className="text-muted-foreground">إدارة مسؤولي النظام ورؤساء الأقسام</p>
         </div>
         
         <div className="flex items-center gap-2">
           <Button variant="outline" onClick={handleImportUsers}>
             <Upload className="w-4 h-4 mr-2" />
-            Import Users
+            استيراد المستخدمين
           </Button>
           <Button variant="outline" onClick={handleBulkExport}>
             <Download className="w-4 h-4 mr-2" />
-            Export Users
+            تصدير المستخدمين
           </Button>
           <Dialog open={isAddUserOpen} onOpenChange={setIsAddUserOpen}>
             <DialogTrigger asChild>
               <Button>
                 <Plus className="w-4 h-4 mr-2" />
-                Add New User
+                إضافة مستخدم جديد
               </Button>
             </DialogTrigger>
             <DialogContent className="max-w-2xl">
               <DialogHeader>
-                <DialogTitle>Add New User</DialogTitle>
+                <DialogTitle>إضافة مستخدم جديد</DialogTitle>
               </DialogHeader>
               <Form {...addUserForm}>
                 <form onSubmit={addUserForm.handleSubmit(onAddUser)} className="space-y-4">
@@ -282,9 +282,9 @@ export function UserManagement() {
                       name="name"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Full Name</FormLabel>
+                          <FormLabel>الاسم الكامل</FormLabel>
                           <FormControl>
-                            <Input placeholder="Enter full name" {...field} />
+                            <Input placeholder="أدخل الاسم الكامل" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -295,9 +295,9 @@ export function UserManagement() {
                       name="email"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Email Address</FormLabel>
+                          <FormLabel>البريد الإلكتروني</FormLabel>
                           <FormControl>
-                            <Input type="email" placeholder="Enter email" {...field} />
+                            <Input type="email" placeholder="أدخل البريد الإلكتروني" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -308,9 +308,9 @@ export function UserManagement() {
                       name="phone"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Phone Number</FormLabel>
+                          <FormLabel>رقم الهاتف</FormLabel>
                           <FormControl>
-                            <Input placeholder="Enter phone number" {...field} />
+                            <Input placeholder="أدخل رقم الهاتف" {...field} />
                           </FormControl>
                           <FormMessage />
                         </FormItem>
@@ -321,17 +321,17 @@ export function UserManagement() {
                       name="role"
                       render={({ field }) => (
                         <FormItem>
-                          <FormLabel>Role</FormLabel>
+                          <FormLabel>الدور</FormLabel>
                           <Select onValueChange={field.onChange} defaultValue={field.value}>
                             <FormControl>
                               <SelectTrigger>
-                                <SelectValue placeholder="Select Role" />
+                                <SelectValue placeholder="اختر الدور" />
                               </SelectTrigger>
                             </FormControl>
                             <SelectContent>
-                              <SelectItem value="admin">Admin</SelectItem>
-                              <SelectItem value="department-head">Department Head</SelectItem>
-                              <SelectItem value="instructor">Instructor</SelectItem>
+                              <SelectItem value="admin">مسؤول</SelectItem>
+                              <SelectItem value="department-head">رئيس قسم</SelectItem>
+                              <SelectItem value="instructor">محاضر</SelectItem>
                             </SelectContent>
                           </Select>
                           <FormMessage />
@@ -346,11 +346,11 @@ export function UserManagement() {
                       onClick={() => setIsAddUserOpen(false)}
                       disabled={isLoading}
                     >
-                      Cancel
+                      إلغاء
                     </Button>
                     <Button type="submit" disabled={isLoading}>
                       {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                      Create User
+                      إنشاء مستخدم
                     </Button>
                   </div>
                 </form>
@@ -360,11 +360,11 @@ export function UserManagement() {
         </div>
       </div>
 
-      {/* Edit User Dialog */}
+      {/* مربع حوار تعديل المستخدم */}
       <Dialog open={isEditUserOpen} onOpenChange={setIsEditUserOpen}>
         <DialogContent className="max-w-2xl">
           <DialogHeader>
-            <DialogTitle>Edit User</DialogTitle>
+            <DialogTitle>تعديل المستخدم</DialogTitle>
           </DialogHeader>
           <Form {...editUserForm}>
             <form onSubmit={editUserForm.handleSubmit(onEditUser)} className="space-y-4">
@@ -374,9 +374,9 @@ export function UserManagement() {
                   name="name"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Full Name</FormLabel>
+                      <FormLabel>الاسم الكامل</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter full name" {...field} />
+                        <Input placeholder="أدخل الاسم الكامل" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -387,9 +387,9 @@ export function UserManagement() {
                   name="email"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Email Address</FormLabel>
+                      <FormLabel>البريد الإلكتروني</FormLabel>
                       <FormControl>
-                        <Input type="email" placeholder="Enter email" {...field} />
+                        <Input type="email" placeholder="أدخل البريد الإلكتروني" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -400,9 +400,9 @@ export function UserManagement() {
                   name="phone"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Phone Number</FormLabel>
+                      <FormLabel>رقم الهاتف</FormLabel>
                       <FormControl>
-                        <Input placeholder="Enter phone number" {...field} />
+                        <Input placeholder="أدخل رقم الهاتف" {...field} />
                       </FormControl>
                       <FormMessage />
                     </FormItem>
@@ -413,17 +413,17 @@ export function UserManagement() {
                   name="role"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>Role</FormLabel>
+                      <FormLabel>الدور</FormLabel>
                       <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <FormControl>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select Role" />
+                            <SelectValue placeholder="اختر الدور" />
                           </SelectTrigger>
                         </FormControl>
                         <SelectContent>
-                          <SelectItem value="admin">Admin</SelectItem>
-                          <SelectItem value="department-head">Department Head</SelectItem>
-                          <SelectItem value="instructor">Instructor</SelectItem>
+                          <SelectItem value="admin">مسؤول</SelectItem>
+                          <SelectItem value="department-head">رئيس قسم</SelectItem>
+                          <SelectItem value="instructor">محاضر</SelectItem>
                         </SelectContent>
                       </Select>
                       <FormMessage />
@@ -438,11 +438,11 @@ export function UserManagement() {
                   onClick={() => setIsEditUserOpen(false)}
                   disabled={isLoading}
                 >
-                  Cancel
+                  إلغاء
                 </Button>
                 <Button type="submit" disabled={isLoading}>
                   {isLoading && <Loader2 className="w-4 h-4 mr-2 animate-spin" />}
-                  Update User
+                  تحديث المستخدم
                 </Button>
               </div>
             </form>
@@ -450,7 +450,7 @@ export function UserManagement() {
         </DialogContent>
       </Dialog>
 
-      {/* Summary Cards */}
+      {/* بطاقات الملخص */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
           <CardContent className="p-6">
@@ -459,7 +459,7 @@ export function UserManagement() {
                 <Users className="h-6 w-6 text-white" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-blue-600">Total Users</p>
+                <p className="text-sm font-medium text-blue-600">إجمالي المستخدمين</p>
                 <p className="text-2xl font-bold text-blue-700">{users.length}</p>
               </div>
             </div>
@@ -473,7 +473,7 @@ export function UserManagement() {
                 <UserCheck className="h-6 w-6 text-white" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-green-600">Active Users</p>
+                <p className="text-sm font-medium text-green-600">المستخدمون النشطون</p>
                 <p className="text-2xl font-bold text-green-700">{activeUsers}</p>
               </div>
             </div>
@@ -487,7 +487,7 @@ export function UserManagement() {
                 <UserX className="h-6 w-6 text-white" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-red-600">Suspended</p>
+                <p className="text-sm font-medium text-red-600">الموقوفون</p>
                 <p className="text-2xl font-bold text-red-700">{suspendedUsers}</p>
               </div>
             </div>
@@ -501,7 +501,7 @@ export function UserManagement() {
                 <Shield className="h-6 w-6 text-white" />
               </div>
               <div className="ml-4">
-                <p className="text-sm font-medium text-purple-600">Admins</p>
+                <p className="text-sm font-medium text-purple-600">المسؤولون</p>
                 <p className="text-2xl font-bold text-purple-700">
                   {users.filter(u => u.role === "Admin").length}
                 </p>
@@ -516,13 +516,13 @@ export function UserManagement() {
           <CardTitle className="flex items-center justify-between">
             <div className="flex items-center space-x-2">
               <Users className="w-5 h-5" />
-              <span>All Users ({filteredUsers.length})</span>
+              <span>جميع المستخدمين ({filteredUsers.length})</span>
             </div>
             <div className="flex items-center gap-4">
               <div className="relative w-72">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                 <Input
-                  placeholder="Search users..."
+                  placeholder="ابحث عن المستخدمين..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-10"
@@ -530,37 +530,37 @@ export function UserManagement() {
               </div>
               <Select value={statusFilter} onValueChange={setStatusFilter}>
                 <SelectTrigger className="w-32">
-                  <SelectValue placeholder="Status" />
+                  <SelectValue placeholder="الحالة" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Status</SelectItem>
-                  <SelectItem value="active">Active</SelectItem>
-                  <SelectItem value="suspended">Suspended</SelectItem>
+                  <SelectItem value="all">كل الحالات</SelectItem>
+                  <SelectItem value="active">نشط</SelectItem>
+                  <SelectItem value="suspended">معلق</SelectItem>
                 </SelectContent>
               </Select>
               <Select value={roleFilter} onValueChange={setRoleFilter}>
                 <SelectTrigger className="w-40">
-                  <SelectValue placeholder="Role" />
+                  <SelectValue placeholder="الدور" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="all">All Roles</SelectItem>
-                  <SelectItem value="admin">Admin</SelectItem>
-                  <SelectItem value="department head">Department Head</SelectItem>
-                  <SelectItem value="instructor">Instructor</SelectItem>
+                  <SelectItem value="all">كل الأدوار</SelectItem>
+                  <SelectItem value="admin">مسؤول</SelectItem>
+                  <SelectItem value="department head">رئيس قسم</SelectItem>
+                  <SelectItem value="instructor">محاضر</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </CardTitle>
           {selectedUsers.size > 0 && (
             <div className="flex items-center gap-2 pt-2">
-              <p className="text-sm text-muted-foreground">{selectedUsers.size} users selected</p>
+              <p className="text-sm text-muted-foreground">تم تحديد {selectedUsers.size} مستخدم</p>
               <Separator orientation="vertical" className="h-4" />
               <Button variant="outline" size="sm" onClick={handleBulkExport}>
                 <Download className="w-4 h-4 mr-2" />
-                Export Selected
+                تصدير المحدد
               </Button>
               <Button variant="outline" size="sm">
-                Bulk Edit
+                تعديل جماعي
               </Button>
             </div>
           )}
@@ -575,11 +575,11 @@ export function UserManagement() {
                     onCheckedChange={handleSelectAll}
                   />
                 </TableHead>
-                <TableHead>User</TableHead>
-                <TableHead>Role</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Last Login</TableHead>
-                <TableHead>Actions</TableHead>
+                <TableHead>المستخدم</TableHead>
+                <TableHead>الدور</TableHead>
+                <TableHead>الحالة</TableHead>
+                <TableHead>آخر تسجيل دخول</TableHead>
+                <TableHead>الإجراءات</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -635,22 +635,22 @@ export function UserManagement() {
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem onClick={() => handleEditUser(user)}>
                           <Edit className="w-4 h-4 mr-2" />
-                          Edit User
+                          تعديل المستخدم
                         </DropdownMenuItem>
                         <DropdownMenuItem>
                           <Shield className="w-4 h-4 mr-2" />
-                          Manage Permissions
+                          إدارة الصلاحيات
                         </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => toggleUserStatus(user.id)}>
                           {user.status === "Active" ? (
                             <>
                               <UserX className="w-4 h-4 mr-2" />
-                              Suspend User
+                              إيقاف المستخدم
                             </>
                           ) : (
                             <>
                               <UserCheck className="w-4 h-4 mr-2" />
-                              Activate User
+                              تفعيل المستخدم
                             </>
                           )}
                         </DropdownMenuItem>
@@ -659,7 +659,7 @@ export function UserManagement() {
                           onClick={() => handleDeleteUser(user.id)}
                         >
                           <Trash2 className="w-4 h-4 mr-2" />
-                          Delete User
+                          حذف المستخدم
                         </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>

@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
@@ -44,7 +43,7 @@ export function CoursePerformanceReport() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Total Courses</p>
+                <p className="text-sm font-medium text-gray-600">إجمالي المقررات</p>
                 <p className="text-3xl font-bold text-blue-600">{coursePerformanceData.length}</p>
               </div>
               <GraduationCap className="w-8 h-8 text-blue-600" />
@@ -55,7 +54,7 @@ export function CoursePerformanceReport() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Total Students</p>
+                <p className="text-sm font-medium text-gray-600">إجمالي الطلاب</p>
                 <p className="text-3xl font-bold text-green-600">
                   {coursePerformanceData.reduce((sum, course) => sum + course.totalStudents, 0)}
                 </p>
@@ -68,7 +67,7 @@ export function CoursePerformanceReport() {
           <CardContent className="p-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-600">Avg Pass Rate</p>
+                <p className="text-sm font-medium text-gray-600">متوسط نسبة النجاح</p>
                 <p className="text-3xl font-bold text-purple-600">
                   {(coursePerformanceData.reduce((sum, course) => sum + course.passRate, 0) / coursePerformanceData.length).toFixed(1)}%
                 </p>
@@ -86,10 +85,10 @@ export function CoursePerformanceReport() {
               <span>{courseData.course}</span>
               <div className="flex items-center space-x-4">
                 <Badge className="bg-blue-100 text-blue-700">
-                  {courseData.totalStudents} Students
+                  {courseData.totalStudents} طلاب
                 </Badge>
                 <Badge className="bg-green-100 text-green-700">
-                  {courseData.passRate}% Pass Rate
+                  {courseData.passRate}% نسبة النجاح
                 </Badge>
               </div>
             </CardTitle>
@@ -97,7 +96,7 @@ export function CoursePerformanceReport() {
           <CardContent>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
               <div>
-                <h3 className="font-medium text-gray-900 mb-4">Grade Distribution</h3>
+                <h3 className="font-medium text-gray-900 mb-4">توزيع الدرجات</h3>
                 <ResponsiveContainer width="100%" height={250}>
                   <PieChart>
                     <Pie
@@ -114,19 +113,19 @@ export function CoursePerformanceReport() {
                         <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
                       ))}
                     </Pie>
-                    <Tooltip formatter={(value, name) => [`${value} students`, 'Count']} />
+                    <Tooltip formatter={(value, name) => [`${value} طلاب`, 'العدد']} />
                   </PieChart>
                 </ResponsiveContainer>
               </div>
               
               <div>
-                <h3 className="font-medium text-gray-900 mb-4">Detailed Breakdown</h3>
+                <h3 className="font-medium text-gray-900 mb-4">تفاصيل مفصلة</h3>
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Grade</TableHead>
-                      <TableHead>Students</TableHead>
-                      <TableHead>Percentage</TableHead>
+                      <TableHead>الدرجة</TableHead>
+                      <TableHead>الطلاب</TableHead>
+                      <TableHead>النسبة المئوية</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -154,11 +153,11 @@ export function CoursePerformanceReport() {
                 
                 <div className="mt-4 p-3 bg-gray-50 rounded-lg">
                   <div className="flex items-center justify-between text-sm">
-                    <span className="font-medium text-gray-700">Instructor:</span>
+                    <span className="font-medium text-gray-700">المحاضر:</span>
                     <span className="text-gray-600">{courseData.instructor}</span>
                   </div>
                   <div className="flex items-center justify-between text-sm mt-1">
-                    <span className="font-medium text-gray-700">Pass Rate:</span>
+                    <span className="font-medium text-gray-700">نسبة النجاح:</span>
                     <span className="font-medium text-green-600">{courseData.passRate}%</span>
                   </div>
                 </div>

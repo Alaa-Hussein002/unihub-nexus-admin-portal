@@ -1,10 +1,10 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line } from "recharts";
 import { User, TrendingUp, Clock, FileText } from "lucide-react";
 
+// تم تعريب البيانات الداخلية (أسماء المحاضرين، الأقسام، وما إلى ذلك ستبقى باللاتينية عادةً)
 const instructorEffectivenessData = [
   {
     id: 1,
@@ -19,11 +19,11 @@ const instructorEffectivenessData = [
     },
     studentFeedback: 4.2,
     performanceTrend: [
-      { month: "Jan", attendance: 85 },
-      { month: "Feb", attendance: 87 },
-      { month: "Mar", attendance: 89 },
-      { month: "Apr", attendance: 91 },
-      { month: "May", attendance: 88 }
+      { month: "يناير", attendance: 85 },
+      { month: "فبراير", attendance: 87 },
+      { month: "مارس", attendance: 89 },
+      { month: "أبريل", attendance: 91 },
+      { month: "مايو", attendance: 88 }
     ]
   },
   {
@@ -39,11 +39,11 @@ const instructorEffectivenessData = [
     },
     studentFeedback: 3.8,
     performanceTrend: [
-      { month: "Jan", attendance: 80 },
-      { month: "Feb", attendance: 82 },
-      { month: "Mar", attendance: 83 },
-      { month: "Apr", attendance: 84 },
-      { month: "May", attendance: 82 }
+      { month: "يناير", attendance: 80 },
+      { month: "فبراير", attendance: 82 },
+      { month: "مارس", attendance: 83 },
+      { month: "أبريل", attendance: 84 },
+      { month: "مايو", attendance: 82 }
     ]
   }
 ];
@@ -64,12 +64,14 @@ export function InstructorEffectivenessReport() {
 
   return (
     <div className="space-y-6">
+      {/* بطاقات الإحصائيات العامة - يجب عكس الاتجاه */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
         <Card className="shadow-xl bg-white">
           <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Total Instructors</p>
+            {/* استخدام flex-row-reverse لعكس ترتيب العناصر (النص على اليمين والأيقونة على اليسار) */}
+            <div className="flex items-center justify-between flex-row-reverse">
+              <div className="text-right"> {/* إضافة محاذاة لليمين للنص */}
+                <p className="text-sm font-medium text-gray-600">إجمالي المحاضرين</p>
                 <p className="text-3xl font-bold text-blue-600">{instructorEffectivenessData.length}</p>
               </div>
               <User className="w-8 h-8 text-blue-600" />
@@ -78,9 +80,9 @@ export function InstructorEffectivenessReport() {
         </Card>
         <Card className="shadow-xl bg-white">
           <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Avg Attendance</p>
+            <div className="flex items-center justify-between flex-row-reverse">
+              <div className="text-right">
+                <p className="text-sm font-medium text-gray-600">متوسط الحضور</p>
                 <p className="text-3xl font-bold text-green-600">
                   {(instructorEffectivenessData.reduce((sum, inst) => sum + inst.avgAttendanceRate, 0) / instructorEffectivenessData.length).toFixed(1)}%
                 </p>
@@ -91,9 +93,9 @@ export function InstructorEffectivenessReport() {
         </Card>
         <Card className="shadow-xl bg-white">
           <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Total Sessions</p>
+            <div className="flex items-center justify-between flex-row-reverse">
+              <div className="text-right">
+                <p className="text-sm font-medium text-gray-600">إجمالي الجلسات</p>
                 <p className="text-3xl font-bold text-purple-600">
                   {instructorEffectivenessData.reduce((sum, inst) => sum + inst.totalSessions, 0)}
                 </p>
@@ -104,9 +106,9 @@ export function InstructorEffectivenessReport() {
         </Card>
         <Card className="shadow-xl bg-white">
           <CardContent className="p-6">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium text-gray-600">Total Excuses</p>
+            <div className="flex items-center justify-between flex-row-reverse">
+              <div className="text-right">
+                <p className="text-sm font-medium text-gray-600">إجمالي الأعذار</p>
                 <p className="text-3xl font-bold text-orange-600">
                   {instructorEffectivenessData.reduce((sum, inst) => sum + inst.excusesSubmitted, 0)}
                 </p>
@@ -117,31 +119,33 @@ export function InstructorEffectivenessReport() {
         </Card>
       </div>
 
+      {/* جدول النظرة العامة */}
       <Card className="shadow-xl bg-white">
         <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
+          <CardTitle className="flex items-center space-x-2 space-x-reverse"> {/* عكس ترتيب الأيقونة والعنوان */}
             <TrendingUp className="w-5 h-5 text-blue-600" />
-            <span>Instructor Effectiveness Overview</span>
+            <span>نظرة عامة على فعالية المحاضرين</span> {/* النص المُعرب */}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Instructor</TableHead>
-                <TableHead>Department</TableHead>
-                <TableHead>Courses</TableHead>
-                <TableHead>Avg Attendance</TableHead>
-                <TableHead>Total Sessions</TableHead>
-                <TableHead>Excuses</TableHead>
-                <TableHead>Feedback Score</TableHead>
+                <TableHead>المحاضر</TableHead> {/* النص المُعرب */}
+                <TableHead>القسم</TableHead>
+                <TableHead>المقررات</TableHead>
+                <TableHead>متوسط الحضور</TableHead>
+                <TableHead>إجمالي الجلسات</TableHead>
+                <TableHead>الأعذار</TableHead>
+                <TableHead>تقييم الطلاب</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {instructorEffectivenessData.map((instructor) => (
                 <TableRow key={instructor.id}>
                   <TableCell>
-                    <div className="flex items-center space-x-3">
+                    {/* استخدام space-x-reverse لعكس ترتيب الأيقونة والاسم */}
+                    <div className="flex items-center space-x-3 space-x-reverse">
                       <div className="w-8 h-8 bg-gradient-to-r from-blue-500 to-blue-600 rounded-full flex items-center justify-center">
                         <User className="w-4 h-4 text-white" />
                       </div>
@@ -181,57 +185,61 @@ export function InstructorEffectivenessReport() {
         </CardContent>
       </Card>
 
+      {/* بطاقات التحليل التفصيلي */}
       {instructorEffectivenessData.map((instructor) => (
         <Card key={instructor.id} className="shadow-xl bg-white">
           <CardHeader>
-            <CardTitle>{instructor.name} - Detailed Analysis</CardTitle>
+            <CardTitle>{instructor.name} - تحليل تفصيلي</CardTitle> {/* النص المُعرب */}
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              {/* الرسوم البيانية ستظهر بشكل صحيح إذا تم تفعيل RTL في الجذر */}
               <div>
-                <h3 className="font-medium text-gray-900 mb-4">Attendance Trend</h3>
+                <h3 className="font-medium text-gray-900 mb-4 text-right">مؤشر الحضور</h3> {/* إضافة محاذاة لليمين */}
                 <ResponsiveContainer width="100%" height={250}>
                   <LineChart data={instructor.performanceTrend}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="month" />
                     <YAxis />
-                    <Tooltip formatter={(value) => [`${value}%`, 'Attendance Rate']} />
+                    {/* تعريب نصوص التولتيب */}
+                    <Tooltip formatter={(value) => [`${value}%`, 'نسبة الحضور']} /> 
                     <Line type="monotone" dataKey="attendance" stroke="#3b82f6" strokeWidth={3} />
                   </LineChart>
                 </ResponsiveContainer>
               </div>
               
               <div>
-                <h3 className="font-medium text-gray-900 mb-4">Grade Distribution</h3>
+                <h3 className="font-medium text-gray-900 mb-4 text-right">توزيع الدرجات</h3> {/* إضافة محاذاة لليمين */}
                 <ResponsiveContainer width="100%" height={250}>
                   <BarChart data={Object.entries(instructor.gradeDistribution).map(([grade, count]) => ({ grade, count }))}>
                     <CartesianGrid strokeDasharray="3 3" />
                     <XAxis dataKey="grade" />
                     <YAxis />
-                    <Tooltip formatter={(value) => [`${value} students`, 'Count']} />
+                    {/* تعريب نصوص التولتيب */}
+                    <Tooltip formatter={(value) => [`${value} طالب`, 'العدد']} /> 
                     <Bar dataKey="count" fill="#10b981" />
                   </BarChart>
                 </ResponsiveContainer>
               </div>
             </div>
             
-            <div className="mt-6 p-4 bg-gray-50 rounded-lg">
-              <h3 className="font-medium text-gray-900 mb-3">Performance Summary</h3>
+            <div className="mt-6 p-4 bg-gray-50 rounded-lg text-right"> {/* إضافة محاذاة لليمين للـ Summary Box */}
+              <h3 className="font-medium text-gray-900 mb-3">ملخص الأداء</h3>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-                <div>
-                  <span className="text-gray-600">Average Attendance:</span>
+                <div className="text-right">
+                  <span className="text-gray-600">متوسط الحضور:</span>
                   <p className="font-medium text-gray-900">{instructor.avgAttendanceRate}%</p>
                 </div>
-                <div>
-                  <span className="text-gray-600">Total Sessions:</span>
+                <div className="text-right">
+                  <span className="text-gray-600">إجمالي الجلسات:</span>
                   <p className="font-medium text-gray-900">{instructor.totalSessions}</p>
                 </div>
-                <div>
-                  <span className="text-gray-600">Excuses Submitted:</span>
+                <div className="text-right">
+                  <span className="text-gray-600">الأعذار المقدمة:</span>
                   <p className="font-medium text-gray-900">{instructor.excusesSubmitted}</p>
                 </div>
-                <div>
-                  <span className="text-gray-600">Student Feedback:</span>
+                <div className="text-right">
+                  <span className="text-gray-600">تقييم الطلاب:</span>
                   <p className={`font-medium ${getFeedbackColor(instructor.studentFeedback)}`}>
                     {instructor.studentFeedback}/5.0
                   </p>
