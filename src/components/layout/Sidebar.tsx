@@ -19,9 +19,9 @@ interface SidebarProps {
 
 const menuItems = [
   {
-    title: "Dashboard",
+    title: "لوحة التحكم",
     icon: Home,
-    href: "/dashboard",
+    href: "/",
     badge: null,
     subItems: undefined
   },
@@ -33,98 +33,98 @@ const menuItems = [
     subItems: undefined
   },
   {
-    title: "User Management",
+    title: "إدارة المستخدمين",
     icon: Users,
     href: "/users",
     badge: null,
     subItems: [
-      { title: "All Users", href: "/users" },
-      { title: "Roles & Permissions", href: "/users/roles" },
-      { title: "Access Control", href: "/users/access-control" }
+      { title: "جميع المستخدمين", href: "/users" },
+      { title: "الأدوار والصلاحيات", href: "/users/roles" },
+      { title: "التحكم في الوصول", href: "/users/access-control" }
     ]
   },
   {
-    title: "Timetable",
+    title: "الجدول الزمني",
     icon: Calendar,
     href: "/timetable",
     badge: null,
     subItems: [
-      { title: "Import Schedule", href: "/timetable" },
-      { title: "View Timetable", href: "/timetable" },
-      { title: "Course Mapping", href: "/timetable/course-mapping" }
+      { title: "استيراد الجدول", href: "/timetable" },
+      { title: "عرض الجدول", href: "/timetable" },
+      { title: "ربط المقررات", href: "/timetable/course-mapping" }
     ]
   },
   {
-    title: "Student Enrollment",
+    title: "تسجيل الطلاب",
     icon: ClipboardList,
     href: "/enrollment/import-students",
     badge: null,
     subItems: [
-      { title: "Import Students", href: "/enrollment/import" },
-      { title: "Manage Groups", href: "/enrollment/groups" },
-      { title: "Course Assignment", href: "/enrollment" }
+      { title: "استيراد الطلاب", href: "/enrollment/import" },
+      { title: "إدارة المجموعات", href: "/enrollment/groups" },
+      { title: "تعيين المقررات", href: "/enrollment" }
     ]
   },
   {
-    title: "Excuse Management",
+    title: "إدارة الأعذار",
     icon: Clock,
     href: "/excuse/pending-requests",
     badge: null,
     subItems: [
-      { title: "Pending Requests", href: "/excuses" },
-      { title: "Salary Adjustments", href: "/excuses/pending" }
+      { title: "الطلبات المعلّقة", href: "/excuses" },
+      { title: "تسويات الرواتب", href: "/excuses/pending" }
     ]
   },
   {
-    title: "Reports",
+    title: "التقارير",
     icon: BarChart3,
     href: "/reports",
     badge: null,
     subItems: [
-      { title: "Financial Reports", href: "/reports" },
-      { title: "Teaching Load", href: "/reports/teaching" },
-      { title: "Attendance", href: "/reports/attendance" },
-      { title: "Grades Overview", href: "/reports/grades-overview" }
+      { title: "التقارير المالية", href: "/reports" },
+      { title: "عبء التدريس", href: "/reports/teaching" },
+      { title: "الحضور والغياب", href: "/reports/attendance" },
+      { title: "نظرة عامة على الدرجات", href: "/reports/grades-overview" }
     ]
   },
   {
-    title: "Integration",
+    title: "التكامل",
     icon: Plug,
     href: "/integration/mobile-sync",
     badge: null,
     subItems: [
-      { title: "Mobile Sync", href: "/integration/mobile" },
-      { title: "API Status", href: "/integration/api-status" },
-      { title: "Real-time Monitor", href: "/integration/real-time" }
+      { title: "مزامنة الجوال", href: "/integration/mobile" },
+      { title: "حالة واجهة البرمجة (API)", href: "/integration/api-status" },
+      { title: "المراقبة الفورية", href: "/integration/real-time" }
     ]
   },
   {
-    title: "Course Management",
+    title: "إدارة المقررات",
     icon: BookOpen,
     href: "/course-management",
     badge: null,
     subItems: [
-      { title: "Department View", href: "/course-management" },
-      { title: "Grade Reports", href: "/course-management/grade-reports" },
-      { title: "Export Data", href: "/course-management/export" }
+      { title: "عرض الأقسام", href: "/course-management" },
+      { title: "تقارير الدرجات", href: "/course-management/grade-reports" },
+      { title: "تصدير البيانات", href: "/course-management/export" }
     ]
   },
   {
-    title: "Audit Log",
+    title: "سجل التدقيق",
     icon: History,
     href: "/auditlog",
     badge: null,
     subItems: undefined
   },
   {
-    title: "Settings",
+    title: "الإعدادات",
     icon: Settings,
     href: "/settings",
     badge: null,
     subItems: undefined
   },
   {
-    title: "Academic Staff",
+    title: "أعضاء الهيئة الأكاديمية",
     icon: UserCog,
     href: "/academic-staff",
     badge: null,
