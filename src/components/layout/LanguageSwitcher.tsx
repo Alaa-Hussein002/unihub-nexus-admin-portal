@@ -22,11 +22,12 @@ export function LanguageSwitcher() {
     localStorage.setItem('i18nextLng', langCode);
     
     // Set document direction for RTL languages
-    if (langCode === 'ar') {
-      document.documentElement.dir = 'rtl';
-    } else {
-      document.documentElement.dir = 'ltr';
-    }
+    // if (langCode === 'ar') {
+    //   document.documentElement.dir = 'rtl';
+    // } else {
+    //   document.documentElement.dir = 'ltr';
+    // }
+    document.documentElement.dir = 'rtl';
   };
 
   const currentLanguage = languages.find(lang => lang.code === i18n.language) || languages[0];

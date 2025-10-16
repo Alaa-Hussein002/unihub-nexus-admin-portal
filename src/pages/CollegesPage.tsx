@@ -466,10 +466,11 @@ export default function CollegesPage() {
             </div>
 
             <Tabs defaultValue="departments" className="w-full">
-              <TabsList className="grid w-full grid-cols-3">
+              <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="departments">الأقسام</TabsTrigger>
                 <TabsTrigger value="classrooms">القاعات الدراسية</TabsTrigger>
-                <TabsTrigger value="programs">البرامج الدراسية</TabsTrigger>
+                <TabsTrigger value="Academic Staff">أعضاء هيئة التدريس</TabsTrigger>
+                <TabsTrigger value="programs">لوحة التحكم</TabsTrigger>
               </TabsList>
 
               <TabsContent value="departments">
