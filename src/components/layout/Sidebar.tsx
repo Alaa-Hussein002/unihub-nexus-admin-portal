@@ -6,7 +6,8 @@ import {
   Home, Users, Calendar, GraduationCap, FileText, 
   BarChart3, Settings, ChevronDown, 
   Clock, DollarSign, Database, BookOpen, UserCog,
-  ClipboardList, Shield, Plug, History
+  ClipboardList, Shield, Plug, History, Upload, Eye, 
+  Link as LinkIcon, RefreshCw, Activity, TrendingUp
 } from "lucide-react";
 import logoSidebar from "@/assets/logo-sidebar.png";
 
@@ -20,7 +21,7 @@ const menuItems = [
   {
     title: "Dashboard",
     icon: Home,
-    href: "/",
+    href: "/dashboard",
     badge: null,
     subItems: undefined
   },
@@ -32,90 +33,86 @@ const menuItems = [
     subItems: undefined
   },
   {
-    title: "الأقسام",
-    icon: BookOpen,
-    href: "/departments",
-    badge: null,
-    subItems: undefined
-  },
-  {
-    title: "القاعات الدراسية",
-    icon: Database,
-    href: "/classrooms",
-    badge: null,
-    subItems: undefined
-  },
-  {
-    title: "البرامج الدراسية",
-    icon: FileText,
-    href: "/programs",
-    badge: null,
-    subItems: undefined
-  },
-  {
-    title: "Users",
+    title: "User Management",
     icon: Users,
-    href: "/users",
+    href: "/user-management/all-users",
     badge: null,
     subItems: [
-      { title: "All Users", href: "/users" },
-      { title: "Roles", href: "/users/roles" },
-      { title: "Access Control", href: "/users/access-control" }
+      { title: "All Users", href: "/user-management/all-users" },
+      { title: "Roles & Permissions", href: "/user-management/roles-permissions" },
+      { title: "Access Control", href: "/user-management/access-control" }
     ]
-  },
-  {
-    title: "Academic Staff",
-    icon: UserCog,
-    href: "/academic-staff",
-    badge: null,
-    subItems: undefined
-  },
-  {
-    title: "Course Management",
-    icon: BookOpen,
-    href: "/course-management",
-    badge: null,
-    subItems: undefined
   },
   {
     title: "Timetable",
     icon: Calendar,
-    href: "/timetable",
+    href: "/timetable/import-schedule",
     badge: null,
-    subItems: undefined
+    subItems: [
+      { title: "Import Schedule", href: "/timetable/import-schedule" },
+      { title: "View Timetable", href: "/timetable/view" },
+      { title: "Course Mapping", href: "/timetable/course-mapping" }
+    ]
   },
   {
-    title: "Enrollment",
+    title: "Student Enrollment",
     icon: ClipboardList,
-    href: "/enrollment",
+    href: "/enrollment/import-students",
     badge: null,
-    subItems: undefined
+    subItems: [
+      { title: "Import Students", href: "/enrollment/import-students" },
+      { title: "Manage Groups", href: "/enrollment/manage-groups" },
+      { title: "Course Assignment", href: "/enrollment/course-assignment" }
+    ]
   },
   {
-    title: "Excuses",
+    title: "Excuse Management",
     icon: Clock,
-    href: "/excuses",
+    href: "/excuse/pending-requests",
     badge: null,
-    subItems: undefined
+    subItems: [
+      { title: "Pending Requests", href: "/excuse/pending-requests" },
+      { title: "Salary Adjustments", href: "/excuse/salary-adjustments" }
+    ]
   },
   {
     title: "Reports",
     icon: BarChart3,
-    href: "/reports",
+    href: "/reports/financial",
     badge: null,
-    subItems: undefined
+    subItems: [
+      { title: "Financial Reports", href: "/reports/financial" },
+      { title: "Teaching Load", href: "/reports/teaching-load" },
+      { title: "Attendance", href: "/reports/attendance" },
+      { title: "Grades Overview", href: "/reports/grades-overview" }
+    ]
   },
   {
     title: "Integration",
     icon: Plug,
-    href: "/integration",
+    href: "/integration/mobile-sync",
     badge: null,
-    subItems: undefined
+    subItems: [
+      { title: "Mobile Sync", href: "/integration/mobile-sync" },
+      { title: "API Status", href: "/integration/api-status" },
+      { title: "Real-time Monitor", href: "/integration/real-time" }
+    ]
+  },
+  {
+    title: "Course Management",
+    icon: BookOpen,
+    href: "/course-management/departments",
+    badge: null,
+    subItems: [
+      { title: "Department View", href: "/course-management/departments" },
+      { title: "Grade Reports", href: "/course-management/grade-reports" },
+      { title: "Export Data", href: "/course-management/export" }
+    ]
   },
   {
     title: "Audit Log",
     icon: History,
-    href: "/auditlog",
+    href: "/audit-log",
     badge: null,
     subItems: undefined
   },
@@ -123,6 +120,13 @@ const menuItems = [
     title: "Settings",
     icon: Settings,
     href: "/settings",
+    badge: null,
+    subItems: undefined
+  },
+  {
+    title: "Academic Staff",
+    icon: UserCog,
+    href: "/academic-staff",
     badge: null,
     subItems: undefined
   }
