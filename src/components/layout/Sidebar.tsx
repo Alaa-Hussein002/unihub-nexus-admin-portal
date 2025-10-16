@@ -35,22 +35,22 @@ const menuItems = [
   {
     title: "User Management",
     icon: Users,
-    href: "/user-management/all-users",
+    href: "/users",
     badge: null,
     subItems: [
-      { title: "All Users", href: "/user-management/all-users" },
-      { title: "Roles & Permissions", href: "/user-management/roles-permissions" },
-      { title: "Access Control", href: "/user-management/access-control" }
+      { title: "All Users", href: "/users" },
+      { title: "Roles & Permissions", href: "/users/roles" },
+      { title: "Access Control", href: "/users/access-control" }
     ]
   },
   {
     title: "Timetable",
     icon: Calendar,
-    href: "/timetable/import-schedule",
+    href: "/timetable",
     badge: null,
     subItems: [
-      { title: "Import Schedule", href: "/timetable/import-schedule" },
-      { title: "View Timetable", href: "/timetable/view" },
+      { title: "Import Schedule", href: "/timetable" },
+      { title: "View Timetable", href: "/timetable" },
       { title: "Course Mapping", href: "/timetable/course-mapping" }
     ]
   },
@@ -60,9 +60,9 @@ const menuItems = [
     href: "/enrollment/import-students",
     badge: null,
     subItems: [
-      { title: "Import Students", href: "/enrollment/import-students" },
-      { title: "Manage Groups", href: "/enrollment/manage-groups" },
-      { title: "Course Assignment", href: "/enrollment/course-assignment" }
+      { title: "Import Students", href: "/enrollment/import" },
+      { title: "Manage Groups", href: "/enrollment/groups" },
+      { title: "Course Assignment", href: "/enrollment" }
     ]
   },
   {
@@ -71,18 +71,18 @@ const menuItems = [
     href: "/excuse/pending-requests",
     badge: null,
     subItems: [
-      { title: "Pending Requests", href: "/excuse/pending-requests" },
-      { title: "Salary Adjustments", href: "/excuse/salary-adjustments" }
+      { title: "Pending Requests", href: "/excuses" },
+      { title: "Salary Adjustments", href: "/excuses/pending" }
     ]
   },
   {
     title: "Reports",
     icon: BarChart3,
-    href: "/reports/financial",
+    href: "/reports",
     badge: null,
     subItems: [
-      { title: "Financial Reports", href: "/reports/financial" },
-      { title: "Teaching Load", href: "/reports/teaching-load" },
+      { title: "Financial Reports", href: "/reports" },
+      { title: "Teaching Load", href: "/reports/teaching" },
       { title: "Attendance", href: "/reports/attendance" },
       { title: "Grades Overview", href: "/reports/grades-overview" }
     ]
@@ -93,7 +93,7 @@ const menuItems = [
     href: "/integration/mobile-sync",
     badge: null,
     subItems: [
-      { title: "Mobile Sync", href: "/integration/mobile-sync" },
+      { title: "Mobile Sync", href: "/integration/mobile" },
       { title: "API Status", href: "/integration/api-status" },
       { title: "Real-time Monitor", href: "/integration/real-time" }
     ]
@@ -101,10 +101,10 @@ const menuItems = [
   {
     title: "Course Management",
     icon: BookOpen,
-    href: "/course-management/departments",
+    href: "/course-management",
     badge: null,
     subItems: [
-      { title: "Department View", href: "/course-management/departments" },
+      { title: "Department View", href: "/course-management" },
       { title: "Grade Reports", href: "/course-management/grade-reports" },
       { title: "Export Data", href: "/course-management/export" }
     ]
