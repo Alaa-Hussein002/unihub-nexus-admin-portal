@@ -15,7 +15,7 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
 
   return (
     <header className="h-16 bg-card shadow-lg border-b border-border flex items-center justify-between px-6">
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-reverse space-x-4">
         <Button
           variant="ghost"
           size="icon"
@@ -26,21 +26,21 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
         </Button>
 
         <div className="relative w-96 max-lg:hidden">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Search className="absolute right-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
             placeholder="ابحث عن الطلاب، المحاضرين، المقررات..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="pl-10 bg-muted/50 border-0 focus:bg-background focus:shadow-md transition-all duration-200"
+            className="pr-10 bg-muted/50 border-0 focus:bg-background focus:shadow-md transition-all duration-200"
           />
         </div>
       </div>
 
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-reverse space-x-4">
         
         <Button variant="ghost" size="icon" className="relative hover:bg-accent">
           <Bell className="w-5 h-5" />
-          <Badge className="absolute -top-1 -right-1 w-5 h-5 flex items-center justify-center p-0 bg-destructive">
+          <Badge className="absolute -top-1 -left-1 w-5 h-5 flex items-center justify-center p-0 bg-destructive">
             3
           </Badge>
         </Button>
@@ -49,7 +49,7 @@ export function TopBar({ onMenuToggle }: TopBarProps) {
           <Settings className="w-5 h-5" />
         </Button>
 
-        <div className="flex items-center space-x-3 pl-4 border-l border-border">
+        <div className="flex items-center space-x-reverse space-x-3 pr-4 border-r border-border">
           <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
             <User className="w-4 h-4 text-primary-foreground" />
           </div>

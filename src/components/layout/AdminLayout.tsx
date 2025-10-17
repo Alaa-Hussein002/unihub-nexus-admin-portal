@@ -40,7 +40,7 @@ export function AdminLayout({ children }: AdminLayoutProps) {
       
       <div className={cn(
         "flex-1 flex flex-col transition-all duration-300 min-w-0",
-        !isMobile && sidebarOpen ? "ml-64" : !isMobile ? "ml-16" : "ml-0"
+        !isMobile && sidebarOpen ? "mr-64" : !isMobile ? "mr-16" : "mr-0"
       )}>
         <TopBar onMenuToggle={() => setSidebarOpen(!sidebarOpen)} />
         <main className="flex-1 p-3 sm:p-4 md:p-6 overflow-auto">
