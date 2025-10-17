@@ -8,17 +8,27 @@ import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Pencil, Trash2, Plus, ArrowLeft, ChevronRight, Users, BookOpen, Building2, DollarSign, TrendingUp } from "lucide-react";
+import { Pencil, Trash2, Plus, ArrowLeft, ChevronRight, Users, BookOpen, Building2, DollarSign } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
 import { Textarea } from "@/components/ui/textarea";
 import { cn } from "@/lib/utils";
 
-// Data types
+// Services
+import { getColleges, createCollege, updateCollege, deleteCollege, type College as ApiCollege } from '@/services/colleges';
+import { getDepartmentsByCollege, createDepartment, updateDepartment, deleteDepartment, type Department as ApiDepartment } from '@/services/departments';
+import { getBuildingsByCollege, type Building } from '@/services/buildings';
+import { getClassroomsByBuilding, getClassroomsByCollege, createClassroom, updateClassroom, deleteClassroom, type Classroom as ApiClassroom } from '@/services/classrooms';
+import { getProgramsByDepartment, createProgram, updateProgram, deleteProgram, type Program as ApiProgram } from '@/services/programs';
+import { getLevelsByProgram, createLevel, updateLevel, deleteLevel, type ProgramLevel as ApiProgramLevel } from '@/services/levels';
+import { getTermsByLevel, createTerm, updateTerm, deleteTerm, type ProgramTerm as ApiProgramTerm } from '@/services/terms';
+import { getCoursesByTerm, createCourse, updateCourse, deleteCourse, type ProgramCourse as ApiProgramCourse } from '@/services/courses';
+import { getStaffByCollege, createStaff, updateStaff, deleteStaff, type Staff as ApiStaff } from '@/services/staff';
+
+// Data types (واجهة العرض)
 interface College {
   id: string;
   name: string;
   academicCode: string;
-  randomCode: string;
 }
 
 interface Department {
@@ -33,15 +43,15 @@ interface Classroom {
   name: string;
   type: "CLASSROOM" | "LAB";
   capacity: number;
-  isAvailable: boolean;
-  notes: string;
-  collegeId: string;
+  isAvailable: boolean; // واجهة فقط
+  notes: string;        // واجهة فقط
+  buildingId: string;
 }
 
 interface Program {
   id: string;
   name: string;
-  degreeType: "BACHELOR" | "MASTER" | "DIPLOMA" | "OTHER";
+  degreeType: "BACHELOR" | "MASTER" | "DIPLOMA" | "OTHER"; // واجهة فقط
   code: string;
   description: string;
   collegeId: string;
@@ -77,18 +87,19 @@ interface AcademicStaff {
   id: string;
   fullName: string;
   staffNumber: string;
-  academicAffairsNumber: string;
+  academicAffairsNumber?: string;
   academicRank: string;
-  department: string;
-  employmentType: string;
-  hourlyRate: number;
-  address: string;
-  phone: string;
-  email: string;
-  notes: string;
+  employmentType: "متفرغ" | "غير متفرغ";
+  lectureRate: number; // من قاعدة البيانات (بدلاً من hourlyRate)
+  address?: string;
+  phone?: string;
+  email?: string;
+  notes?: string;
   collegeId: string;
+  departmentId?: string | null;
 }
 
+// Entitlements (واجهة فقط)
 interface EntitlementPeriod {
   from: string;
   to: string;
@@ -117,128 +128,25 @@ interface EntitlementPayout {
   status: string;
 }
 
-const generateRandomCode = () => {
-  return Math.floor(10000 + Math.random() * 90000).toString();
-};
-
-// Initial mock data
-const initialColleges: College[] = [
-  { id: "1", name: "كلية الحاسوب", academicCode: "CS-100", randomCode: generateRandomCode() },
-  { id: "2", name: "كلية الطب", academicCode: "MED-300", randomCode: generateRandomCode() },
-  { id: "3", name: "كلية اللغات", academicCode: "LANG-200", randomCode: generateRandomCode() },
-  { id: "4", name: "كلية الإعلام", academicCode: "MEDIA-400", randomCode: generateRandomCode() }
-];
-
-const initialDepartments: Department[] = [
-  { id: "d1", name: "نظم المعلومات", code: "IS", collegeId: "1" },
-  { id: "d2", name: "الذكاء الاصطناعي", code: "AI", collegeId: "1" },
-  { id: "d3", name: "علوم الحاسوب", code: "CS", collegeId: "1" },
-  { id: "d4", name: "هندسة البرمجيات", code: "SE", collegeId: "1" }
-];
-
-const initialClassrooms: Classroom[] = [
-  { id: "c1", name: "C-101", type: "CLASSROOM", capacity: 60, isAvailable: true, notes: "", collegeId: "1" },
-  { id: "c2", name: "C-102", type: "CLASSROOM", capacity: 40, isAvailable: false, notes: "", collegeId: "1" },
-  { id: "c3", name: "Lab-1", type: "LAB", capacity: 30, isAvailable: true, notes: "", collegeId: "1" }
-];
-
-const initialPrograms: Program[] = [
-  { id: "p1", name: "بكالوريوس نظم المعلومات", degreeType: "BACHELOR", code: "IS-B", description: "", collegeId: "1", departmentId: "d1" },
-  { id: "p2", name: "ماجستير نظم المعلومات", degreeType: "MASTER", code: "IS-M", description: "", collegeId: "1", departmentId: "d1" }
-];
-
-const initialLevels: ProgramLevel[] = [
-  { id: "l1", programId: "p1", levelNumber: 1, title: "المستوى 1" },
-  { id: "l2", programId: "p1", levelNumber: 2, title: "المستوى 2" },
-  { id: "l3", programId: "p1", levelNumber: 3, title: "المستوى 3" },
-  { id: "l4", programId: "p1", levelNumber: 4, title: "المستوى 4" }
-];
-
-const initialTerms: ProgramTerm[] = [
-  { id: "t1", programLevelId: "l1", termNumber: 1, title: "الترم 1" },
-  { id: "t2", programLevelId: "l1", termNumber: 2, title: "الترم 2" }
-];
-
-const initialCourses: ProgramCourse[] = [
-  { id: "co1", programTermId: "t1", courseCode: "CS101", courseName: "مدخل إلى علوم الحاسوب", creditHours: 3, isElective: false, notes: "" }
-];
-
-const initialAcademicStaff: AcademicStaff[] = [
-  {
-    id: "stf-1001",
-    fullName: "أ.د. أحمد الحربي",
-    staffNumber: "AC-1001",
-    academicAffairsNumber: "AA-501",
-    academicRank: "أستاذ",
-    department: "نظم المعلومات",
-    employmentType: "متفرغ",
-    hourlyRate: 150,
-    address: "صنعاء - حي الجامعة",
-    phone: "777123456",
-    email: "ahmad.harbi@univ.edu",
-    notes: "مشرف برنامج نظم المعلومات",
-    collegeId: "1"
-  },
-  {
-    id: "stf-1002",
-    fullName: "د. سارة القحطاني",
-    staffNumber: "AC-1002",
-    academicAffairsNumber: "AA-502",
-    academicRank: "أستاذ مشارك",
-    department: "علوم الحاسوب",
-    employmentType: "غير متفرغ",
-    hourlyRate: 120,
-    address: "صنعاء - شارع التحرير",
-    phone: "777234567",
-    email: "sara.q@univ.edu",
-    notes: "تدريس هياكل البيانات",
-    collegeId: "1"
-  },
-  {
-    id: "stf-1003",
-    fullName: "د. مريم باوزير",
-    staffNumber: "AC-1003",
-    academicAffairsNumber: "AA-503",
-    academicRank: "أستاذ مساعد",
-    department: "الذكاء الاصطناعي",
-    employmentType: "متفرغ",
-    hourlyRate: 130,
-    address: "تعز - المدينة",
-    phone: "777345678",
-    email: "mariam.b@univ.edu",
-    notes: "",
-    collegeId: "1"
-  },
-  {
-    id: "stf-1004",
-    fullName: "أ. فهد المطيري",
-    staffNumber: "AC-1004",
-    academicAffairsNumber: "AA-504",
-    academicRank: "محاضر",
-    department: "هندسة البرمجيات",
-    employmentType: "غير متفرغ",
-    hourlyRate: 100,
-    address: "إب - شارع الجامعة",
-    phone: "777456789",
-    email: "fahad.m@univ.edu",
-    notes: "",
-    collegeId: "1"
-  }
-];
-
 export default function CollegesPage() {
   const location = useLocation();
-  // State
-  const [colleges, setColleges] = useState<College[]>(initialColleges);
-  const [departments, setDepartments] = useState<Department[]>(initialDepartments);
-  const [classrooms, setClassrooms] = useState<Classroom[]>(initialClassrooms);
-  const [programs, setPrograms] = useState<Program[]>(initialPrograms);
-  const [levels, setLevels] = useState<ProgramLevel[]>(initialLevels);
-  const [terms, setTerms] = useState<ProgramTerm[]>(initialTerms);
-  const [courses, setCourses] = useState<ProgramCourse[]>(initialCourses);
-  const [academicStaff, setAcademicStaff] = useState<AcademicStaff[]>(initialAcademicStaff);
-  
-  // Entitlements state
+
+  // State: من API
+  const [colleges, setColleges] = useState<College[]>([]);
+  const [departments, setDepartments] = useState<Department[]>([]);
+  const [programs, setPrograms] = useState<Program[]>([]);
+  const [levels, setLevels] = useState<ProgramLevel[]>([]);
+  const [terms, setTerms] = useState<ProgramTerm[]>([]);
+  const [courses, setCourses] = useState<ProgramCourse[]>([]);
+  const [academicStaff, setAcademicStaff] = useState<AcademicStaff[]>([]);
+
+  // Buildings/Classrooms
+  const [buildings, setBuildings] = useState<Building[]>([]);
+  const [selectedBuilding, setSelectedBuilding] = useState<Building | null>(null);
+  const [classrooms, setClassrooms] = useState<Classroom[]>([]);
+  const [allClassroomsCount, setAllClassroomsCount] = useState(0); // للوحة التحكم (عدد القاعات الإجمالي بالكلية)
+
+  // Entitlements (واجهة)
   const [entitlementPeriod, setEntitlementPeriod] = useState<EntitlementPeriod>({ from: "2025-09-01", to: "2025-09-30" });
   const [entitlementReviews] = useState<EntitlementReview[]>([
     { staffId: "stf-1001", hoursWorked: 36, hourlyRate: 150, total: 5400 },
@@ -258,7 +166,7 @@ export default function CollegesPage() {
   ]);
   const [entitlementStep, setEntitlementStep] = useState<string>("1");
 
-  // UI state
+  // UI selection
   const [selectedCollege, setSelectedCollege] = useState<College | null>(null);
   const [selectedDepartment, setSelectedDepartment] = useState<Department | null>(null);
   const [selectedProgram, setSelectedProgram] = useState<Program | null>(null);
@@ -268,7 +176,7 @@ export default function CollegesPage() {
   // Form states
   const [isCollegeFormOpen, setIsCollegeFormOpen] = useState(false);
   const [editingCollegeId, setEditingCollegeId] = useState<string | null>(null);
-  const [collegeFormData, setCollegeFormData] = useState({ name: "", academicCode: "", randomCode: "" });
+  const [collegeFormData, setCollegeFormData] = useState({ name: "", academicCode: "" });
 
   const [isDeptFormOpen, setIsDeptFormOpen] = useState(false);
   const [editingDeptId, setEditingDeptId] = useState<string | null>(null);
@@ -276,11 +184,22 @@ export default function CollegesPage() {
 
   const [isClassroomFormOpen, setIsClassroomFormOpen] = useState(false);
   const [editingClassroomId, setEditingClassroomId] = useState<string | null>(null);
-  const [classroomFormData, setClassroomFormData] = useState({ name: "", type: "CLASSROOM" as "CLASSROOM" | "LAB", capacity: 0, isAvailable: true, notes: "" });
+  const [classroomFormData, setClassroomFormData] = useState({
+    name: "",
+    type: "CLASSROOM" as "CLASSROOM" | "LAB",
+    capacity: 0,
+    isAvailable: true, // واجهة فقط
+    notes: ""          // واجهة فقط
+  });
 
   const [isProgramFormOpen, setIsProgramFormOpen] = useState(false);
   const [editingProgramId, setEditingProgramId] = useState<string | null>(null);
-  const [programFormData, setProgramFormData] = useState({ name: "", degreeType: "BACHELOR" as "BACHELOR" | "MASTER" | "DIPLOMA" | "OTHER", code: "", description: "" });
+  const [programFormData, setProgramFormData] = useState({
+    name: "",
+    degreeType: "BACHELOR" as "BACHELOR" | "MASTER" | "DIPLOMA" | "OTHER", // واجهة فقط
+    code: "",
+    description: ""
+  });
 
   const [isLevelFormOpen, setIsLevelFormOpen] = useState(false);
   const [editingLevelId, setEditingLevelId] = useState<string | null>(null);
@@ -292,52 +211,267 @@ export default function CollegesPage() {
 
   const [isCourseFormOpen, setIsCourseFormOpen] = useState(false);
   const [editingCourseId, setEditingCourseId] = useState<string | null>(null);
-  const [courseFormData, setCourseFormData] = useState({ courseCode: "", courseName: "", creditHours: 3, isElective: false, departmentId: "", notes: "" });
+  const [courseFormData, setCourseFormData] = useState({
+    courseCode: "",
+    courseName: "",
+    creditHours: 3,
+    isElective: false,
+    departmentId: "",
+    notes: ""
+  });
 
   const [isStaffFormOpen, setIsStaffFormOpen] = useState(false);
   const [editingStaffId, setEditingStaffId] = useState<string | null>(null);
   const [staffFormData, setStaffFormData] = useState({
-    fullName: "", staffNumber: "", academicAffairsNumber: "", academicRank: "محاضر",
-    department: "", employmentType: "متفرغ", hourlyRate: 100, address: "", phone: "", email: "", notes: ""
+    fullName: "",
+    staffNumber: "",
+    academicAffairsNumber: "",
+    academicRank: "محاضر",
+    departmentId: "" as string,
+    employmentType: "متفرغ" as "متفرغ" | "غير متفرغ",
+    lectureRate: 100,
+    address: "",
+    phone: "",
+    email: "",
+    notes: ""
   });
 
-  // Auto-select كلية الحاسوب on mount
+  // Loading helpers
+  const loadColleges = async () => {
+    const data: ApiCollege[] = await getColleges();
+    setColleges(data.map(c => ({
+      id: c.id,
+      name: c.name,
+      academicCode: c.academicCode
+    })));
+  };
+
+  const loadDepartments = async (collegeId: string) => {
+    const data: ApiDepartment[] = await getDepartmentsByCollege(collegeId);
+    setDepartments(data.map(d => ({
+      id: d.id,
+      name: d.name,
+      code: d.code || "",
+      collegeId: d.collegeId
+    })));
+  };
+
+  const loadBuildings = async (collegeId: string) => {
+    const data = await getBuildingsByCollege(collegeId);
+    setBuildings(data);
+    setSelectedBuilding(null);
+    setClassrooms([]);
+    // حساب عدد القاعات الإجمالي للوحة التحكم
+    const allRooms = await getClassroomsByCollege(collegeId);
+    setAllClassroomsCount(allRooms.length);
+  };
+
+  const loadClassroomsByBuildingId = async (buildingId: string) => {
+    const data: ApiClassroom[] = await getClassroomsByBuilding(buildingId);
+    setClassrooms(data.map(c => ({
+      id: c.id,
+      name: c.name,
+      type: c.type,
+      capacity: c.capacity,
+      isAvailable: true, // واجهة فقط
+      notes: "",         // واجهة فقط
+      buildingId: c.buildingId
+    })));
+  };
+
+  const loadPrograms = async (departmentId: string) => {
+    const data: ApiProgram[] = await getProgramsByDepartment(departmentId);
+    setPrograms(data.map(p => ({
+      id: p.id,
+      name: p.name,
+      degreeType: "BACHELOR", // واجهة فقط
+      code: p.code || "",
+      description: p.description || "",
+      collegeId: p.collegeId,
+      departmentId: p.departmentId
+    })));
+  };
+
+  const loadLevels = async (programId: string) => {
+    const data: ApiProgramLevel[] = await getLevelsByProgram(programId);
+    setLevels(data.map(l => ({
+      id: l.id,
+      programId: l.programId,
+      levelNumber: l.levelNumber,
+      title: l.title
+    })));
+  };
+
+  const loadTerms = async (levelId: string) => {
+    const data: ApiProgramTerm[] = await getTermsByLevel(levelId);
+    setTerms(data.map(t => ({
+      id: t.id,
+      programLevelId: t.programLevelId,
+      termNumber: t.termNumber as 1 | 2,
+      title: t.title
+    })));
+  };
+
+  const loadCourses = async (termId: string) => {
+    const data: ApiProgramCourse[] = await getCoursesByTerm(termId);
+    setCourses(data.map(c => ({
+      id: c.id,
+      programTermId: c.programTermId,
+      courseCode: c.courseCode,
+      courseName: c.courseName,
+      creditHours: c.creditHours,
+      isElective: c.isElective,
+      departmentId: c.departmentId || "",
+      notes: c.notes || ""
+    })));
+  };
+
+  const loadStaff = async (collegeId: string) => {
+    const data: ApiStaff[] = await getStaffByCollege(collegeId);
+    setAcademicStaff(data.map(s => ({
+      id: s.id,
+      fullName: s.fullName,
+      staffNumber: s.staffNumber,
+      academicAffairsNumber: s.academicAffairsNumber || "",
+      academicRank: s.academicRank,
+      employmentType: s.employmentType,
+      lectureRate: s.lectureRate,
+      address: s.address || "",
+      phone: s.phone || "",
+      email: s.email || "",
+      notes: s.notes || "",
+      collegeId: s.collegeId,
+      departmentId: s.departmentId || ""
+    })));
+  };
+
+  // Reset & load on route
   useEffect(() => {
     if (location.pathname === "/colleges") {
-       setSelectedCollege(null);
-       setSelectedDepartment(null);
-       setSelectedProgram(null);
-       setSelectedLevel(null);
-       setSelectedTerm(null);
-     }
-   }, [location.pathname]);
+      setSelectedCollege(null);
+      setSelectedDepartment(null);
+      setSelectedProgram(null);
+      setSelectedLevel(null);
+      setSelectedTerm(null);
+      loadColleges();
+    }
+  }, [location.pathname]);
+
+  // On select college
+  useEffect(() => {
+    if (!selectedCollege) return;
+    const collegeId = selectedCollege.id;
+    (async () => {
+      await Promise.all([
+        loadDepartments(collegeId),
+        loadBuildings(collegeId),
+        loadStaff(collegeId),
+      ]);
+      setSelectedDepartment(null);
+      setSelectedProgram(null);
+      setSelectedLevel(null);
+      setSelectedTerm(null);
+    })();
+  }, [selectedCollege?.id]);
+
+  // On select department
+  useEffect(() => {
+    if (selectedDepartment) {
+      loadPrograms(selectedDepartment.id);
+      setSelectedProgram(null);
+      setSelectedLevel(null);
+      setSelectedTerm(null);
+    } else {
+      setPrograms([]);
+    }
+  }, [selectedDepartment?.id]);
+
+  // On select program
+  useEffect(() => {
+    if (selectedProgram) {
+      loadLevels(selectedProgram.id);
+      setSelectedLevel(null);
+      setSelectedTerm(null);
+    } else {
+      setLevels([]);
+    }
+  }, [selectedProgram?.id]);
+
+  // On select level
+  useEffect(() => {
+    if (selectedLevel) {
+      loadTerms(selectedLevel.id);
+      setSelectedTerm(null);
+    } else {
+      setTerms([]);
+    }
+  }, [selectedLevel?.id]);
+
+  // On select term
+  useEffect(() => {
+    if (selectedTerm) {
+      loadCourses(selectedTerm.id);
+    } else {
+      setCourses([]);
+    }
+  }, [selectedTerm?.id]);
+
+  // Approvals toggle (واجهة فقط)
+  const toggleApprovalStatus = (staffId: string) => {
+    setEntitlementApprovals(entitlementApprovals.map(a =>
+      a.staffId === staffId
+        ? {
+            ...a,
+            status: a.status === "قيد المراجعة" ? "معتمد" : "قيد المراجعة",
+            approvedBy: a.status === "قيد المراجعة" ? "المدير الأكاديمي" : "",
+            date: a.status === "قيد المراجعة" ? new Date().toLocaleDateString('ar') : ""
+          }
+        : a
+    ));
+  };
+
+  // Derived
+  const collegeDepartments = departments;
+  const collegeStaff = academicStaff;
+  const departmentPrograms = selectedDepartment ? programs.filter(p => p.departmentId === selectedDepartment.id) : [];
+  const programLevels = selectedProgram ? levels.filter(l => l.programId === selectedProgram.id) : [];
+  const levelTerms = selectedLevel ? terms.filter(t => t.programLevelId === selectedLevel.id) : [];
+  const termCourses = selectedTerm ? courses.filter(c => c.programTermId === selectedTerm.id) : [];
 
   // College CRUD
   const handleAddCollege = () => {
     setIsCollegeFormOpen(true);
     setEditingCollegeId(null);
-    setCollegeFormData({ name: "", academicCode: "", randomCode: generateRandomCode() });
+    setCollegeFormData({ name: "", academicCode: "" });
   };
 
   const handleEditCollege = (college: College) => {
     setIsCollegeFormOpen(true);
     setEditingCollegeId(college.id);
-    setCollegeFormData({ name: college.name, academicCode: college.academicCode, randomCode: college.randomCode });
+    setCollegeFormData({ name: college.name, academicCode: college.academicCode });
   };
 
-  const handleDeleteCollege = (id: string) => {
-    setColleges(colleges.filter(c => c.id !== id));
+  const handleDeleteCollege = async (id: string) => {
+    await deleteCollege(id);
     if (selectedCollege?.id === id) setSelectedCollege(null);
+    await loadColleges();
   };
 
-  const handleSubmitCollege = (e: React.FormEvent) => {
+  const handleSubmitCollege = async (e: React.FormEvent) => {
     e.preventDefault();
     if (editingCollegeId) {
-      setColleges(colleges.map(c => c.id === editingCollegeId ? { ...c, ...collegeFormData } : c));
+      await updateCollege(editingCollegeId, {
+        name: collegeFormData.name,
+        academicCode: collegeFormData.academicCode
+      });
     } else {
-      setColleges([...colleges, { id: Date.now().toString(), ...collegeFormData }]);
+      await createCollege({
+        name: collegeFormData.name,
+        academicCode: collegeFormData.academicCode
+      });
     }
     setIsCollegeFormOpen(false);
+    await loadColleges();
   };
 
   // Department CRUD
@@ -354,25 +488,35 @@ export default function CollegesPage() {
     setDeptFormData({ name: dept.name, code: dept.code });
   };
 
-  const handleDeleteDept = (id: string) => {
-    setDepartments(departments.filter(d => d.id !== id));
+  const handleDeleteDept = async (id: string) => {
+    await deleteDepartment(id);
     if (selectedDepartment?.id === id) setSelectedDepartment(null);
+    if (selectedCollege) await loadDepartments(selectedCollege.id);
   };
 
-  const handleSubmitDept = (e: React.FormEvent) => {
+  const handleSubmitDept = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedCollege) return;
     if (editingDeptId) {
-      setDepartments(departments.map(d => d.id === editingDeptId ? { ...d, ...deptFormData } : d));
+      await updateDepartment(editingDeptId, {
+        name: deptFormData.name,
+        code: deptFormData.code,
+        collegeId: selectedCollege.id
+      });
     } else {
-      setDepartments([...departments, { id: Date.now().toString(), collegeId: selectedCollege.id, ...deptFormData }]);
+      await createDepartment({
+        name: deptFormData.name,
+        code: deptFormData.code,
+        collegeId: selectedCollege.id
+      });
     }
     setIsDeptFormOpen(false);
+    await loadDepartments(selectedCollege.id);
   };
 
-  // Classroom CRUD
+  // Classroom CRUD (يتطلب اختيار مبنى)
   const handleAddClassroom = () => {
-    if (!selectedCollege) return;
+    if (!selectedBuilding) return; // يجب اختيار مبنى أولاً
     setIsClassroomFormOpen(true);
     setEditingClassroomId(null);
     setClassroomFormData({ name: "", type: "CLASSROOM", capacity: 0, isAvailable: true, notes: "" });
@@ -384,24 +528,41 @@ export default function CollegesPage() {
     setClassroomFormData({ name: classroom.name, type: classroom.type, capacity: classroom.capacity, isAvailable: classroom.isAvailable, notes: classroom.notes });
   };
 
-  const handleDeleteClassroom = (id: string) => {
-    setClassrooms(classrooms.filter(c => c.id !== id));
+  const handleDeleteClassroom = async (id: string) => {
+    await deleteClassroom(id);
+    if (selectedBuilding) await loadClassroomsByBuildingId(selectedBuilding.id);
   };
 
-  const handleSubmitClassroom = (e: React.FormEvent) => {
+  const handleSubmitClassroom = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedCollege) return;
+    if (!selectedBuilding) return;
+    const payload = {
+      name: classroomFormData.name,
+      buildingId: selectedBuilding.id,
+      floor: 0,
+      capacity: classroomFormData.capacity,
+      latitude: undefined,
+      longitude: undefined,
+      allowedDistance: undefined,
+      type: classroomFormData.type
+    };
     if (editingClassroomId) {
-      setClassrooms(classrooms.map(c => c.id === editingClassroomId ? { ...c, ...classroomFormData } : c));
+      await updateClassroom(editingClassroomId, payload);
     } else {
-      setClassrooms([...classrooms, { id: Date.now().toString(), collegeId: selectedCollege.id, ...classroomFormData }]);
+      await createClassroom(payload);
     }
     setIsClassroomFormOpen(false);
+    await loadClassroomsByBuildingId(selectedBuilding.id);
+    // حدّث الإحصائية الإجمالية أيضاً
+    if (selectedCollege) {
+      const allRooms = await getClassroomsByCollege(selectedCollege.id);
+      setAllClassroomsCount(allRooms.length);
+    }
   };
 
   // Program CRUD
   const handleAddProgram = () => {
-    if (!selectedDepartment) return;
+    if (!selectedDepartment || !selectedCollege) return;
     setIsProgramFormOpen(true);
     setEditingProgramId(null);
     setProgramFormData({ name: "", degreeType: "BACHELOR", code: "", description: "" });
@@ -413,20 +574,29 @@ export default function CollegesPage() {
     setProgramFormData({ name: program.name, degreeType: program.degreeType, code: program.code, description: program.description });
   };
 
-  const handleDeleteProgram = (id: string) => {
-    setPrograms(programs.filter(p => p.id !== id));
+  const handleDeleteProgram = async (id: string) => {
+    await deleteProgram(id);
     if (selectedProgram?.id === id) setSelectedProgram(null);
+    if (selectedDepartment) await loadPrograms(selectedDepartment.id);
   };
 
-  const handleSubmitProgram = (e: React.FormEvent) => {
+  const handleSubmitProgram = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedDepartment || !selectedCollege) return;
+    const payload = {
+      name: programFormData.name,
+      code: programFormData.code,
+      description: programFormData.description,
+      collegeId: selectedCollege.id,
+      departmentId: selectedDepartment.id
+    };
     if (editingProgramId) {
-      setPrograms(programs.map(p => p.id === editingProgramId ? { ...p, ...programFormData } : p));
+      await updateProgram(editingProgramId, payload);
     } else {
-      setPrograms([...programs, { id: Date.now().toString(), collegeId: selectedCollege.id, departmentId: selectedDepartment.id, ...programFormData }]);
+      await createProgram(payload);
     }
     setIsProgramFormOpen(false);
+    await loadPrograms(selectedDepartment.id);
   };
 
   // Level CRUD
@@ -443,20 +613,27 @@ export default function CollegesPage() {
     setLevelFormData({ levelNumber: level.levelNumber });
   };
 
-  const handleDeleteLevel = (id: string) => {
-    setLevels(levels.filter(l => l.id !== id));
+  const handleDeleteLevel = async (id: string) => {
+    await deleteLevel(id);
     if (selectedLevel?.id === id) setSelectedLevel(null);
+    if (selectedProgram) await loadLevels(selectedProgram.id);
   };
 
-  const handleSubmitLevel = (e: React.FormEvent) => {
+  const handleSubmitLevel = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedProgram) return;
+    const payload = {
+      programId: selectedProgram.id,
+      levelNumber: levelFormData.levelNumber,
+      title: `المستوى ${levelFormData.levelNumber}`
+    };
     if (editingLevelId) {
-      setLevels(levels.map(l => l.id === editingLevelId ? { ...l, levelNumber: levelFormData.levelNumber, title: `المستوى ${levelFormData.levelNumber}` } : l));
+      await updateLevel(editingLevelId, payload);
     } else {
-      setLevels([...levels, { id: Date.now().toString(), programId: selectedProgram.id, levelNumber: levelFormData.levelNumber, title: `المستوى ${levelFormData.levelNumber}` }]);
+      await createLevel(payload);
     }
     setIsLevelFormOpen(false);
+    await loadLevels(selectedProgram.id);
   };
 
   // Term CRUD
@@ -473,20 +650,27 @@ export default function CollegesPage() {
     setTermFormData({ termNumber: term.termNumber });
   };
 
-  const handleDeleteTerm = (id: string) => {
-    setTerms(terms.filter(t => t.id !== id));
+  const handleDeleteTerm = async (id: string) => {
+    await deleteTerm(id);
     if (selectedTerm?.id === id) setSelectedTerm(null);
+    if (selectedLevel) await loadTerms(selectedLevel.id);
   };
 
-  const handleSubmitTerm = (e: React.FormEvent) => {
+  const handleSubmitTerm = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedLevel) return;
+    const payload = {
+      programLevelId: selectedLevel.id,
+      termNumber: termFormData.termNumber,
+      title: `الترم ${termFormData.termNumber}`
+    };
     if (editingTermId) {
-      setTerms(terms.map(t => t.id === editingTermId ? { ...t, termNumber: termFormData.termNumber, title: `الترم ${termFormData.termNumber}` } : t));
+      await updateTerm(editingTermId, payload);
     } else {
-      setTerms([...terms, { id: Date.now().toString(), programLevelId: selectedLevel.id, termNumber: termFormData.termNumber, title: `الترم ${termFormData.termNumber}` }]);
+      await createTerm(payload);
     }
     setIsTermFormOpen(false);
+    await loadTerms(selectedLevel.id);
   };
 
   // Course CRUD
@@ -500,22 +684,40 @@ export default function CollegesPage() {
   const handleEditCourse = (course: ProgramCourse) => {
     setIsCourseFormOpen(true);
     setEditingCourseId(course.id);
-    setCourseFormData({ courseCode: course.courseCode, courseName: course.courseName, creditHours: course.creditHours, isElective: course.isElective, departmentId: course.departmentId || "", notes: course.notes });
+    setCourseFormData({
+      courseCode: course.courseCode,
+      courseName: course.courseName,
+      creditHours: course.creditHours,
+      isElective: course.isElective,
+      departmentId: course.departmentId || "",
+      notes: course.notes
+    });
   };
 
-  const handleDeleteCourse = (id: string) => {
-    setCourses(courses.filter(c => c.id !== id));
+  const handleDeleteCourse = async (id: string) => {
+    await deleteCourse(id);
+    if (selectedTerm) await loadCourses(selectedTerm.id);
   };
 
-  const handleSubmitCourse = (e: React.FormEvent) => {
+  const handleSubmitCourse = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedTerm) return;
+    const payload = {
+      programTermId: selectedTerm.id,
+      courseCode: courseFormData.courseCode,
+      courseName: courseFormData.courseName,
+      creditHours: courseFormData.creditHours,
+      isElective: courseFormData.isElective,
+      departmentId: courseFormData.departmentId || undefined,
+      notes: courseFormData.notes
+    };
     if (editingCourseId) {
-      setCourses(courses.map(c => c.id === editingCourseId ? { ...c, ...courseFormData, departmentId: courseFormData.departmentId || undefined } : c));
+      await updateCourse(editingCourseId, payload);
     } else {
-      setCourses([...courses, { id: Date.now().toString(), programTermId: selectedTerm.id, ...courseFormData, departmentId: courseFormData.departmentId || undefined }]);
+      await createCourse(payload);
     }
     setIsCourseFormOpen(false);
+    await loadCourses(selectedTerm.id);
   };
 
   // Academic Staff CRUD
@@ -524,8 +726,17 @@ export default function CollegesPage() {
     setIsStaffFormOpen(true);
     setEditingStaffId(null);
     setStaffFormData({
-      fullName: "", staffNumber: "", academicAffairsNumber: "", academicRank: "محاضر",
-      department: "", employmentType: "متفرغ", hourlyRate: 100, address: "", phone: "", email: "", notes: ""
+      fullName: "",
+      staffNumber: "",
+      academicAffairsNumber: "",
+      academicRank: "محاضر",
+      departmentId: "",
+      employmentType: "متفرغ",
+      lectureRate: 100,
+      address: "",
+      phone: "",
+      email: "",
+      notes: ""
     });
   };
 
@@ -533,42 +744,50 @@ export default function CollegesPage() {
     setIsStaffFormOpen(true);
     setEditingStaffId(staff.id);
     setStaffFormData({
-      fullName: staff.fullName, staffNumber: staff.staffNumber, academicAffairsNumber: staff.academicAffairsNumber,
-      academicRank: staff.academicRank, department: staff.department, employmentType: staff.employmentType,
-      hourlyRate: staff.hourlyRate, address: staff.address, phone: staff.phone, email: staff.email, notes: staff.notes
+      fullName: staff.fullName,
+      staffNumber: staff.staffNumber,
+      academicAffairsNumber: staff.academicAffairsNumber || "",
+      academicRank: staff.academicRank,
+      departmentId: staff.departmentId || "",
+      employmentType: staff.employmentType,
+      lectureRate: staff.lectureRate,
+      address: staff.address || "",
+      phone: staff.phone || "",
+      email: staff.email || "",
+      notes: staff.notes || ""
     });
   };
 
-  const handleDeleteStaff = (id: string) => {
-    setAcademicStaff(academicStaff.filter(s => s.id !== id));
+  const handleDeleteStaff = async (id: string) => {
+    await deleteStaff(id);
+    if (selectedCollege) await loadStaff(selectedCollege.id);
   };
 
-  const handleSubmitStaff = (e: React.FormEvent) => {
+  const handleSubmitStaff = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!selectedCollege) return;
+    const payload = {
+      fullName: staffFormData.fullName,
+      staffNumber: staffFormData.staffNumber,
+      academicAffairsNumber: staffFormData.academicAffairsNumber,
+      academicRank: staffFormData.academicRank,
+      employmentType: staffFormData.employmentType,
+      lectureRate: staffFormData.lectureRate,
+      address: staffFormData.address,
+      phone: staffFormData.phone,
+      email: staffFormData.email,
+      notes: staffFormData.notes,
+      collegeId: selectedCollege.id,
+      departmentId: staffFormData.departmentId || undefined
+    };
     if (editingStaffId) {
-      setAcademicStaff(academicStaff.map(s => s.id === editingStaffId ? { ...s, ...staffFormData } : s));
+      await updateStaff(editingStaffId, payload);
     } else {
-      setAcademicStaff([...academicStaff, { id: `stf-${Date.now()}`, collegeId: selectedCollege.id, ...staffFormData }]);
+      await createStaff(payload);
     }
     setIsStaffFormOpen(false);
+    await loadStaff(selectedCollege.id);
   };
-
-  const toggleApprovalStatus = (staffId: string) => {
-    setEntitlementApprovals(entitlementApprovals.map(a => 
-      a.staffId === staffId 
-        ? { ...a, status: a.status === "قيد المراجعة" ? "معتمد" : "قيد المراجعة", approvedBy: a.status === "قيد المراجعة" ? "المدير الأكاديمي" : "", date: a.status === "قيد المراجعة" ? new Date().toLocaleDateString('ar') : "" }
-        : a
-    ));
-  };
-
-  const collegeDepartments = selectedCollege ? departments.filter(d => d.collegeId === selectedCollege.id) : [];
-  const collegeClassrooms = selectedCollege ? classrooms.filter(c => c.collegeId === selectedCollege.id) : [];
-  const collegeStaff = selectedCollege ? academicStaff.filter(s => s.collegeId === selectedCollege.id) : [];
-  const departmentPrograms = selectedDepartment ? programs.filter(p => p.departmentId === selectedDepartment.id) : [];
-  const programLevels = selectedProgram ? levels.filter(l => l.programId === selectedProgram.id) : [];
-  const levelTerms = selectedLevel ? terms.filter(t => t.programLevelId === selectedLevel.id) : [];
-  const termCourses = selectedTerm ? courses.filter(c => c.programTermId === selectedTerm.id) : [];
 
   return (
     <AdminLayout>
@@ -598,10 +817,6 @@ export default function CollegesPage() {
                       <Label>الكود الأكاديمي *</Label>
                       <Input value={collegeFormData.academicCode} onChange={(e) => setCollegeFormData({ ...collegeFormData, academicCode: e.target.value })} required />
                     </div>
-                    <div>
-                      <Label>الرقم العشوائي</Label>
-                      <Input value={collegeFormData.randomCode} onChange={(e) => setCollegeFormData({ ...collegeFormData, randomCode: e.target.value })} />
-                    </div>
                     <div className="flex gap-2">
                       <Button type="submit">حفظ</Button>
                       <Button type="button" variant="outline" onClick={() => setIsCollegeFormOpen(false)}>إلغاء</Button>
@@ -618,7 +833,6 @@ export default function CollegesPage() {
                     <TableRow>
                       <TableHead>اسم الكلية</TableHead>
                       <TableHead>الكود الأكاديمي</TableHead>
-                      <TableHead>الرقم العشوائي</TableHead>
                       <TableHead>الإجراءات</TableHead>
                     </TableRow>
                   </TableHeader>
@@ -627,7 +841,6 @@ export default function CollegesPage() {
                       <TableRow key={college.id} className="cursor-pointer hover:bg-muted/50" onClick={() => setSelectedCollege(college)}>
                         <TableCell className="font-medium">{college.name}</TableCell>
                         <TableCell>{college.academicCode}</TableCell>
-                        <TableCell>{college.randomCode}</TableCell>
                         <TableCell>
                           <div className="flex gap-2">
                             <Button size="sm" variant="outline" onClick={(e) => { e.stopPropagation(); handleEditCollege(college); }}>
@@ -666,6 +879,7 @@ export default function CollegesPage() {
                 <TabsTrigger value="Academic Staff">أعضاء هيئة التدريس</TabsTrigger>
               </TabsList>
 
+              {/* Dashboard */}
               <TabsContent value="colleges-dashboard">
                 <div className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
@@ -680,19 +894,19 @@ export default function CollegesPage() {
                         </div>
                       </CardContent>
                     </Card>
-                    
+
                     <Card>
                       <CardContent className="pt-6">
                         <div className="flex items-center justify-between">
                           <div>
                             <p className="text-sm text-muted-foreground">عدد القاعات</p>
-                            <p className="text-2xl font-bold">{collegeClassrooms.length}</p>
+                            <p className="text-2xl font-bold">{allClassroomsCount}</p>
                           </div>
                           <BookOpen className="h-8 w-8 text-primary" />
                         </div>
                       </CardContent>
                     </Card>
-                    
+
                     <Card>
                       <CardContent className="pt-6">
                         <div className="flex items-center justify-between">
@@ -704,7 +918,7 @@ export default function CollegesPage() {
                         </div>
                       </CardContent>
                     </Card>
-                    
+
                     <Card>
                       <CardContent className="pt-6">
                         <div className="flex items-center justify-between">
@@ -716,7 +930,7 @@ export default function CollegesPage() {
                         </div>
                       </CardContent>
                     </Card>
-                    
+
                     <Card>
                       <CardContent className="pt-6">
                         <div className="flex items-center justify-between">
@@ -793,6 +1007,7 @@ export default function CollegesPage() {
                 </div>
               </TabsContent>
 
+              {/* Departments */}
               <TabsContent value="departments">
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
@@ -997,7 +1212,7 @@ export default function CollegesPage() {
                                   </div>
                                 </div>
 
-                                {/* Terms */}
+                                                                {/* Terms */}
                                 {selectedLevel && (
                                   <div>
                                     <div className="flex justify-between items-center mb-4">
@@ -1157,6 +1372,7 @@ export default function CollegesPage() {
                 </div>
               </TabsContent>
 
+              {/* Classrooms (Buildings first) */}
               <TabsContent value="classrooms">
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
@@ -1167,6 +1383,35 @@ export default function CollegesPage() {
                     </Button>
                   </div>
 
+                  {/* Buildings grid */}
+                  <Card>
+                    <CardHeader>
+                      <CardTitle>اختر مبنى</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                        {buildings.map((b) => (
+                          <Card
+                            key={b.id}
+                            className={cn("cursor-pointer", selectedBuilding?.id === b.id && "border-primary")}
+                            onClick={async () => {
+                              setSelectedBuilding(b);
+                              await loadClassroomsByBuildingId(b.id);
+                            }}
+                          >
+                            <CardContent className="pt-6">
+                              <div className="flex justify-between">
+                                <span className="font-semibold">{b.name}</span>
+                                <span className="text-sm text-muted-foreground">الأدوار: {b.floorCount}</span>
+                              </div>
+                            </CardContent>
+                          </Card>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Classroom form */}
                   {isClassroomFormOpen && (
                     <Card>
                       <CardHeader>
@@ -1203,7 +1448,7 @@ export default function CollegesPage() {
                             <Textarea value={classroomFormData.notes} onChange={(e) => setClassroomFormData({ ...classroomFormData, notes: e.target.value })} />
                           </div>
                           <div className="flex gap-2">
-                            <Button type="submit">حفظ</Button>
+                            <Button type="submit" disabled={!selectedBuilding}>حفظ</Button>
                             <Button type="button" variant="outline" onClick={() => setIsClassroomFormOpen(false)}>إلغاء</Button>
                           </div>
                         </form>
@@ -1211,6 +1456,7 @@ export default function CollegesPage() {
                     </Card>
                   )}
 
+                  {/* Classrooms table */}
                   <Card>
                     <CardContent className="pt-6">
                       <Table>
@@ -1225,7 +1471,7 @@ export default function CollegesPage() {
                           </TableRow>
                         </TableHeader>
                         <TableBody>
-                          {collegeClassrooms.map((classroom) => (
+                          {classrooms.map((classroom) => (
                             <TableRow key={classroom.id}>
                               <TableCell className="font-medium">{classroom.name}</TableCell>
                               <TableCell>{classroom.type === "CLASSROOM" ? "قاعة" : "معمل"}</TableCell>
@@ -1234,16 +1480,43 @@ export default function CollegesPage() {
                               <TableCell>{classroom.notes}</TableCell>
                               <TableCell>
                                 <div className="flex gap-2">
-                                  <Button size="sm" variant="outline" onClick={() => handleEditClassroom(classroom)}>
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={() => {
+                                      setIsClassroomFormOpen(true);
+                                      setEditingClassroomId(classroom.id);
+                                      setClassroomFormData({
+                                        name: classroom.name,
+                                        type: classroom.type,
+                                        capacity: classroom.capacity,
+                                        isAvailable: classroom.isAvailable,
+                                        notes: classroom.notes
+                                      });
+                                    }}
+                                  >
                                     <Pencil className="w-4 h-4" />
                                   </Button>
-                                  <Button size="sm" variant="outline" onClick={() => handleDeleteClassroom(classroom.id)}>
+                                  <Button
+                                    size="sm"
+                                    variant="outline"
+                                    onClick={async () => {
+                                      await handleDeleteClassroom(classroom.id);
+                                    }}
+                                  >
                                     <Trash2 className="w-4 h-4" />
                                   </Button>
                                 </div>
                               </TableCell>
                             </TableRow>
                           ))}
+                          {selectedBuilding && classrooms.length === 0 && (
+                            <TableRow>
+                              <TableCell colSpan={6} className="text-center text-muted-foreground">
+                                لا توجد قاعات لهذا المبنى
+                              </TableCell>
+                            </TableRow>
+                          )}
                         </TableBody>
                       </Table>
                     </CardContent>
@@ -1251,6 +1524,7 @@ export default function CollegesPage() {
                 </div>
               </TabsContent>
 
+              {/* Academic Staff */}
               <TabsContent value="Academic Staff">
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
@@ -1261,6 +1535,7 @@ export default function CollegesPage() {
                     </Button>
                   </div>
 
+                  {/* Entitlements (واجهة فقط) */}
                   <Card>
                     <CardHeader>
                       <CardTitle>الاستحقاقات الأكاديمية</CardTitle>
@@ -1301,7 +1576,7 @@ export default function CollegesPage() {
                                 <TableRow key={staff.id}>
                                   <TableCell>{staff.fullName}</TableCell>
                                   <TableCell>
-                                    <Input type="number" defaultValue={staff.hourlyRate} className="w-32" />
+                                    <Input type="number" defaultValue={staff.lectureRate} className="w-32" />
                                   </TableCell>
                                 </TableRow>
                               ))}
@@ -1324,7 +1599,7 @@ export default function CollegesPage() {
                                 const staff = academicStaff.find(s => s.id === review.staffId);
                                 return (
                                   <TableRow key={review.staffId}>
-                                    <TableCell>{staff?.fullName}</TableCell>
+                                    <TableCell>{staff?.fullName || "-"}</TableCell>
                                     <TableCell>{review.hoursWorked}</TableCell>
                                     <TableCell>{review.hourlyRate}</TableCell>
                                     <TableCell className="font-bold">{review.total.toLocaleString()}</TableCell>
@@ -1351,7 +1626,7 @@ export default function CollegesPage() {
                                 const staff = academicStaff.find(s => s.id === approval.staffId);
                                 return (
                                   <TableRow key={approval.staffId}>
-                                    <TableCell>{staff?.fullName}</TableCell>
+                                    <TableCell>{staff?.fullName || "-"}</TableCell>
                                     <TableCell>
                                       <span className={cn("px-2 py-1 rounded text-sm", approval.status === "معتمد" ? "bg-green-100 text-green-800" : "bg-yellow-100 text-yellow-800")}>
                                         {approval.status}
@@ -1388,7 +1663,7 @@ export default function CollegesPage() {
                                 const staff = academicStaff.find(s => s.id === payout.staffId);
                                 return (
                                   <TableRow key={payout.staffId}>
-                                    <TableCell>{staff?.fullName}</TableCell>
+                                    <TableCell>{staff?.fullName || "-"}</TableCell>
                                     <TableCell>{payout.amount.toLocaleString()}</TableCell>
                                     <TableCell>{payout.method}</TableCell>
                                     <TableCell>{payout.ref}</TableCell>
@@ -1408,6 +1683,7 @@ export default function CollegesPage() {
                     </CardContent>
                   </Card>
 
+                  {/* Staff form */}
                   {isStaffFormOpen && (
                     <Card>
                       <CardHeader>
@@ -1425,8 +1701,8 @@ export default function CollegesPage() {
                               <Input value={staffFormData.staffNumber} onChange={(e) => setStaffFormData({ ...staffFormData, staffNumber: e.target.value })} required />
                             </div>
                             <div>
-                              <Label>رقم الشؤون الأكاديمية *</Label>
-                              <Input value={staffFormData.academicAffairsNumber} onChange={(e) => setStaffFormData({ ...staffFormData, academicAffairsNumber: e.target.value })} required />
+                              <Label>رقم الشؤون الأكاديمية</Label>
+                              <Input value={staffFormData.academicAffairsNumber} onChange={(e) => setStaffFormData({ ...staffFormData, academicAffairsNumber: e.target.value })} />
                             </div>
                             <div>
                               <Label>الدرجة الأكاديمية *</Label>
@@ -1444,12 +1720,21 @@ export default function CollegesPage() {
                               </Select>
                             </div>
                             <div>
-                              <Label>القسم *</Label>
-                              <Input value={staffFormData.department} onChange={(e) => setStaffFormData({ ...staffFormData, department: e.target.value })} required />
+                              <Label>القسم</Label>
+                              <Select value={staffFormData.departmentId} onValueChange={(value) => setStaffFormData({ ...staffFormData, departmentId: value })}>
+                                <SelectTrigger>
+                                  <SelectValue placeholder="اختر قسم" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  {departments.map((dept) => (
+                                    <SelectItem key={dept.id} value={dept.id}>{dept.name}</SelectItem>
+                                  ))}
+                                </SelectContent>
+                              </Select>
                             </div>
                             <div>
                               <Label>الحالة الوظيفية *</Label>
-                              <Select value={staffFormData.employmentType} onValueChange={(value) => setStaffFormData({ ...staffFormData, employmentType: value })}>
+                              <Select value={staffFormData.employmentType} onValueChange={(value: "متفرغ" | "غير متفرغ") => setStaffFormData({ ...staffFormData, employmentType: value })}>
                                 <SelectTrigger>
                                   <SelectValue />
                                 </SelectTrigger>
@@ -1461,15 +1746,15 @@ export default function CollegesPage() {
                             </div>
                             <div>
                               <Label>أجر الساعة *</Label>
-                              <Input type="number" value={staffFormData.hourlyRate} onChange={(e) => setStaffFormData({ ...staffFormData, hourlyRate: parseInt(e.target.value) })} required />
+                              <Input type="number" value={staffFormData.lectureRate} onChange={(e) => setStaffFormData({ ...staffFormData, lectureRate: parseInt(e.target.value || "0") })} required />
                             </div>
                             <div>
-                              <Label>رقم الجوال *</Label>
-                              <Input value={staffFormData.phone} onChange={(e) => setStaffFormData({ ...staffFormData, phone: e.target.value })} required />
+                              <Label>رقم الجوال</Label>
+                              <Input value={staffFormData.phone} onChange={(e) => setStaffFormData({ ...staffFormData, phone: e.target.value })} />
                             </div>
                             <div>
-                              <Label>البريد الإلكتروني *</Label>
-                              <Input type="email" value={staffFormData.email} onChange={(e) => setStaffFormData({ ...staffFormData, email: e.target.value })} required />
+                              <Label>البريد الإلكتروني</Label>
+                              <Input type="email" value={staffFormData.email} onChange={(e) => setStaffFormData({ ...staffFormData, email: e.target.value })} />
                             </div>
                             <div className="md:col-span-2">
                               <Label>العنوان</Label>
@@ -1489,6 +1774,7 @@ export default function CollegesPage() {
                     </Card>
                   )}
 
+                  {/* Staff table */}
                   <Card>
                     <CardContent className="pt-6">
                       <Table>
@@ -1511,9 +1797,9 @@ export default function CollegesPage() {
                               <TableCell>{staff.staffNumber}</TableCell>
                               <TableCell>{staff.academicAffairsNumber}</TableCell>
                               <TableCell>{staff.academicRank}</TableCell>
-                              <TableCell>{staff.department}</TableCell>
+                              <TableCell>{departments.find(d => d.id === staff.departmentId)?.name || "-"}</TableCell>
                               <TableCell>{staff.employmentType}</TableCell>
-                              <TableCell>{staff.hourlyRate}</TableCell>
+                              <TableCell>{staff.lectureRate}</TableCell>
                               <TableCell>
                                 <div className="flex gap-2">
                                   <Button size="sm" variant="outline" onClick={() => handleEditStaff(staff)}>
