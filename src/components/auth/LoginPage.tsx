@@ -50,7 +50,7 @@ export default function LoginPage() {
       // Redirect to appropriate dashboard
       window.location.href = user.redirect;
     } else {
-      setError('Invalid username or password. Please try again.');
+      setError('اسم المستخدم أو كلمة المرور غير صحيحة. حاول مرة أخرى.');
     }
     
     setIsLoading(false);
@@ -73,16 +73,16 @@ export default function LoginPage() {
           <div className="flex items-center justify-center mb-4">
             <img src={logoFull} alt="UniHub" className="h-20 w-auto" />
           </div>
-          <h1 className="text-2xl font-bold text-foreground">University Management Portal</h1>
-          <p className="text-muted-foreground mt-1">Academic Affairs Management System</p>
+          <h1 className="text-2xl font-bold text-foreground">بوابة إدارة الجامعة</h1>
+          <p className="text-muted-foreground mt-1">نظام إدارة الشؤون الأكاديمية</p>
         </div>
 
         {/* Login Card */}
         <Card className="shadow-2xl border border-border/50 bg-card backdrop-blur-sm">
           <CardHeader className="space-y-1 pb-6">
-            <CardTitle className="text-xl text-center text-foreground">Sign In</CardTitle>
+            <CardTitle className="text-xl text-center text-foreground">تسجيل الدخول</CardTitle>
             <CardDescription className="text-center">
-              Enter your credentials to access the system
+              أدخل بيانات الدخول للوصول إلى النظام
             </CardDescription>
           </CardHeader>
           
@@ -97,13 +97,13 @@ export default function LoginPage() {
 
               {/* Username Field */}
               <div className="space-y-2">
-                <Label htmlFor="username">Username</Label>
+                <Label htmlFor="username">اسم المستخدم</Label>
                 <div className="relative">
                   <User className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <Input
                     id="username"
                     type="text"
-                    placeholder="Enter your username"
+                    placeholder="أدخل اسم المستخدم"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
                     className="pl-10"
@@ -114,13 +114,13 @@ export default function LoginPage() {
 
               {/* Password Field */}
               <div className="space-y-2">
-                <Label htmlFor="password">Password</Label>
+                <Label htmlFor="password">كلمة المرور</Label>
                 <div className="relative">
                   <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                   <Input
                     id="password"
                     type={showPassword ? "text" : "password"}
-                    placeholder="Enter your password"
+                    placeholder="أدخل كلمة المرور"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     className="pl-10 pr-10"
@@ -144,7 +144,7 @@ export default function LoginPage() {
                   onCheckedChange={(checked) => setRememberMe(checked as boolean)}
                 />
                 <Label htmlFor="remember" className="text-sm font-normal">
-                  Remember me
+                  تذكرني
                 </Label>
               </div>
 
@@ -154,7 +154,7 @@ export default function LoginPage() {
                 className="w-full"
                 disabled={isLoading}
               >
-                {isLoading ? 'Signing in...' : 'Sign In'}
+                {isLoading ? 'جاري تسجيل الدخول...' : 'تسجيل الدخول'}
               </Button>
             </form>
 
@@ -164,7 +164,7 @@ export default function LoginPage() {
                 to="/forgot-password" 
                 className="text-sm text-primary hover:underline"
               >
-                Forgot your password?
+                هل نسيت كلمة المرور؟
               </Link>
             </div>
           </CardContent>
@@ -174,27 +174,27 @@ export default function LoginPage() {
         <Card className="mt-6 bg-muted/30 border-muted">
           <CardContent className="pt-4">
             <p className="text-xs text-muted-foreground text-center mb-2 font-medium">
-              Test Credentials:
+              بيانات الدخول التجريبية:
             </p>
             <div className="text-xs text-muted-foreground space-y-1">
               <div className="flex justify-between">
-                <span>Admin:</span>
+                <span>المشرف:</span>
                 <span>admin / 123</span>
               </div>
               <div className="flex justify-between">
-                <span>Academic:</span>
+                <span>الأكاديمي:</span>
                 <span>academic / 123</span>
               </div>
               <div className="flex justify-between">
-                <span>Department:</span>
+                <span>القسم:</span>
                 <span>department / 123</span>
               </div>
               <div className="flex justify-between">
-                <span>Schedule:</span>
+                <span>الجدول:</span>
                 <span>schedule / 123</span>
               </div>
               <div className="flex justify-between">
-                <span>Control:</span>
+                <span>الكنترول:</span>
                 <span>control / 123</span>
               </div>
             </div>

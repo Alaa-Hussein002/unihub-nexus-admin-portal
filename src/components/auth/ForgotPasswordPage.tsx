@@ -25,39 +25,39 @@ const ForgotPasswordPage = () => {
             <img src={logoFull} alt="UniHub" className="h-16 w-auto mx-auto" />
           </div>
           <CardTitle className="text-2xl font-bold text-foreground">
-            Forgot your password?
+            هل نسيت كلمة المرور؟
           </CardTitle>
           <CardDescription className="text-muted-foreground">
-            Enter your email or username to receive a reset link
+            أدخل بريدك الإلكتروني أو اسم المستخدم لاستلام رابط إعادة التعيين
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           {!isSubmitted ? (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="email">Email or Username</Label>
+                <Label htmlFor="email">البريد الإلكتروني أو اسم المستخدم</Label>
                 <Input
                   id="email"
                   type="text"
-                  placeholder="Enter your email or username"
+                  placeholder="أدخل بريدك الإلكتروني أو اسم المستخدم"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
                 />
               </div>
               <Button type="submit" className="w-full">
-                Send Reset Link
+                إرسال رابط إعادة التعيين
               </Button>
             </form>
           ) : (
             <div className="text-center space-y-4">
               <div className="p-4 bg-accent/20 border border-accent rounded-lg">
                 <p className="text-foreground font-medium">
-                  If this account exists, a reset link will be sent to your email.
+                  إذا كان هذا الحساب موجودًا، سيتم إرسال رابط إعادة التعيين إلى بريدك الإلكتروني.
                 </p>
               </div>
               <p className="text-sm text-muted-foreground">
-                Please check your email and follow the instructions to reset your password.
+                يرجى التحقق من بريدك الإلكتروني واتباع التعليمات لإعادة تعيين كلمة المرور.
               </p>
             </div>
           )}
@@ -67,7 +67,7 @@ const ForgotPasswordPage = () => {
               to="/login" 
               className="text-primary hover:text-primary/80 text-sm font-medium underline-offset-4 hover:underline"
             >
-              Back to Login
+              الرجوع إلى تسجيل الدخول
             </Link>
           </div>
         </CardContent>
