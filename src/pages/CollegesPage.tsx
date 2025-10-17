@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { AdminLayout } from "@/components/layout/AdminLayout";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -226,6 +227,7 @@ const initialAcademicStaff: AcademicStaff[] = [
 ];
 
 export default function CollegesPage() {
+  const location = useLocation();
   // State
   const [colleges, setColleges] = useState<College[]>(initialColleges);
   const [departments, setDepartments] = useState<Department[]>(initialDepartments);
@@ -301,11 +303,14 @@ export default function CollegesPage() {
 
   // Auto-select كلية الحاسوب on mount
   useEffect(() => {
-    const computerCollege = colleges.find(c => c.name === "كلية الحاسوب");
-    if (computerCollege && !selectedCollege) {
-      setSelectedCollege(computerCollege);
-    }
-  }, []);
+    if (location.pathname === "/colleges") {
+       setSelectedCollege(null);
+       setSelectedDepartment(null);
+       setSelectedProgram(null);
+       setSelectedLevel(null);
+       setSelectedTerm(null);
+     }
+   }, [location.pathname]);
 
   // College CRUD
   const handleAddCollege = () => {
