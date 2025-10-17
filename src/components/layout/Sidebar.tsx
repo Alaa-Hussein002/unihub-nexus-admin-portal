@@ -146,7 +146,7 @@ export function Sidebar({ isOpen, onToggle, isMobile = false }: SidebarProps) {
 
   return (
     <div className={cn(
-      "fixed left-0 top-0 h-full bg-sidebar shadow-2xl z-40 transition-all duration-300 border-r border-sidebar-border flex flex-col",
+      "fixed right-0 top-0 h-full bg-sidebar shadow-2xl z-40 transition-all duration-300 border-l border-sidebar-border flex flex-col",
       isOpen ? "w-64" : isMobile ? "w-0 overflow-hidden" : "w-16",
       isMobile && "z-50"
     )}>
@@ -177,7 +177,7 @@ export function Sidebar({ isOpen, onToggle, isMobile = false }: SidebarProps) {
               >
                 <Link 
                   to={item.href} 
-                  className="flex items-center space-x-2 sm:space-x-3 flex-1 min-w-0"
+                  className="flex items-center space-x-reverse space-x-2 sm:space-x-3 flex-1 min-w-0"
                   onClick={(e) => {
                     if (item.subItems) {
                       e.preventDefault();
@@ -210,7 +210,7 @@ export function Sidebar({ isOpen, onToggle, isMobile = false }: SidebarProps) {
 
               {/* Sub Items */}
               {(isOpen || isMobile) && item.subItems && expandedItems.includes(item.title) && (
-                <div className="ml-4 sm:ml-6 mt-1 sm:mt-2 space-y-1">
+                <div className="mr-4 sm:mr-6 mt-1 sm:mt-2 space-y-1">
                   {item.subItems.map((subItem) => (
                     <Link
                       key={subItem.href}
