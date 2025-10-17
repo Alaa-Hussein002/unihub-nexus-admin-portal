@@ -1,198 +1,104 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+import { Toaster } from "@/components/ui/toaster";
+import { Toaster as Sonner } from "@/components/ui/sonner";
+import { TooltipProvider } from "@/components/ui/tooltip";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import "./i18n/config";
+import Index from "./pages/Index";
+import UsersPage from "./pages/UsersPage";
+import RolesPage from "./pages/RolesPage";
+import AccessControlPage from "./pages/AccessControlPage";
+import TimetablePage from "./pages/TimetablePage";
+import EnrollmentPage from "./pages/EnrollmentPage";
+import ExcusesPage from "./pages/ExcusesPage";
+import ReportsPage from "./pages/ReportsPage";
+import IntegrationPage from "./pages/IntegrationPage";
+import SettingsPage from "./pages/SettingsPage";
+import AuditLogPage from "./pages/AuditLogPage";
+import AcademicStaffPage from "./pages/AcademicStaffPage";
+import CourseManagementPage from "./pages/CourseManagementPage";
+import LoginPage from "./components/auth/LoginPage";
+import ForgotPasswordPage from "./components/auth/ForgotPasswordPage";
+import ResetPasswordPage from "./components/auth/ResetPasswordPage";
+import NotFound from "./pages/NotFound";
+import CollegesPage from "./pages/CollegesPage";
+import DashboardPage from "./pages/DashboardPage";
+import PlaceholderPage from "./pages/PlaceholderPage";
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. */
+const queryClient = new QueryClient();
 
-@layer base {
-  :root {
-    /* UniHub Brand Colors - Extracted from logo */
-    --background: 0 0% 100%;
-    --foreground: 209 56% 22%;
+const App = () => (
+  <QueryClientProvider client={queryClient}>
+    <TooltipProvider>
+      <Toaster />
+      <Sonner />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+          <Route path="/reset-password" element={<ResetPasswordPage />} />
+          <Route path="/" element={<Index />} />
+          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/colleges" element={<CollegesPage />} />
+          
+          {/* User Management */}
+          <Route path="/user-management/all-users" element={<PlaceholderPage title="جميع المستخدمين" />} />
+          <Route path="/user-management/roles-permissions" element={<PlaceholderPage title="الأدوار والصلاحيات" />} />
+          <Route path="/user-management/access-control" element={<PlaceholderPage title="التحكم بالوصول" />} />
+          
+          {/* Timetable */}
+          <Route path="/timetable/import-schedule" element={<PlaceholderPage title="استيراد الجدول" />} />
+          <Route path="/timetable/view" element={<PlaceholderPage title="عرض الجدول" />} />
+          <Route path="/timetable/course-mapping" element={<PlaceholderPage title="ربط المقررات" />} />
+          
+          {/* Student Enrollment */}
+          <Route path="/enrollment/import-students" element={<PlaceholderPage title="استيراد الطلاب" />} />
+          <Route path="/enrollment/manage-groups" element={<PlaceholderPage title="إدارة المجموعات" />} />
+          <Route path="/enrollment/course-assignment" element={<PlaceholderPage title="إسناد المقررات" />} />
+          
+          {/* Excuse Management */}
+          <Route path="/excuse/pending-requests" element={<PlaceholderPage title="الطلبات المعلقة" />} />
+          <Route path="/excuse/salary-adjustments" element={<PlaceholderPage title="تعديلات الرواتب" />} />
+          
+          {/* Reports */}
+          <Route path="/reports/financial" element={<PlaceholderPage title="التقارير المالية" />} />
+          <Route path="/reports/teaching-load" element={<PlaceholderPage title="عبء التدريس" />} />
+          <Route path="/reports/attendance" element={<PlaceholderPage title="الحضور" />} />
+          <Route path="/reports/grades-overview" element={<PlaceholderPage title="نظرة عامة على الدرجات" />} />
+          
+          {/* Integration */}
+          <Route path="/integration/mobile-sync" element={<PlaceholderPage title="مزامنة الهاتف المحمول" />} />
+          <Route path="/integration/api-status" element={<PlaceholderPage title="حالة واجهة برمجة التطبيقات" />} />
+          <Route path="/integration/real-time" element={<PlaceholderPage title="المراقبة في الوقت الفعلي" />} />
+          
+          {/* Course Management */}
+          <Route path="/course-management/departments" element={<PlaceholderPage title="عرض الأقسام" />} />
+          <Route path="/course-management/grade-reports" element={<PlaceholderPage title="تقارير الدرجات" />} />
+          <Route path="/course-management/export" element={<PlaceholderPage title="تصدير البيانات" />} />
+          
+          {/* Other pages */}
+          <Route path="/audit-log" element={<PlaceholderPage title="سجل التدقيق" />} />
+          <Route path="/settings" element={<SettingsPage />} />
+          <Route path="/academic-staff" element={<PlaceholderPage title="الهيئة الأكاديمية" />} />
+          
+          {/* Legacy routes */}
+          <Route path="/users" element={<UsersPage />} />
+          <Route path="/users/roles" element={<RolesPage />} />
+          <Route path="/users/access-control" element={<AccessControlPage />} />
+          <Route path="/timetable/*" element={<TimetablePage />} />
+          <Route path="/enrollment/*" element={<EnrollmentPage />} />
+          <Route path="/excuses/*" element={<ExcusesPage />} />
+          <Route path="/reports/*" element={<ReportsPage />} />
+          <Route path="/integration/*" element={<IntegrationPage />} />
+          <Route path="/course-management/*" element={<CourseManagementPage />} />
+          <Route path="/auditlog" element={<AuditLogPage />} />
+          
+          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </BrowserRouter>
+    </TooltipProvider>
+  </QueryClientProvider>
+);
 
-    --card: 0 0% 100%;
-    --card-foreground: 209 56% 22%;
-
-    --popover: 0 0% 100%;
-    --popover-foreground: 209 56% 22%;
-
-    --primary: 209 56% 22%;
-    --primary-foreground: 0 0% 98%;
-
-    --secondary: 213 20% 62%;
-    --secondary-foreground: 209 56% 22%;
-
-    --muted: 213 20% 95%;
-    --muted-foreground: 213 15% 50%;
-
-    --accent: 213 30% 68%;
-    --accent-foreground: 209 56% 22%;
-
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 213 20% 88%;
-    --input: 213 20% 92%;
-    --ring: 209 56% 22%;
-
-    --radius: 0.5rem;
-
-    /* Responsive spacing variables */
-    --spacing-xs: 0.25rem;
-    --spacing-sm: 0.5rem;
-    --spacing-md: 1rem;
-    --spacing-lg: 1.5rem;
-    --spacing-xl: 2rem;
-    --spacing-2xl: 3rem;
-
-    /* Responsive typography */
-    --text-xs: 0.75rem;
-    --text-sm: 0.875rem;
-    --text-base: 1rem;
-    --text-lg: 1.125rem;
-    --text-xl: 1.25rem;
-    --text-2xl: 1.5rem;
-    --text-3xl: 1.875rem;
-
-    --sidebar-background: 209 56% 22%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 213 20% 62%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 209 50% 28%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 209 45% 30%;
-    --sidebar-ring: 213 20% 62%;
-  }
-
-  .dark {
-    --background: 209 56% 15%;
-    --foreground: 0 0% 98%;
-
-    --card: 209 50% 18%;
-    --card-foreground: 0 0% 98%;
-
-    --popover: 209 50% 18%;
-    --popover-foreground: 0 0% 98%;
-
-    --primary: 213 20% 62%;
-    --primary-foreground: 209 56% 22%;
-
-    --secondary: 209 45% 25%;
-    --secondary-foreground: 0 0% 98%;
-
-    --muted: 209 40% 25%;
-    --muted-foreground: 213 15% 70%;
-
-    --accent: 213 25% 70%;
-    --accent-foreground: 209 56% 22%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 0 0% 98%;
-
-    --border: 209 40% 25%;
-    --input: 209 40% 25%;
-    --ring: 213 20% 62%;
-    --sidebar-background: 209 60% 12%;
-    --sidebar-foreground: 0 0% 98%;
-    --sidebar-primary: 213 20% 62%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 209 50% 18%;
-    --sidebar-accent-foreground: 0 0% 98%;
-    --sidebar-border: 209 45% 20%;
-    --sidebar-ring: 213 20% 62%;
-  }
-}
-
-@layer base {
-  * {
-    @apply border-border;
-  }
-
-  body {
-    @apply bg-background text-foreground;
-    font-size: clamp(var(--text-sm), 2.5vw, var(--text-base));
-    line-height: 1.6;
-  }
-
-  /* Responsive container */
-  .container-responsive {
-    @apply w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8;
-  }
-
-  /* Responsive grid system */
-  .grid-responsive {
-    @apply grid gap-4 sm:gap-6 lg:gap-8;
-    grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
-  }
-
-  /* Responsive card layout */
-  .card-responsive {
-    @apply p-4 sm:p-6 lg:p-8 rounded-lg shadow-sm border bg-card;
-  }
-
-  /* Responsive text sizing */
-  .text-responsive-sm {
-    font-size: clamp(var(--text-xs), 2vw, var(--text-sm));
-  }
-
-  .text-responsive-base {
-    font-size: clamp(var(--text-sm), 2.5vw, var(--text-base));
-  }
-
-  .text-responsive-lg {
-    font-size: clamp(var(--text-base), 3vw, var(--text-lg));
-  }
-
-  .text-responsive-xl {
-    font-size: clamp(var(--text-lg), 3.5vw, var(--text-xl));
-  }
-
-  .text-responsive-2xl {
-    font-size: clamp(var(--text-xl), 4vw, var(--text-2xl));
-  }
-
-  .text-responsive-3xl {
-    font-size: clamp(var(--text-2xl), 5vw, var(--text-3xl));
-  }
-
-  /* Responsive spacing utilities */
-  .space-responsive > * + * {
-    margin-top: clamp(var(--spacing-sm), 2vw, var(--spacing-lg));
-  }
-
-  /* Scrollbar styling for responsive design */
-  .scrollbar-thin {
-    scrollbar-width: thin;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar {
-    width: 4px;
-    height: 4px;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar-track {
-    background: transparent;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar-thumb {
-    background: hsl(var(--border));
-    border-radius: 2px;
-  }
-
-  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
-    background: hsl(var(--muted-foreground));
-  }
-
-  /* Mobile-first responsive breakpoints */
-  @media (max-width: 640px) {
-    .mobile-stack {
-      @apply flex-col space-y-2 space-x-0;
-    }
-  }
-
-  @media (min-width: 641px) {
-    .mobile-stack {
-      @apply flex-row space-y-0 space-x-4;
-    }
-  }
-}
+export default App;

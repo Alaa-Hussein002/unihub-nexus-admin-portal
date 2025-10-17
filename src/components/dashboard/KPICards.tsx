@@ -1,10 +1,9 @@
-
 import { Card, CardContent } from "@/components/ui/card";
 import { Users, BookOpen, Clock, FileText, TrendingUp, TrendingDown } from "lucide-react";
 
 const kpis = [
   {
-    title: "Total Users",
+    title: "إجمالي المستخدمين",
     value: "2,847",
     change: "+12%",
     changeType: "increase",
@@ -12,7 +11,7 @@ const kpis = [
     color: "blue"
   },
   {
-    title: "Active Courses",
+    title: "المقررات النشطة",
     value: "156",
     change: "+8%",
     changeType: "increase",
@@ -20,7 +19,7 @@ const kpis = [
     color: "green"
   },
   {
-    title: "Live Sessions",
+    title: "الجلسات المباشرة",
     value: "23",
     change: "-2%",
     changeType: "decrease",
@@ -28,7 +27,7 @@ const kpis = [
     color: "orange"
   },
   {
-    title: "Pending Excuses",
+    title: "الأعذار قيد الانتظار",
     value: "7",
     change: "+3",
     changeType: "increase",
@@ -58,7 +57,7 @@ export function KPICards() {
                   }`}>
                     {kpi.change}
                   </span>
-                  <span className="text-sm text-gray-500 ml-1">vs last month</span>
+                  <span className="text-sm text-gray-500 ml-1">مقارنة بالشهر الماضي</span>
                 </div>
               </div>
               <div className={`p-3 rounded-xl bg-${kpi.color}-100`}>

@@ -1,22 +1,21 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
 const data = [
-  { month: "Jan", students: 2400, instructors: 240 },
-  { month: "Feb", students: 2210, instructors: 198 },
-  { month: "Mar", students: 2290, instructors: 220 },
-  { month: "Apr", students: 2000, instructors: 208 },
-  { month: "May", students: 2181, instructors: 189 },
-  { month: "Jun", students: 2500, instructors: 250 },
-  { month: "Jul", students: 2847, instructors: 287 }
+  { month: "يناير", students: 2400, instructors: 240 },
+  { month: "فبراير", students: 2210, instructors: 198 },
+  { month: "مارس", students: 2290, instructors: 220 },
+  { month: "أبريل", students: 2000, instructors: 208 },
+  { month: "مايو", students: 2181, instructors: 189 },
+  { month: "يونيو", students: 2500, instructors: 250 },
+  { month: "يوليو", students: 2847, instructors: 287 }
 ];
 
 export function EnrollmentChart() {
   return (
     <Card className="shadow-xl bg-white">
       <CardHeader>
-        <CardTitle className="text-lg font-semibold text-gray-900">Enrollment Trends</CardTitle>
+        <CardTitle className="text-lg font-semibold text-gray-900">اتجاهات التسجيل</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>

@@ -25,52 +25,52 @@ import {
 const departments = [
   {
     id: "CS",
-    name: "Computer Science",
+    name: "علوم الحاسب",
     totalStudents: 450,
     passRate: 85,
     specializations: [
       {
         id: "CS-AI",
-        name: "Artificial Intelligence",
+        name: "الذكاء الاصطناعي",
         totalStudents: 120,
         passRate: 88,
         levels: {
           "1": {
             fall: [
-              { code: "CS101", name: "Programming Fundamentals", enrolled: 30, passRate: 90, failRate: 10 },
-              { code: "CS102", name: "Mathematics for CS", enrolled: 30, passRate: 85, failRate: 15 }
+              { code: "CS101", name: "أساسيات البرمجة", enrolled: 30, passRate: 90, failRate: 10 },
+              { code: "CS102", name: "رياضيات لعلوم الحاسب", enrolled: 30, passRate: 85, failRate: 15 }
             ],
             spring: [
-              { code: "CS103", name: "Data Structures", enrolled: 28, passRate: 88, failRate: 12 },
-              { code: "CS104", name: "Computer Architecture", enrolled: 28, passRate: 82, failRate: 18 }
+              { code: "CS103", name: "هياكل البيانات", enrolled: 28, passRate: 88, failRate: 12 },
+              { code: "CS104", name: "بنية الحاسوب", enrolled: 28, passRate: 82, failRate: 18 }
             ]
           },
           "2": {
             fall: [
-              { code: "CS201", name: "Algorithms", enrolled: 25, passRate: 85, failRate: 15 },
-              { code: "CS202", name: "Database Systems", enrolled: 25, passRate: 88, failRate: 12 }
+              { code: "CS201", name: "الخوارزميات", enrolled: 25, passRate: 85, failRate: 15 },
+              { code: "CS202", name: "أنظمة قواعد البيانات", enrolled: 25, passRate: 88, failRate: 12 }
             ],
             spring: [
-              { code: "CS203", name: "Software Engineering", enrolled: 23, passRate: 92, failRate: 8 },
-              { code: "CS204", name: "Operating Systems", enrolled: 23, passRate: 78, failRate: 22 }
+              { code: "CS203", name: "هندسة البرمجيات", enrolled: 23, passRate: 92, failRate: 8 },
+              { code: "CS204", name: "أنظمة التشغيل", enrolled: 23, passRate: 78, failRate: 22 }
             ]
           }
         }
       },
       {
         id: "CS-SE",
-        name: "Software Engineering",
+        name: "هندسة البرمجيات",
         totalStudents: 180,
         passRate: 82,
         levels: {
           "1": {
             fall: [
-              { code: "SE101", name: "Programming Basics", enrolled: 45, passRate: 88, failRate: 12 },
-              { code: "SE102", name: "System Analysis", enrolled: 45, passRate: 80, failRate: 20 }
+              { code: "SE101", name: "مبادئ البرمجة", enrolled: 45, passRate: 88, failRate: 12 },
+              { code: "SE102", name: "تحليل النظم", enrolled: 45, passRate: 80, failRate: 20 }
             ],
             spring: [
-              { code: "SE103", name: "Web Development", enrolled: 42, passRate: 90, failRate: 10 },
-              { code: "SE104", name: "Mobile Development", enrolled: 42, passRate: 85, failRate: 15 }
+              { code: "SE103", name: "تطوير الويب", enrolled: 42, passRate: 90, failRate: 10 },
+              { code: "SE104", name: "تطوير تطبيقات الجوال", enrolled: 42, passRate: 85, failRate: 15 }
             ]
           }
         }
@@ -79,24 +79,24 @@ const departments = [
   },
   {
     id: "MATH",
-    name: "Mathematics",
+    name: "الرياضيات",
     totalStudents: 320,
     passRate: 78,
     specializations: [
       {
         id: "MATH-PURE",
-        name: "Pure Mathematics",
+        name: "رياضيات بحتة",
         totalStudents: 150,
         passRate: 75,
         levels: {
           "1": {
             fall: [
-              { code: "MATH101", name: "Calculus I", enrolled: 40, passRate: 70, failRate: 30 },
-              { code: "MATH102", name: "Linear Algebra", enrolled: 40, passRate: 75, failRate: 25 }
+              { code: "MATH101", name: "التفاضل والتكامل 1", enrolled: 40, passRate: 70, failRate: 30 },
+              { code: "MATH102", name: "الجبر الخطي", enrolled: 40, passRate: 75, failRate: 25 }
             ],
             spring: [
-              { code: "MATH103", name: "Calculus II", enrolled: 35, passRate: 72, failRate: 28 },
-              { code: "MATH104", name: "Discrete Mathematics", enrolled: 35, passRate: 78, failRate: 22 }
+              { code: "MATH103", name: "التفاضل والتكامل 2", enrolled: 35, passRate: 72, failRate: 28 },
+              { code: "MATH104", name: "الرياضيات المتقطعة", enrolled: 35, passRate: 78, failRate: 22 }
             ]
           }
         }
@@ -200,9 +200,9 @@ export function CourseManagement() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">Course Management</h1>
+        <h1 className="text-3xl font-bold tracking-tight">إدارة المقررات</h1>
         <p className="text-muted-foreground">
-          View and export coursework scores and pass/fail percentages by department and specialization
+          عرض وتصدير درجات الأعمال الفصلية ونِسَب النجاح/الرسوب حسب القسم والتخصص
         </p>
       </div>
 
@@ -213,9 +213,9 @@ export function CourseManagement() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Building className="h-5 w-5" />
-                Departments
+                الأقسام
               </CardTitle>
-              <CardDescription>Select department and specialization</CardDescription>
+              <CardDescription>اختر القسم والتخصص</CardDescription>
             </CardHeader>
             <CardContent className="space-y-2">
               {departments.map((dept) => (
@@ -250,7 +250,7 @@ export function CourseManagement() {
                           <CardContent className="p-3">
                             <div className="flex items-center justify-between">
                               <div>
-                                <p className="text-xs text-muted-foreground">Total Students</p>
+                                <p className="text-xs text-muted-foreground">إجمالي الطلاب</p>
                                 <p className="text-lg font-bold text-blue-600">{dept.totalStudents}</p>
                               </div>
                               <Users className="h-4 w-4 text-blue-500" />
@@ -261,7 +261,7 @@ export function CourseManagement() {
                           <CardContent className="p-3">
                             <div className="flex items-center justify-between">
                               <div>
-                                <p className="text-xs text-muted-foreground">Pass Rate</p>
+                                <p className="text-xs text-muted-foreground">نسبة النجاح</p>
                                 <p className="text-lg font-bold text-green-600">{dept.passRate}%</p>
                               </div>
                               <TrendingUp className="h-4 w-4 text-green-500" />
@@ -308,25 +308,25 @@ export function CourseManagement() {
                 <CardHeader>
                   <CardTitle className="flex items-center gap-2">
                     <BookOpen className="h-5 w-5" />
-                    Course Levels & Semesters
+                    المستويات والفصول الدراسية
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <Tabs value={selectedLevel} onValueChange={setSelectedLevel}>
                     <TabsList className="grid w-full grid-cols-5">
-                      <TabsTrigger value="1">Level 1</TabsTrigger>
-                      <TabsTrigger value="2">Level 2</TabsTrigger>
-                      <TabsTrigger value="3">Level 3</TabsTrigger>
-                      <TabsTrigger value="4">Level 4</TabsTrigger>
-                      <TabsTrigger value="graduate">Graduate</TabsTrigger>
+                      <TabsTrigger value="1">المستوى 1</TabsTrigger>
+                      <TabsTrigger value="2">المستوى 2</TabsTrigger>
+                      <TabsTrigger value="3">المستوى 3</TabsTrigger>
+                      <TabsTrigger value="4">المستوى 4</TabsTrigger>
+                      <TabsTrigger value="graduate">دراسات عليا</TabsTrigger>
                     </TabsList>
                     
                     {["1", "2", "3", "4", "graduate"].map((level) => (
                       <TabsContent key={level} value={level} className="mt-4">
                         <Tabs value={selectedSemester} onValueChange={setSelectedSemester}>
                           <TabsList className="grid w-full grid-cols-2">
-                            <TabsTrigger value="fall">Fall Semester</TabsTrigger>
-                            <TabsTrigger value="spring">Spring Semester</TabsTrigger>
+                            <TabsTrigger value="fall">فصل الخريف</TabsTrigger>
+                            <TabsTrigger value="spring">فصل الربيع</TabsTrigger>
                           </TabsList>
                           
                           {["fall", "spring"].map((semester) => (
@@ -352,11 +352,11 @@ export function CourseManagement() {
                                     <CardContent className="p-4">
                                       <div className="space-y-2">
                                         <div className="flex items-center justify-between">
-                                          <span className="text-xs text-muted-foreground">Enrolled</span>
+                                          <span className="text-xs text-muted-foreground">المسجلون</span>
                                           <Badge variant="secondary">{course.enrolled}</Badge>
                                         </div>
                                         <div className="flex items-center justify-between">
-                                          <span className="text-xs text-muted-foreground">Pass Rate</span>
+                                          <span className="text-xs text-muted-foreground">نسبة النجاح</span>
                                           <div className="flex items-center gap-1">
                                             <TrendingUp className="h-3 w-3 text-green-500" />
                                             <span className="text-sm font-medium text-green-600">
@@ -365,7 +365,7 @@ export function CourseManagement() {
                                           </div>
                                         </div>
                                         <div className="flex items-center justify-between">
-                                          <span className="text-xs text-muted-foreground">Fail Rate</span>
+                                          <span className="text-xs text-muted-foreground">نسبة الرسوب</span>
                                           <div className="flex items-center gap-1">
                                             <TrendingDown className="h-3 w-3 text-red-500" />
                                             <span className="text-sm font-medium text-red-600">
@@ -394,9 +394,9 @@ export function CourseManagement() {
                     <CardHeader>
                       <CardTitle className="flex items-center gap-2">
                         <Users className="h-5 w-5" />
-                        Course Groups - {selectedCourse}
+                        مجموعات المقرر - {selectedCourse}
                       </CardTitle>
-                      <CardDescription>Select a group to view student details</CardDescription>
+                      <CardDescription>اختر مجموعة لعرض تفاصيل الطلاب</CardDescription>
                     </CardHeader>
                     <CardContent>
                       <div className="space-y-2">
@@ -404,7 +404,7 @@ export function CourseManagement() {
                           <div
                             key={group.code}
                             className={cn(
-                              "flex items-center justify-between p-3 rounded-lg cursor-pointer transition-colors",
+                              "flex items-center justify_between p-3 rounded-lg cursor-pointer transition-colors",
                               selectedGroup === group.code 
                                 ? "bg-blue-100 text-blue-700" 
                                 : "hover:bg-muted"
@@ -441,9 +441,9 @@ export function CourseManagement() {
                           <div>
                             <CardTitle className="flex items-center gap-2">
                               <UserCheck className="h-5 w-5" />
-                              Students - {selectedGroup}
+                              الطلاب - {selectedGroup}
                             </CardTitle>
-                            <CardDescription>Coursework scores out of 60</CardDescription>
+                            <CardDescription>درجات الأعمال الفصلية من 60</CardDescription>
                           </div>
                           <Button 
                             onClick={() => exportGroupData(selectedGroup)}
@@ -451,7 +451,7 @@ export function CourseManagement() {
                             size="sm"
                           >
                             <FileSpreadsheet className="h-4 w-4 mr-2" />
-                            Export Excel
+                            تصدير إلى Excel
                           </Button>
                         </div>
                       </CardHeader>
@@ -460,10 +460,10 @@ export function CourseManagement() {
                           <Table>
                             <TableHeader>
                               <TableRow>
-                                <TableHead>Reg. No.</TableHead>
-                                <TableHead>Student Name</TableHead>
-                                <TableHead>Coursework Total</TableHead>
-                                <TableHead>Status</TableHead>
+                                <TableHead>الرقم الجامعي</TableHead>
+                                <TableHead>اسم الطالب</TableHead>
+                                <TableHead>مجموع الأعمال الفصلية</TableHead>
+                                <TableHead>الحالة</TableHead>
                               </TableRow>
                             </TableHeader>
                             <TableBody>
@@ -494,12 +494,12 @@ export function CourseManagement() {
                                     {student.passing ? (
                                       <Badge className="bg-green-100 text-green-800">
                                         <UserCheck className="h-3 w-3 mr-1" />
-                                        Pass
+                                        ناجح
                                       </Badge>
                                     ) : (
                                       <Badge className="bg-red-100 text-red-800">
                                         <UserX className="h-3 w-3 mr-1" />
-                                        Fail
+                                        راسب
                                       </Badge>
                                     )}
                                   </TableCell>
@@ -518,9 +518,9 @@ export function CourseManagement() {
             <Card className="shadow-lg">
               <CardContent className="p-12 text-center">
                 <BookOpen className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                <h3 className="text-lg font-medium mb-2">Select a Specialization</h3>
+                <h3 className="text-lg font-medium mb-2">اختر تخصصًا</h3>
                 <p className="text-muted-foreground">
-                  Choose a department and specialization from the left panel to view course details
+                  اختر قسمًا وتخصصًا من اللوحة اليسرى لعرض تفاصيل المقررات
                 </p>
               </CardContent>
             </Card>

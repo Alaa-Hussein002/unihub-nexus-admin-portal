@@ -1,30 +1,29 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Plus, Upload, Download, Settings } from "lucide-react";
 
 const actions = [
   {
-    title: "Add New User",
-    description: "Create user account",
+    title: "إضافة مستخدم جديد",
+    description: "إنشاء حساب مستخدم",
     icon: Plus,
     color: "blue"
   },
   {
-    title: "Import Timetable",
-    description: "Upload ASC schedule",
+    title: "استيراد الجدول الزمني",
+    description: "رفع جدول ASC",
     icon: Upload,
     color: "green"
   },
   {
-    title: "Export Reports",
-    description: "Download analytics",
+    title: "تصدير التقارير",
+    description: "تنزيل التحليلات",
     icon: Download,
     color: "orange"
   },
   {
-    title: "System Config",
-    description: "Manage settings",
+    title: "إعدادات النظام",
+    description: "إدارة الإعدادات",
     icon: Settings,
     color: "purple"
   }
@@ -34,7 +33,7 @@ export function QuickActions() {
   return (
     <Card className="shadow-xl bg-white">
       <CardHeader>
-        <CardTitle className="text-lg font-semibold text-gray-900">Quick Actions</CardTitle>
+        <CardTitle className="text-lg font-semibold text-gray-900">الإجراءات السريعة</CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
         {actions.map((action) => (

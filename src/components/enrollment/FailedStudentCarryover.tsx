@@ -1,4 +1,3 @@
-
 import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -12,8 +11,8 @@ const failedStudents = [
   {
     id: "2023001",
     name: "Ahmed Al-Rashid",
-    course: "CS101 - Programming Fundamentals",
-    previousTerm: "Fall 2023",
+    course: "CS101 - أساسيات البرمجة",
+    previousTerm: "خريف 2023",
     grade: "F",
     attendanceRate: 45,
     email: "ahmed.rashid@student.unihub.edu",
@@ -22,8 +21,8 @@ const failedStudents = [
   {
     id: "2023002",
     name: "Sarah Johnson",
-    course: "MATH201 - Calculus II", 
-    previousTerm: "Fall 2023",
+    course: "MATH201 - التفاضل والتكامل 2", 
+    previousTerm: "خريف 2023",
     grade: "D-",
     attendanceRate: 62,
     email: "sarah.johnson@student.unihub.edu",
@@ -32,8 +31,8 @@ const failedStudents = [
   {
     id: "2023003",
     name: "Mohamed Hassan",
-    course: "PHY301 - Quantum Physics",
-    previousTerm: "Fall 2023", 
+    course: "PHY301 - فيزياء الكم",
+    previousTerm: "خريف 2023", 
     grade: "F",
     attendanceRate: 38,
     email: "mohamed.hassan@student.unihub.edu",
@@ -63,7 +62,7 @@ export function FailedStudentCarryover() {
     setTimeout(() => {
       setIsCarryingOver(false);
       setSelectedStudents([]);
-      console.log("Carried over students:", selectedStudents);
+      console.log("تم ترحيل الطلاب:", selectedStudents);
     }, 2000);
   };
 
@@ -73,11 +72,11 @@ export function FailedStudentCarryover() {
         <CardTitle className="flex items-center justify-between">
           <div className="flex items-center space-x-2">
             <RotateCcw className="w-5 h-5 text-orange-600" />
-            <span>Failed Student Carryover</span>
+            <span>ترحيل الطلاب الراسبين</span>
           </div>
           <div className="flex items-center space-x-2">
             <Button variant="outline" onClick={handleCarryoverAll}>
-              Select All
+              تحديد الكل
             </Button>
             <Button 
               onClick={handleCarryover}
@@ -85,7 +84,7 @@ export function FailedStudentCarryover() {
               className="bg-orange-600 hover:bg-orange-700"
             >
               <RotateCcw className="w-4 h-4 mr-2" />
-              {isCarryingOver ? "Processing..." : `Carryover Selected (${selectedStudents.length})`}
+              {isCarryingOver ? "جاري المعالجة..." : `ترحيل المحددين (${selectedStudents.length})`}
             </Button>
           </div>
         </CardTitle>
@@ -94,25 +93,25 @@ export function FailedStudentCarryover() {
         <div className="mb-4 p-4 bg-orange-50 border border-orange-200 rounded-lg">
           <div className="flex items-center space-x-2 mb-2">
             <UserX className="w-5 h-5 text-orange-600" />
-            <h3 className="font-medium text-orange-900">Automatic Carryover Process</h3>
+            <h3 className="font-medium text-orange-900">عملية الترحيل التلقائية</h3>
           </div>
           <p className="text-sm text-orange-700">
-            Students who failed courses in the previous term will be automatically enrolled in the same courses for the new term. 
-            Review and select students to carry over.
+            الطلاب الذين رسبوا في مقررات الفصل السابق سيتم تسجيلهم تلقائيًا في نفس المقررات للفصل الجديد.
+            يرجى المراجعة واختيار الطلاب المطلوب ترحيلهم.
           </p>
         </div>
 
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="w-12">Select</TableHead>
-              <TableHead>Student</TableHead>
-              <TableHead>Course</TableHead>
-              <TableHead>Previous Term</TableHead>
-              <TableHead>Grade</TableHead>
-              <TableHead>Attendance</TableHead>
-              <TableHead>Attempts</TableHead>
-              <TableHead>Actions</TableHead>
+              <TableHead className="w-12">تحديد</TableHead>
+              <TableHead>الطالب</TableHead>
+              <TableHead>المقرر</TableHead>
+              <TableHead>الفصل السابق</TableHead>
+              <TableHead>الدرجة</TableHead>
+              <TableHead>الحضور</TableHead>
+              <TableHead>المحاولات</TableHead>
+              <TableHead>الإجراءات</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -157,46 +156,46 @@ export function FailedStudentCarryover() {
                 </TableCell>
                 <TableCell>
                   <Badge variant="outline">
-                    Attempt {student.attempts + 1}
+                    محاولة {student.attempts + 1}
                   </Badge>
                 </TableCell>
                 <TableCell>
                   <Dialog>
                     <DialogTrigger asChild>
                       <Button variant="ghost" size="sm">
-                        View Details
+                        عرض التفاصيل
                       </Button>
                     </DialogTrigger>
                     <DialogContent>
                       <DialogHeader>
-                        <DialogTitle>Student Details - {student.name}</DialogTitle>
+                        <DialogTitle>تفاصيل الطالب - {student.name}</DialogTitle>
                       </DialogHeader>
                       <div className="space-y-4">
                         <div className="grid grid-cols-2 gap-4">
                           <div>
-                            <label className="text-sm font-medium text-gray-700">Student ID</label>
+                            <label className="text-sm font-medium text-gray-700">الرقم الجامعي</label>
                             <p className="text-sm text-gray-900">{student.id}</p>
                           </div>
                           <div>
-                            <label className="text-sm font-medium text-gray-700">Email</label>
+                            <label className="text-sm font-medium text-gray-700">البريد الإلكتروني</label>
                             <p className="text-sm text-gray-900">{student.email}</p>
                           </div>
                         </div>
                         <div>
-                          <label className="text-sm font-medium text-gray-700">Failed Course</label>
+                          <label className="text-sm font-medium text-gray-700">المقرر الراسب</label>
                           <p className="text-sm text-gray-900">{student.course}</p>
                         </div>
                         <div className="grid grid-cols-3 gap-4">
                           <div>
-                            <label className="text-sm font-medium text-gray-700">Final Grade</label>
+                            <label className="text-sm font-medium text-gray-700">الدرجة النهائية</label>
                             <Badge className="bg-red-100 text-red-700">{student.grade}</Badge>
                           </div>
                           <div>
-                            <label className="text-sm font-medium text-gray-700">Attendance Rate</label>
+                            <label className="text-sm font-medium text-gray-700">نسبة الحضور</label>
                             <p className="text-sm text-gray-900">{student.attendanceRate}%</p>
                           </div>
                           <div>
-                            <label className="text-sm font-medium text-gray-700">Course Attempts</label>
+                            <label className="text-sm font-medium text-gray-700">محاولات المقرر</label>
                             <p className="text-sm text-gray-900">{student.attempts}</p>
                           </div>
                         </div>

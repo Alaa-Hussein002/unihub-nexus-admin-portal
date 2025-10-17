@@ -47,45 +47,45 @@ const auditEvents = [
     id: "AUD-001",
     timestamp: "2024-01-15 14:30:25",
     user: "Dr. Sarah Wilson",
-    role: "Department Head",
-    entity: "Student",
+    role: "رئيس القسم",
+    entity: "طالب",
     action: "UPDATE",
-    details: "Updated student enrollment status",
+    details: "تم تحديث حالة تسجيل الطالب",
     ipAddress: "192.168.1.45",
     device: "Chrome/Windows",
-    location: "Cairo, Egypt",
+    location: "القاهرة، مصر",
     changes: [
-      { field: "Status", oldValue: "Pending", newValue: "Enrolled" },
-      { field: "Group", oldValue: "CS-101-A", newValue: "CS-101-B" }
+      { field: "الحالة", oldValue: "قيد الانتظار", newValue: "مُسجل" },
+      { field: "المجموعة", oldValue: "CS-101-A", newValue: "CS-101-B" }
     ]
   },
   {
     id: "AUD-002",
     timestamp: "2024-01-15 14:25:12",
     user: "Ahmed Hassan",
-    role: "Admin",
-    entity: "Lecture",
+    role: "مسؤول",
+    entity: "محاضرة",
     action: "CREATE",
-    details: "Created new lecture schedule",
+    details: "تم إنشاء جدول محاضرة جديد",
     ipAddress: "10.0.0.123",
     device: "Firefox/MacOS",
-    location: "Alexandria, Egypt",
+    location: "الإسكندرية، مصر",
     changes: [
-      { field: "Course", oldValue: null, newValue: "Data Structures" },
-      { field: "Time", oldValue: null, newValue: "09:00-10:30" }
+      { field: "المقرر", oldValue: null, newValue: "هياكل البيانات" },
+      { field: "الوقت", oldValue: null, newValue: "09:00-10:30" }
     ]
   },
   {
     id: "AUD-003",
     timestamp: "2024-01-15 13:45:33",
     user: "System",
-    role: "System",
-    entity: "Security",
+    role: "النظام",
+    entity: "الأمان",
     action: "LOGIN_FAILED",
-    details: "Failed login attempt",
+    details: "محاولة تسجيل دخول فاشلة",
     ipAddress: "203.45.67.89",
     device: "Unknown/Linux",
-    location: "Unknown",
+    location: "غير معروف",
     changes: []
   }
 ];
@@ -100,10 +100,10 @@ const chartData = [
 ];
 
 const pieData = [
-  { name: "CREATE", value: 45, color: "hsl(var(--chart-1))" },
-  { name: "UPDATE", value: 30, color: "hsl(var(--chart-2))" },
-  { name: "DELETE", value: 15, color: "hsl(var(--chart-3))" },
-  { name: "LOGIN", value: 10, color: "hsl(var(--chart-4))" }
+  { name: "إنشاء", value: 45, color: "hsl(var(--chart-1))" },
+  { name: "تحديث", value: 30, color: "hsl(var(--chart-2))" },
+  { name: "حذف", value: 15, color: "hsl(var(--chart-3))" },
+  { name: "تسجيل الدخول", value: 10, color: "hsl(var(--chart-4))" }
 ];
 
 export function AuditLog() {
@@ -150,9 +150,9 @@ export function AuditLog() {
     <div className="space-y-6">
       {/* Header */}
       <div className="flex flex-col space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight">Audit Log</h1>
+        <h1 className="text-3xl font-bold tracking-tight">سجل التدقيق</h1>
         <p className="text-muted-foreground">
-          Monitor and analyze all system changes and security events
+          مراقبة وتحليل جميع تغييرات النظام وأحداث الأمان
         </p>
       </div>
 
@@ -160,52 +160,52 @@ export function AuditLog() {
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         <Card className="shadow-lg border-0 bg-gradient-to-br from-white to-blue-50">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Events Today</CardTitle>
+            <CardTitle className="text-sm font-medium">أحداث اليوم</CardTitle>
             <Activity className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">1,234</div>
             <p className="text-xs text-muted-foreground">
-              +12% from yesterday
+              +12% مقارنة بالأمس
             </p>
           </CardContent>
         </Card>
 
         <Card className="shadow-lg border-0 bg-gradient-to-br from-white to-green-50">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Active Users</CardTitle>
+            <CardTitle className="text-sm font-medium">المستخدمون النشطون</CardTitle>
             <User className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">89</div>
             <p className="text-xs text-muted-foreground">
-              Currently online
+              متصلون الآن
             </p>
           </CardContent>
         </Card>
 
         <Card className="shadow-lg border-0 bg-gradient-to-br from-white to-red-50">
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Security Alerts</CardTitle>
+          <CardHeader className="flex flex-row items-center justify_between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium">تنبيهات الأمان</CardTitle>
             <AlertTriangle className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">3</div>
             <p className="text-xs text-muted-foreground">
-              Failed logins detected
+              تم رصد محاولات دخول فاشلة
             </p>
           </CardContent>
         </Card>
 
         <Card className="shadow-lg border-0 bg-gradient-to-br from-white to-purple-50">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">System Health</CardTitle>
+            <CardTitle className="text-sm font-medium">صحة النظام</CardTitle>
             <Shield className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">98.5%</div>
             <p className="text-xs text-muted-foreground">
-              Uptime this month
+              مدة التشغيل هذا الشهر
             </p>
           </CardContent>
         </Card>
@@ -217,7 +217,7 @@ export function AuditLog() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <TrendingUp className="h-5 w-5" />
-              Events Over Time
+              الأحداث عبر الزمن
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -237,7 +237,7 @@ export function AuditLog() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <PieChart className="h-5 w-5" />
-              Events by Type
+              الأحداث حسب النوع
             </CardTitle>
           </CardHeader>
           <CardContent>
@@ -266,15 +266,15 @@ export function AuditLog() {
       {/* Filters and Search */}
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle>Event Filters</CardTitle>
-          <CardDescription>Search and filter audit events</CardDescription>
+          <CardTitle>مرشحات الأحداث</CardTitle>
+          <CardDescription>ابحث وصَفِّ أحداث التدقيق</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-6">
             <div className="relative">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
               <Input
-                placeholder="Search events..."
+                placeholder="ابحث في الأحداث..."
                 className="pl-8"
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
@@ -283,10 +283,10 @@ export function AuditLog() {
 
             <Select value={filterUser} onValueChange={setFilterUser}>
               <SelectTrigger>
-                <SelectValue placeholder="Filter by user" />
+                <SelectValue placeholder="تصفية حسب المستخدم" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Users</SelectItem>
+                <SelectItem value="all">جميع المستخدمين</SelectItem>
                 <SelectItem value="dr-sarah">Dr. Sarah Wilson</SelectItem>
                 <SelectItem value="ahmed">Ahmed Hassan</SelectItem>
               </SelectContent>
@@ -294,22 +294,22 @@ export function AuditLog() {
 
             <Select value={filterAction} onValueChange={setFilterAction}>
               <SelectTrigger>
-                <SelectValue placeholder="Filter by action" />
+                <SelectValue placeholder="تصفية حسب الإجراء" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="all">All Actions</SelectItem>
-                <SelectItem value="CREATE">Create</SelectItem>
-                <SelectItem value="UPDATE">Update</SelectItem>
-                <SelectItem value="DELETE">Delete</SelectItem>
-                <SelectItem value="LOGIN">Login</SelectItem>
+                <SelectItem value="all">جميع الإجراءات</SelectItem>
+                <SelectItem value="CREATE">إنشاء</SelectItem>
+                <SelectItem value="UPDATE">تحديث</SelectItem>
+                <SelectItem value="DELETE">حذف</SelectItem>
+                <SelectItem value="LOGIN">تسجيل الدخول</SelectItem>
               </SelectContent>
             </Select>
 
             <Popover>
               <PopoverTrigger asChild>
                 <Button variant="outline" className={cn("justify-start text-left font-normal", !dateFrom && "text-muted-foreground")}>
-                  <CalendarIcon className="mr-2 h-4 w-4" />
-                  {dateFrom ? format(dateFrom, "PPP") : "From date"}
+                  <CalendarIcon className="mr-2 ه-4 w-4" />
+                  {dateFrom ? format(dateFrom, "PPP") : "من تاريخ"}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0">
@@ -321,7 +321,7 @@ export function AuditLog() {
               <PopoverTrigger asChild>
                 <Button variant="outline" className={cn("justify-start text-left font-normal", !dateTo && "text-muted-foreground")}>
                   <CalendarIcon className="mr-2 h-4 w-4" />
-                  {dateTo ? format(dateTo, "PPP") : "To date"}
+                  {dateTo ? format(dateTo, "PPP") : "إلى تاريخ"}
                 </Button>
               </PopoverTrigger>
               <PopoverContent className="w-auto p-0">
@@ -332,11 +332,11 @@ export function AuditLog() {
             <div className="flex gap-2">
               <Button variant="outline" size="sm">
                 <Download className="h-4 w-4 mr-2" />
-                Export CSV
+                تصدير CSV
               </Button>
               <Button variant="outline" size="sm">
                 <FileText className="h-4 w-4 mr-2" />
-                PDF Report
+                تقرير PDF
               </Button>
             </div>
           </div>
@@ -346,22 +346,22 @@ export function AuditLog() {
       {/* Audit Events Table */}
       <Card className="shadow-lg">
         <CardHeader>
-          <CardTitle>Audit Events</CardTitle>
-          <CardDescription>Detailed log of all system activities</CardDescription>
+          <CardTitle>أحداث التدقيق</CardTitle>
+          <CardDescription>سجل تفصيلي لكافة أنشطة النظام</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="rounded-md border">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Log ID</TableHead>
-                  <TableHead>Timestamp</TableHead>
-                  <TableHead>User</TableHead>
-                  <TableHead>Role</TableHead>
-                  <TableHead>Entity</TableHead>
-                  <TableHead>Action</TableHead>
-                  <TableHead>Details</TableHead>
-                  <TableHead>Actions</TableHead>
+                  <TableHead>معرّف السجل</TableHead>
+                  <TableHead>التاريخ والوقت</TableHead>
+                  <TableHead>المستخدم</TableHead>
+                  <TableHead>الدور</TableHead>
+                  <TableHead>الكيان</TableHead>
+                  <TableHead>الإجراء</TableHead>
+                  <TableHead>التفاصيل</TableHead>
+                  <TableHead>الإجراءات</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -399,30 +399,30 @@ export function AuditLog() {
                           </SheetTrigger>
                           <SheetContent className="w-[400px] sm:w-[540px]">
                             <SheetHeader>
-                              <SheetTitle>Event Details</SheetTitle>
+                              <SheetTitle>تفاصيل الحدث</SheetTitle>
                               <SheetDescription>
-                                Detailed information about this audit event
+                                معلومات تفصيلية حول حدث التدقيق هذا
                               </SheetDescription>
                             </SheetHeader>
                             {selectedEvent && (
                               <div className="mt-6 space-y-6">
                                 <div className="grid gap-4">
                                   <div>
-                                    <label className="text-sm font-medium">Log ID</label>
+                                    <label className="text-sm font-medium">معرّف السجل</label>
                                     <p className="text-sm text-muted-foreground">{selectedEvent.id}</p>
                                   </div>
                                   <div>
-                                    <label className="text-sm font-medium">Timestamp</label>
+                                    <label className="text-sm font-medium">التاريخ والوقت</label>
                                     <p className="text-sm text-muted-foreground">{selectedEvent.timestamp}</p>
                                   </div>
                                   <div>
-                                    <label className="text-sm font-medium">User & Role</label>
+                                    <label className="text-sm font-medium">المستخدم والدور</label>
                                     <p className="text-sm text-muted-foreground">
                                       {selectedEvent.user} ({selectedEvent.role})
                                     </p>
                                   </div>
                                   <div>
-                                    <label className="text-sm font-medium">Action</label>
+                                    <label className="text-sm font-medium">الإجراء</label>
                                     <Badge className={getActionBadgeColor(selectedEvent.action)}>
                                       {selectedEvent.action}
                                     </Badge>
@@ -430,7 +430,7 @@ export function AuditLog() {
                                 </div>
 
                                 <div className="space-y-2">
-                                  <label className="text-sm font-medium">Location & Device</label>
+                                  <label className="text-sm font-medium">الموقع والجهاز</label>
                                   <div className="space-y-1 text-sm text-muted-foreground">
                                     <div className="flex items-center gap-2">
                                       <MapPin className="h-4 w-4" />
@@ -446,7 +446,7 @@ export function AuditLog() {
 
                                 {selectedEvent.changes.length > 0 && (
                                   <div className="space-y-2">
-                                    <label className="text-sm font-medium">Field Changes</label>
+                                    <label className="text-sm font-medium">تغييرات الحقول</label>
                                     <div className="space-y-2">
                                       {selectedEvent.changes.map((change, index) => (
                                         <Card key={index} className="p-3">
@@ -454,10 +454,10 @@ export function AuditLog() {
                                             <div className="font-medium">{change.field}</div>
                                             <div className="mt-1 grid gap-1">
                                               <div className="text-red-600">
-                                                Old: {change.oldValue || "None"}
+                                                القديمة: {change.oldValue || "لا يوجد"}
                                               </div>
                                               <div className="text-green-600">
-                                                New: {change.newValue}
+                                                الجديدة: {change.newValue}
                                               </div>
                                             </div>
                                           </div>
@@ -470,7 +470,7 @@ export function AuditLog() {
                                 {selectedEvent.action !== "LOGIN_FAILED" && (
                                   <Button variant="outline" className="w-full">
                                     <RotateCcw className="h-4 w-4 mr-2" />
-                                    Revert Change
+                                    التراجع عن التغيير
                                   </Button>
                                 )}
                               </div>

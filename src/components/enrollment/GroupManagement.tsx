@@ -40,16 +40,16 @@ interface Group {
 
 // Mock data
 const departments = [
-  { id: "is", name: "Information Systems Department" },
-  { id: "it", name: "Information Technology Department" },
-  { id: "cs", name: "Computer Science Department" },
+  { id: "is", name: "قسم نظم المعلومات" },
+  { id: "it", name: "قسم تقنية المعلومات" },
+  { id: "cs", name: "قسم علوم الحاسب" },
 ];
 
 const levels = [
-  { id: "1", name: "Level 1" },
-  { id: "2", name: "Level 2" },
-  { id: "3", name: "Level 3" },
-  { id: "4", name: "Level 4" },
+  { id: "1", name: "المستوى 1" },
+  { id: "2", name: "المستوى 2" },
+  { id: "3", name: "المستوى 3" },
+  { id: "4", name: "المستوى 4" },
 ];
 
 const mockStudents: Student[] = [
@@ -85,7 +85,7 @@ export function GroupManagement() {
 
   const handleCreateGroup = () => {
     if (!newGroupName.trim()) {
-      toast.error("Please enter a group name");
+      toast.error("يرجى إدخال اسم المجموعة");
       return;
     }
 
@@ -102,12 +102,12 @@ export function GroupManagement() {
     setNewGroupType("theory");
     setNewGroupGender("mixed");
     setIsCreateGroupOpen(false);
-    toast.success("Group created successfully");
+    toast.success("تم إنشاء المجموعة بنجاح");
   };
 
   const handleEditGroup = () => {
     if (!editingGroup || !newGroupName.trim()) {
-      toast.error("Please enter a group name");
+      toast.error("يرجى إدخال اسم المجموعة");
       return;
     }
 
@@ -121,7 +121,7 @@ export function GroupManagement() {
     setIsEditGroupOpen(false);
     setEditingGroup(null);
     setNewGroupName("");
-    toast.success("Group updated successfully");
+    toast.success("تم تحديث المجموعة بنجاح");
   };
 
   const handleDeleteGroup = (groupId: string) => {
@@ -130,7 +130,7 @@ export function GroupManagement() {
       setUnassignedStudents([...unassignedStudents, ...group.students]);
     }
     setGroups(groups.filter((g) => g.id !== groupId));
-    toast.success("Group deleted successfully");
+    toast.success("تم حذف المجموعة بنجاح");
   };
 
   const openEditDialog = (group: Group) => {
@@ -157,7 +157,7 @@ export function GroupManagement() {
 
     // Check gender compatibility
     if (group.gender !== "mixed" && group.gender !== draggedStudent.gender) {
-      toast.error(`This group only accepts ${group.gender} students`);
+      toast.error(`هذه المجموعة تقبل فقط طلاب ${group.gender}`);
       return;
     }
 
@@ -178,7 +178,7 @@ export function GroupManagement() {
     );
 
     setDraggedStudent(null);
-    toast.success(`${draggedStudent.name} added to ${group.name}`);
+    toast.success(`${draggedStudent.name} تمت إضافته إلى ${group.name}`);
   };
 
   const handleDropToUnassigned = () => {
@@ -202,12 +202,12 @@ export function GroupManagement() {
 
   const handleSaveGrouping = () => {
     // Here you would save to database
-    toast.success("Group assignments saved successfully");
+    toast.success("تم حفظ إسناد المجموعات بنجاح");
   };
 
   const handleAutoGroup = () => {
     if (unassignedStudents.length === 0) {
-      toast.error("No unassigned students to group");
+      toast.error("لا يوجد طلاب غير مُسندين للتجميع");
       return;
     }
 
@@ -220,7 +220,7 @@ export function GroupManagement() {
     if (!maleTheoryGroup) {
       updatedGroups.push({
         id: Date.now().toString(),
-        name: "Male Theory Group",
+        name: "مجموعة النظري (ذكور)",
         type: "theory",
         gender: "male",
         students: [],
@@ -230,7 +230,7 @@ export function GroupManagement() {
     if (!femaleTheoryGroup) {
       updatedGroups.push({
         id: (Date.now() + 1).toString(),
-        name: "Female Theory Group",
+        name: "مجموعة النظري (إناث)",
         type: "theory",
         gender: "female",
         students: [],
@@ -253,7 +253,7 @@ export function GroupManagement() {
 
     setGroups(updatedGroups);
     setUnassignedStudents([]);
-    toast.success("Students auto-grouped by gender");
+    toast.success("تم تجميع الطلاب تلقائيًا حسب الجنس");
   };
 
   return (
@@ -261,7 +261,7 @@ export function GroupManagement() {
       {/* Sidebar */}
       <Card className="w-64 overflow-y-auto">
         <CardHeader>
-          <CardTitle className="text-lg">Departments</CardTitle>
+          <CardTitle className="text-lg">الأقسام</CardTitle>
         </CardHeader>
         <CardContent className="space-y-2">
           {departments.map((dept) => (
@@ -288,14 +288,14 @@ export function GroupManagement() {
           <Card className="h-full flex items-center justify-center">
             <CardContent>
               <p className="text-muted-foreground text-center">
-                Select a department to start managing groups
+                اختر قسمًا لبدء إدارة المجموعات
               </p>
             </CardContent>
           </Card>
         ) : !selectedLevel ? (
           <Card>
             <CardHeader>
-              <CardTitle>Select Level</CardTitle>
+              <CardTitle>اختر المستوى</CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -323,7 +323,7 @@ export function GroupManagement() {
                     <div className="relative flex-1 max-w-md">
                       <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                       <Input
-                        placeholder="Search students by name or ID..."
+                        placeholder="ابحث عن الطلاب بالاسم أو الرقم الجامعي..."
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
                         className="pl-10"
@@ -333,15 +333,15 @@ export function GroupManagement() {
                   <div className="flex gap-2">
                     <Button variant="outline" onClick={handleAutoGroup}>
                       <Users className="h-4 w-4 mr-2" />
-                      Auto Group
+                      تجميع تلقائي
                     </Button>
                     <Button onClick={() => setIsCreateGroupOpen(true)}>
                       <Plus className="h-4 w-4 mr-2" />
-                      Create Group
+                      إنشاء مجموعة
                     </Button>
                     <Button onClick={handleSaveGrouping}>
                       <Save className="h-4 w-4 mr-2" />
-                      Save Grouping
+                      حفظ التجميع
                     </Button>
                   </div>
                 </div>
@@ -358,7 +358,7 @@ export function GroupManagement() {
               >
                 <CardHeader>
                   <CardTitle className="text-base flex items-center justify-between">
-                    Unassigned Students
+                    الطلاب غير المُسندين
                     <Badge variant="secondary">{filteredStudents.length}</Badge>
                   </CardTitle>
                 </CardHeader>
@@ -382,7 +382,7 @@ export function GroupManagement() {
                   ))}
                   {filteredStudents.length === 0 && (
                     <p className="text-sm text-muted-foreground text-center py-8">
-                      No unassigned students
+                      لا يوجد طلاب غير مُسندين
                     </p>
                   )}
                 </CardContent>
@@ -408,7 +408,7 @@ export function GroupManagement() {
                               {group.gender}
                             </Badge>
                           )}
-                          <Badge variant="secondary">{group.students.length} students</Badge>
+                          <Badge variant="secondary">{group.students.length} طلاب</Badge>
                         </div>
                         <div className="flex gap-2">
                           <Button
@@ -452,7 +452,7 @@ export function GroupManagement() {
                         ))}
                         {group.students.length === 0 && (
                           <p className="text-sm text-muted-foreground col-span-2 text-center py-4">
-                            Drag students here
+                            اسحب الطلاب هنا
                           </p>
                         )}
                       </div>
@@ -463,7 +463,7 @@ export function GroupManagement() {
                   <Card>
                     <CardContent className="py-12">
                       <p className="text-muted-foreground text-center">
-                        No groups created yet. Click "Create Group" to start.
+                        لا توجد مجموعات حتى الآن. انقر على "إنشاء مجموعة" للبدء.
                       </p>
                     </CardContent>
                   </Card>
@@ -478,49 +478,49 @@ export function GroupManagement() {
       <Dialog open={isCreateGroupOpen} onOpenChange={setIsCreateGroupOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Create New Group</DialogTitle>
+            <DialogTitle>إنشاء مجموعة جديدة</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="groupName">Group Name</Label>
+              <Label htmlFor="groupName">اسم المجموعة</Label>
               <Input
                 id="groupName"
-                placeholder="e.g., Group A"
+                placeholder="مثال: المجموعة أ"
                 value={newGroupName}
                 onChange={(e) => setNewGroupName(e.target.value)}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="groupType">Type</Label>
+              <Label htmlFor="groupType">النوع</Label>
               <Select value={newGroupType} onValueChange={(v: any) => setNewGroupType(v)}>
                 <SelectTrigger id="groupType">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="theory">Theory</SelectItem>
-                  <SelectItem value="practical">Practical</SelectItem>
+                  <SelectItem value="theory">نظري</SelectItem>
+                  <SelectItem value="practical">عملي</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="groupGender">Gender</Label>
+              <Label htmlFor="groupGender">الجنس</Label>
               <Select value={newGroupGender} onValueChange={(v: any) => setNewGroupGender(v)}>
                 <SelectTrigger id="groupGender">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="mixed">Mixed</SelectItem>
-                  <SelectItem value="male">Male Only</SelectItem>
-                  <SelectItem value="female">Female Only</SelectItem>
+                  <SelectItem value="mixed">مختلطة</SelectItem>
+                  <SelectItem value="male">ذكور فقط</SelectItem>
+                  <SelectItem value="female">إناث فقط</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsCreateGroupOpen(false)}>
-              Cancel
+              إلغاء
             </Button>
-            <Button onClick={handleCreateGroup}>Create Group</Button>
+            <Button onClick={handleCreateGroup}>إنشاء مجموعة</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
@@ -529,49 +529,49 @@ export function GroupManagement() {
       <Dialog open={isEditGroupOpen} onOpenChange={setIsEditGroupOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Edit Group</DialogTitle>
+            <DialogTitle>تعديل المجموعة</DialogTitle>
           </DialogHeader>
           <div className="space-y-4 py-4">
             <div className="space-y-2">
-              <Label htmlFor="editGroupName">Group Name</Label>
+              <Label htmlFor="editGroupName">اسم المجموعة</Label>
               <Input
                 id="editGroupName"
-                placeholder="e.g., Group A"
+                placeholder="مثال: المجموعة أ"
                 value={newGroupName}
                 onChange={(e) => setNewGroupName(e.target.value)}
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="editGroupType">Type</Label>
+              <Label htmlFor="editGroupType">النوع</Label>
               <Select value={newGroupType} onValueChange={(v: any) => setNewGroupType(v)}>
                 <SelectTrigger id="editGroupType">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="theory">Theory</SelectItem>
-                  <SelectItem value="practical">Practical</SelectItem>
+                  <SelectItem value="theory">نظري</SelectItem>
+                  <SelectItem value="practical">عملي</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
-              <Label htmlFor="editGroupGender">Gender</Label>
+              <Label htmlFor="editGroupGender">الجنس</Label>
               <Select value={newGroupGender} onValueChange={(v: any) => setNewGroupGender(v)}>
                 <SelectTrigger id="editGroupGender">
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="mixed">Mixed</SelectItem>
-                  <SelectItem value="male">Male Only</SelectItem>
-                  <SelectItem value="female">Female Only</SelectItem>
+                  <SelectItem value="mixed">مختلطة</SelectItem>
+                  <SelectItem value="male">ذكور فقط</SelectItem>
+                  <SelectItem value="female">إناث فقط</SelectItem>
                 </SelectContent>
               </Select>
             </div>
           </div>
           <DialogFooter>
             <Button variant="outline" onClick={() => setIsEditGroupOpen(false)}>
-              Cancel
+              إلغاء
             </Button>
-            <Button onClick={handleEditGroup}>Save Changes</Button>
+            <Button onClick={handleEditGroup}>حفظ التغييرات</Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
