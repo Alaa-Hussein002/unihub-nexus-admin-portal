@@ -78,7 +78,7 @@ const App = () => (
           
           {/* Other pages */}
           <Route path="/audit-log" element={<PlaceholderPage title="Audit Log" />} />
-          <Route path="/settings" element={<PlaceholderPage title="Settings" />} />
+          <Route path="/settings" element={<SettingsPage />} />
           <Route path="/academic-staff" element={<PlaceholderPage title="Academic Staff" />} />
           
           {/* Legacy routes */}
