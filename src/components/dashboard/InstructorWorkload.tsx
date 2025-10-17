@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
@@ -15,7 +14,7 @@ export function InstructorWorkload() {
   return (
     <Card className="shadow-xl bg-white">
       <CardHeader>
-        <CardTitle className="text-lg font-semibold text-gray-900">Instructor Teaching Load</CardTitle>
+        <CardTitle className="text-lg font-semibold text-gray-900">عبء التدريس للمحاضرين</CardTitle>
       </CardHeader>
       <CardContent>
         <ResponsiveContainer width="100%" height={300}>

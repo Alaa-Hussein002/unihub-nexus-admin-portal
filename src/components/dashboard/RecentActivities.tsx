@@ -1,4 +1,3 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Clock, User, FileText, Calendar } from "lucide-react";
 
@@ -6,33 +5,33 @@ const activities = [
   {
     id: 1,
     type: "user",
-    message: "New instructor registered",
+    message: "تم تسجيل مدرس جديد",
     user: "Dr. Sarah Johnson",
-    time: "2 minutes ago",
+    time: "قبل دقيقتين",
     icon: User
   },
   {
     id: 2,
     type: "excuse",
-    message: "Excuse request submitted",
+    message: "تم تقديم طلب عذر",
     user: "Prof. Ahmed Hassan",
-    time: "15 minutes ago",
+    time: "قبل 15 دقيقة",
     icon: FileText
   },
   {
     id: 3,
     type: "schedule",
-    message: "Timetable updated",
-    user: "Admin System",
-    time: "1 hour ago",
+    message: "تم تحديث الجدول الزمني",
+    user: "نظام الإدارة",
+    time: "قبل ساعة",
     icon: Calendar
   },
   {
     id: 4,
     type: "user",
-    message: "Student enrollment imported",
-    user: "Batch Processing",
-    time: "2 hours ago",
+    message: "تم استيراد تسجيل الطلاب",
+    user: "المعالجة الدفعية",
+    time: "قبل ساعتين",
     icon: User
   }
 ];
@@ -41,7 +40,7 @@ export function RecentActivities() {
   return (
     <Card className="shadow-xl bg-white">
       <CardHeader>
-        <CardTitle className="text-lg font-semibold text-gray-900">Recent Activities</CardTitle>
+        <CardTitle className="text-lg font-semibold text-gray-900">الأنشطة الأخيرة</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
         {activities.map((activity) => (

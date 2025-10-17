@@ -1,4 +1,3 @@
-
 import { KPICards } from "./KPICards";
 import { QuickActions } from "./QuickActions";
 import { RecentActivities } from "./RecentActivities";
@@ -11,11 +10,11 @@ export function Dashboard() {
     <div className="space-y-4 sm:space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 sm:gap-0">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Dashboard</h1>
-          <p className="text-sm sm:text-base text-muted-foreground">Welcome to UniHub Admin Portal</p>
+          <h1 className="text-2xl sm:text-3xl font-bold text-foreground">لوحة التحكم</h1>
+          <p className="text-sm sm:text-base text-muted-foreground">مرحبًا بك في بوابة إدارة UniHub</p>
         </div>
         <div className="text-xs sm:text-sm text-muted-foreground">
-          Last updated: {new Date().toLocaleString()}
+          آخر تحديث: {new Date().toLocaleString()}
         </div>
       </div>
 

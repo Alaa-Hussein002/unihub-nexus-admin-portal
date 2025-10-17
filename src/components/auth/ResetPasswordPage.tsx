@@ -19,11 +19,11 @@ const ResetPasswordPage = () => {
     const validationErrors = [];
     
     if (newPassword.length < 6) {
-      validationErrors.push("Password must be at least 6 characters long");
+      validationErrors.push("يجب أن تتكون كلمة المرور من 6 أحرف على الأقل");
     }
     
     if (newPassword !== confirmPassword) {
-      validationErrors.push("Passwords do not match");
+      validationErrors.push("كلمتا المرور غير متطابقتين");
     }
     
     return validationErrors;
@@ -39,14 +39,14 @@ const ResetPasswordPage = () => {
     }
     
     setErrors([]);
-    // Simulate password change success and redirect to dashboard
-    // In real implementation, this would update the user's password
+    // محاكاة نجاح تغيير كلمة المرور وإعادة التوجيه إلى لوحة التحكم
+    // في التطبيق الحقيقي، سيتم تحديث كلمة مرور المستخدم
     navigate("/");
   };
 
   const passwordValidations = [
-    { text: "At least 6 characters", valid: newPassword.length >= 6 },
-    { text: "Passwords match", valid: newPassword === confirmPassword && confirmPassword !== "" }
+    { text: "على الأقل 6 أحرف", valid: newPassword.length >= 6 },
+    { text: "تطابق كلمتي المرور", valid: newPassword === confirmPassword && confirmPassword !== "" }
   ];
 
   return (
@@ -57,21 +57,21 @@ const ResetPasswordPage = () => {
             <img src={logoFull} alt="UniHub" className="h-16 w-auto mx-auto" />
           </div>
           <CardTitle className="text-2xl font-bold text-foreground">
-            Set Your New Password
+            قم بتعيين كلمة المرور الجديدة
           </CardTitle>
           <CardDescription className="text-muted-foreground">
-            You must change your password before using the system
+            يجب تغيير كلمة المرور قبل استخدام النظام
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="newPassword">New Password</Label>
+              <Label htmlFor="newPassword">كلمة المرور الجديدة</Label>
               <div className="relative">
                 <Input
                   id="newPassword"
                   type={showPassword ? "text" : "password"}
-                  placeholder="Enter new password"
+                  placeholder="أدخل كلمة مرور جديدة"
                   value={newPassword}
                   onChange={(e) => setNewPassword(e.target.value)}
                   required
@@ -87,12 +87,12 @@ const ResetPasswordPage = () => {
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="confirmPassword">Confirm New Password</Label>
+              <Label htmlFor="confirmPassword">تأكيد كلمة المرور الجديدة</Label>
               <div className="relative">
                 <Input
                   id="confirmPassword"
                   type={showConfirmPassword ? "text" : "password"}
-                  placeholder="Confirm new password"
+                  placeholder="أكّد كلمة المرور الجديدة"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
                   required
@@ -109,7 +109,7 @@ const ResetPasswordPage = () => {
 
             {/* Password Validation Indicators */}
             <div className="space-y-2">
-              <p className="text-sm font-medium text-foreground">Password Requirements:</p>
+              <p className="text-sm font-medium text-foreground">متطلبات كلمة المرور:</p>
               {passwordValidations.map((validation, index) => (
                 <div key={index} className="flex items-center space-x-2">
                   {validation.valid ? (
@@ -138,7 +138,7 @@ const ResetPasswordPage = () => {
               className="w-full"
               disabled={validatePassword().length > 0}
             >
-              Save Password
+              حفظ كلمة المرور
             </Button>
           </form>
         </CardContent>

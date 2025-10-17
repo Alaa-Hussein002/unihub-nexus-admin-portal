@@ -1,27 +1,26 @@
-
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CheckCircle, AlertTriangle, XCircle } from "lucide-react";
 
 const healthItems = [
   {
-    name: "Database",
+    name: "قاعدة البيانات",
     status: "healthy",
-    message: "All systems operational"
+    message: "جميع الأنظمة تعمل بشكل طبيعي"
   },
   {
-    name: "Mobile Sync",
+    name: "مزامنة الهاتف المحمول",
     status: "warning",
-    message: "Minor sync delays"
+    message: "تأخيرات طفيفة في المزامنة"
   },
   {
-    name: "API Services",
+    name: "خدمات واجهة برمجة التطبيقات",
     status: "healthy",
-    message: "Response time: 120ms"
+    message: "زمن الاستجابة: 120ms"
   },
   {
-    name: "Backup System",
+    name: "نظام النسخ الاحتياطي",
     status: "healthy",
-    message: "Last backup: 2 hours ago"
+    message: "آخر نسخة احتياطية: قبل ساعتين"
   }
 ];
 
@@ -42,7 +41,7 @@ export function SystemHealth() {
   return (
     <Card className="shadow-xl bg-white">
       <CardHeader>
-        <CardTitle className="text-lg font-semibold text-gray-900">System Health</CardTitle>
+        <CardTitle className="text-lg font-semibold text-gray-900">صحة النظام</CardTitle>
       </CardHeader>
       <CardContent className="space-y-3">
         {healthItems.map((item) => (

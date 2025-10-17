@@ -26,47 +26,47 @@ const mockFailedStudents = [
   {
     id: "2023001",
     name: "Ahmed Al-Rashid",
-    department: "Computer Science",
-    major: "Software Engineering",
+    department: "علوم الحاسب",
+    major: "هندسة البرمجيات",
     failedCourses: ["CS101", "CS102", "MATH201"],
     failedCoursesCount: 3,
-    status: "Re-enrollment Required"
+    status: "مطلوب إعادة التسجيل"
   },
   {
     id: "2023002", 
     name: "Sarah Johnson",
-    department: "Engineering",
-    major: "Electrical Engineering", 
+    department: "الهندسة",
+    major: "هندسة كهربائية", 
     failedCourses: ["EE201"],
     failedCoursesCount: 1,
-    status: "Re-enrollment Required"
+    status: "مطلوب إعادة التسجيل"
   },
   {
     id: "2023003",
     name: "Mohamed Hassan",
-    department: "Mathematics",
-    major: "Applied Mathematics",
+    department: "الرياضيات",
+    major: "رياضيات تطبيقية",
     failedCourses: ["MATH301", "MATH302"],
     failedCoursesCount: 2,
-    status: "Re-enrollment Required"
+    status: "مطلوب إعادة التسجيل"
   }
 ];
 
 // Mock course data
 const mockCourses = [
-  { code: "CS101", name: "Programming Fundamentals", failedStudents: 8 },
-  { code: "CS102", name: "Data Structures", failedStudents: 5 },
-  { code: "MATH201", name: "Calculus II", failedStudents: 12 },
-  { code: "EE201", name: "Circuit Analysis", failedStudents: 3 },
-  { code: "MATH301", name: "Linear Algebra", failedStudents: 6 },
-  { code: "MATH302", name: "Differential Equations", failedStudents: 4 }
+  { code: "CS101", name: "أساسيات البرمجة", failedStudents: 8 },
+  { code: "CS102", name: "هياكل البيانات", failedStudents: 5 },
+  { code: "MATH201", name: "التفاضل والتكامل 2", failedStudents: 12 },
+  { code: "EE201", name: "تحليل الدوائر", failedStudents: 3 },
+  { code: "MATH301", name: "الجبر الخطي", failedStudents: 6 },
+  { code: "MATH302", name: "المعادلات التفاضلية", failedStudents: 4 }
 ];
 
 // Mock groups for assignment
 const mockGroups = [
-  { id: "G1", name: "Group 1", capacity: 30, enrolled: 25 },
-  { id: "G2", name: "Group 2", capacity: 30, enrolled: 28 },
-  { id: "G3", name: "Group 3", capacity: 25, enrolled: 20 }
+  { id: "G1", name: "المجموعة 1", capacity: 30, enrolled: 25 },
+  { id: "G2", name: "المجموعة 2", capacity: 30, enrolled: 28 },
+  { id: "G3", name: "المجموعة 3", capacity: 25, enrolled: 20 }
 ];
 
 export function StudentImport() {
@@ -82,8 +82,8 @@ export function StudentImport() {
   const handleImport = (type: string) => {
     setImportedData(mockFailedStudents);
     toast({
-      title: "Import Successful",
-      description: `${mockFailedStudents.length} students imported from ${type}`,
+      title: "تم الاستيراد بنجاح",
+      description: `تم استيراد ${mockFailedStudents.length} طالب من ${type}`,
       variant: "default"
     });
   };
@@ -114,16 +114,16 @@ export function StudentImport() {
   const handleBulkAssign = () => {
     if (selectedStudents.length === 0 || !selectedGroup) {
       toast({
-        title: "Assignment Error",
-        description: "Please select students and a group",
+        title: "خطأ في الإسناد",
+        description: "يرجى اختيار طلاب ومجموعة",
         variant: "destructive"
       });
       return;
     }
 
     toast({
-      title: "Group Assignment Successful",
-      description: `${selectedStudents.length} students assigned to ${selectedGroup}`,
+      title: "تم إسناد المجموعة بنجاح",
+      description: `تم إسناد ${selectedStudents.length} طالب إلى ${selectedGroup}`,
       variant: "default"
     });
     setSelectedStudents([]);
@@ -135,17 +135,17 @@ export function StudentImport() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-foreground">Student Enrollment Import</h1>
-          <p className="text-muted-foreground">Import and manage failed student re-enrollments</p>
+          <h1 className="text-3xl font-bold text-foreground">استيراد تسجيلات الطلاب</h1>
+          <p className="text-muted-foreground">استيراد وإدارة إعادة تسجيل الطلاب الراسبين</p>
         </div>
         <div className="flex items-center space-x-3">
           <Button variant="outline" className="shadow-md">
             <Download className="w-4 h-4 mr-2" />
-            Export List
+            تصدير القائمة
           </Button>
           <Button variant="outline" className="shadow-md">
             <FileSpreadsheet className="w-4 h-4 mr-2" />
-            Generate Report
+            إنشاء تقرير
           </Button>
         </div>
       </div>
@@ -159,7 +159,7 @@ export function StudentImport() {
                 <Users className="w-6 h-6 text-white" />
               </div>
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Total Pending</p>
+                <p className="text-sm font-medium text-muted-foreground">الإجمالي المعلّق</p>
                 <p className="text-2xl font-bold text-foreground">{importedData.length}</p>
               </div>
             </div>
@@ -173,7 +173,7 @@ export function StudentImport() {
                 <CheckCircle className="w-6 h-6 text-white" />
               </div>
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Approved This Month</p>
+                <p className="text-sm font-medium text-muted-foreground">المعتمد هذا الشهر</p>
                 <p className="text-2xl font-bold text-foreground">47</p>
               </div>
             </div>
@@ -187,7 +187,7 @@ export function StudentImport() {
                 <AlertTriangle className="w-6 h-6 text-white" />
               </div>
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Rejected This Month</p>
+                <p className="text-sm font-medium text-muted-foreground">المرفوض هذا الشهر</p>
                 <p className="text-2xl font-bold text-foreground">8</p>
               </div>
             </div>
@@ -201,7 +201,7 @@ export function StudentImport() {
                 <UserPlus className="w-6 h-6 text-white" />
               </div>
               <div>
-                <p className="text-sm font-medium text-muted-foreground">Escalated</p>
+                <p className="text-sm font-medium text-muted-foreground">حالات مصعدة</p>
                 <p className="text-2xl font-bold text-foreground">12</p>
               </div>
             </div>
@@ -214,39 +214,39 @@ export function StudentImport() {
         <CardHeader>
           <CardTitle className="flex items-center space-x-2">
             <Upload className="w-5 h-5 text-primary" />
-            <span>Import Student Data</span>
+            <span>استيراد بيانات الطلاب</span>
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             <div 
               className="border-2 border-dashed border-muted-foreground/30 rounded-lg p-6 text-center hover:border-blue-400 transition-all duration-200 cursor-pointer hover:shadow-md"
-              onClick={() => handleImport("SAR System API")}
+              onClick={() => handleImport("واجهة برمجة تطبيقات نظام SAR")}
             >
               <Upload className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
-              <h3 className="font-medium text-foreground mb-2">SAR System API</h3>
-              <p className="text-sm text-muted-foreground mb-3">Import directly from SAR system</p>
-              <Button variant="outline" size="sm">Connect API</Button>
+              <h3 className="font-medium text-foreground mb-2">واجهة برمجة تطبيقات نظام SAR</h3>
+              <p className="text-sm text-muted-foreground mb-3">استيراد مباشرة من نظام SAR</p>
+              <Button variant="outline" size="sm">الاتصال بالواجهة</Button>
             </div>
             
             <div 
               className="border-2 border-dashed border-muted-foreground/30 rounded-lg p-6 text-center hover:border-green-400 transition-all duration-200 cursor-pointer hover:shadow-md"
-              onClick={() => handleImport("CSV File")}
+              onClick={() => handleImport("ملف CSV")}
             >
               <FileSpreadsheet className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
-              <h3 className="font-medium text-foreground mb-2">CSV Upload</h3>
-              <p className="text-sm text-muted-foreground mb-3">Upload CSV file with student data</p>
-              <Button variant="outline" size="sm">Choose File</Button>
+              <h3 className="font-medium text-foreground mb-2">رفع ملف CSV</h3>
+              <p className="text-sm text-muted-foreground mb-3">رفع ملف CSV يحتوي على بيانات الطلاب</p>
+              <Button variant="outline" size="sm">اختر ملفًا</Button>
             </div>
             
             <div 
               className="border-2 border-dashed border-muted-foreground/30 rounded-lg p-6 text-center hover:border-purple-400 transition-all duration-200 cursor-pointer hover:shadow-md"
-              onClick={() => handleImport("Excel File")}
+              onClick={() => handleImport("ملف Excel")}
             >
               <FileSpreadsheet className="w-12 h-12 text-muted-foreground mx-auto mb-3" />
-              <h3 className="font-medium text-foreground mb-2">Excel Upload</h3>
-              <p className="text-sm text-muted-foreground mb-3">Import from Excel spreadsheet</p>
-              <Button variant="outline" size="sm">Choose File</Button>
+              <h3 className="font-medium text-foreground mb-2">رفع ملف Excel</h3>
+              <p className="text-sm text-muted-foreground mb-3">استيراد من ملف Excel</p>
+              <Button variant="outline" size="sm">اختر ملفًا</Button>
             </div>
           </div>
         </CardContent>
@@ -259,7 +259,7 @@ export function StudentImport() {
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <BookOpen className="w-5 h-5 text-primary" />
-                <span>Failed Courses</span>
+                <span>المقررات الراسبة</span>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2">
@@ -268,7 +268,7 @@ export function StudentImport() {
                 className="w-full justify-start"
                 onClick={() => setSelectedCourse(null)}
               >
-                All Courses
+                كل المقررات
               </Button>
               {mockCourses.map((course) => (
                 <Button
@@ -293,7 +293,7 @@ export function StudentImport() {
                   <div className="relative">
                     <Search className="w-4 h-4 absolute left-3 top-3 text-muted-foreground" />
                     <Input
-                      placeholder="Search students..."
+                      placeholder="ابحث عن الطلاب..."
                       value={searchTerm}
                       onChange={(e) => setSearchTerm(e.target.value)}
                       className="pl-9"
@@ -302,43 +302,43 @@ export function StudentImport() {
                   
                   <Select value={selectedDepartment} onValueChange={setSelectedDepartment}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Department" />
+                      <SelectValue placeholder="القسم" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">All Departments</SelectItem>
-                      <SelectItem value="Computer Science">Computer Science</SelectItem>
-                      <SelectItem value="Engineering">Engineering</SelectItem>
-                      <SelectItem value="Mathematics">Mathematics</SelectItem>
+                      <SelectItem value="all">كل الأقسام</SelectItem>
+                      <SelectItem value="علوم الحاسب">علوم الحاسب</SelectItem>
+                      <SelectItem value="الهندسة">الهندسة</SelectItem>
+                      <SelectItem value="الرياضيات">الرياضيات</SelectItem>
                     </SelectContent>
                   </Select>
                   
                   <Select value={selectedMajor} onValueChange={setSelectedMajor}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Major" />
+                      <SelectValue placeholder="التخصص" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">All Majors</SelectItem>
-                      <SelectItem value="Software Engineering">Software Engineering</SelectItem>
-                      <SelectItem value="Electrical Engineering">Electrical Engineering</SelectItem>
-                      <SelectItem value="Applied Mathematics">Applied Mathematics</SelectItem>
+                      <SelectItem value="all">كل التخصصات</SelectItem>
+                      <SelectItem value="هندسة البرمجيات">هندسة البرمجيات</SelectItem>
+                      <SelectItem value="هندسة كهربائية">هندسة كهربائية</SelectItem>
+                      <SelectItem value="رياضيات تطبيقية">رياضيات تطبيقية</SelectItem>
                     </SelectContent>
                   </Select>
                   
                   <Select value={selectedFailureCount} onValueChange={setSelectedFailureCount}>
                     <SelectTrigger>
-                      <SelectValue placeholder="Failure Count" />
+                      <SelectValue placeholder="عدد الرسوبات" />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="all">All Counts</SelectItem>
-                      <SelectItem value="1">1 Course</SelectItem>
-                      <SelectItem value="2-3">2-3 Courses</SelectItem>
-                      <SelectItem value="3+">3+ Courses</SelectItem>
+                      <SelectItem value="all">كل الأعداد</SelectItem>
+                      <SelectItem value="1">مقرر واحد</SelectItem>
+                      <SelectItem value="2-3">2-3 مقررات</SelectItem>
+                      <SelectItem value="3+">3+ مقررات</SelectItem>
                     </SelectContent>
                   </Select>
                   
                   <Button variant="outline">
                     <Filter className="w-4 h-4 mr-2" />
-                    Clear Filters
+                    مسح عوامل التصفية
                   </Button>
                 </div>
               </CardContent>
@@ -364,21 +364,21 @@ export function StudentImport() {
                         variant={student.failedCoursesCount >= 3 ? "destructive" : "secondary"}
                         className="shadow-sm"
                       >
-                        {student.failedCoursesCount} failed
+                        {student.failedCoursesCount} مواد راسبة
                       </Badge>
                     </div>
                     
                     <div className="space-y-2">
                       <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">Department:</span>
+                        <span className="text-muted-foreground">القسم:</span>
                         <span className="font-medium text-foreground">{student.department}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">Major:</span>
+                        <span className="text-muted-foreground">التخصص:</span>
                         <span className="font-medium text-foreground">{student.major}</span>
                       </div>
                       <div className="flex justify-between text-sm">
-                        <span className="text-muted-foreground">Failed Courses:</span>
+                        <span className="text-muted-foreground">المقررات الراسبة:</span>
                         <span className="font-medium text-foreground">{student.failedCourses.join(", ")}</span>
                       </div>
                     </div>
@@ -394,17 +394,17 @@ export function StudentImport() {
                   <CardTitle className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <UserPlus className="w-5 h-5 text-primary" />
-                      <span>Group Assignment</span>
+                      <span>إسناد إلى مجموعة</span>
                     </div>
                     <Badge variant="secondary" className="shadow-sm">
-                      {selectedStudents.length} selected
+                      تم اختيار {selectedStudents.length}
                     </Badge>
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                      <h4 className="font-medium text-foreground mb-2">Selected Students</h4>
+                      <h4 className="font-medium text-foreground mb-2">الطلاب المحددون</h4>
                       <div className="bg-background rounded-lg p-3 max-h-32 overflow-y-auto">
                         {selectedStudents.map(studentId => {
                           const student = filteredStudents.find(s => s.id === studentId);
@@ -418,11 +418,11 @@ export function StudentImport() {
                     </div>
                     
                     <div>
-                      <h4 className="font-medium text-foreground mb-2">Assign to Group</h4>
+                      <h4 className="font-medium text-foreground mb-2">إسناد إلى مجموعة</h4>
                       <div className="space-y-2">
                         <Select value={selectedGroup} onValueChange={setSelectedGroup}>
                           <SelectTrigger>
-                            <SelectValue placeholder="Select group..." />
+                            <SelectValue placeholder="اختر مجموعة..." />
                           </SelectTrigger>
                           <SelectContent>
                             {mockGroups.map((group) => (
@@ -439,22 +439,22 @@ export function StudentImport() {
                               className="w-full" 
                               disabled={!selectedGroup}
                             >
-                              Assign Selected Students
+                              إسناد الطلاب المحددين
                             </Button>
                           </DialogTrigger>
                           <DialogContent>
                             <DialogHeader>
-                              <DialogTitle>Confirm Group Assignment</DialogTitle>
+                              <DialogTitle>تأكيد إسناد المجموعة</DialogTitle>
                             </DialogHeader>
                             <div className="space-y-4">
                               <p className="text-sm text-muted-foreground">
-                                You are about to assign {selectedStudents.length} students to {selectedGroup}.
-                                This action cannot be undone.
+                                أنت على وشك إسناد {selectedStudents.length} طالب إلى {selectedGroup}.
+                                لا يمكن التراجع عن هذا الإجراء.
                               </p>
                               <div className="flex space-x-2">
-                                <Button variant="outline" className="flex-1">Cancel</Button>
+                                <Button variant="outline" className="flex-1">إلغاء</Button>
                                 <Button onClick={handleBulkAssign} className="flex-1">
-                                  Confirm Assignment
+                                  تأكيد الإسناد
                                 </Button>
                               </div>
                             </div>

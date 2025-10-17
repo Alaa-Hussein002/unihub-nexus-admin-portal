@@ -10,44 +10,44 @@ import { FailedStudentCarryover } from "./FailedStudentCarryover";
 const enrollmentData = [
   {
     id: 1,
-    course: "CS101 - Programming Fundamentals",
+    course: "CS101 - أساسيات البرمجة",
     totalStudents: 89,
     groups: [
-      { name: "Group 1", students: 45, instructor: "Dr. Smith", schedule: "Mon/Wed 9:00-11:00" },
-      { name: "Group 2", students: 44, instructor: "Dr. Ahmed", schedule: "Tue/Thu 9:00-11:00" }
+      { name: "المجموعة 1", students: 45, instructor: "Dr. Smith", schedule: "الإثنين/الأربعاء 9:00-11:00" },
+      { name: "المجموعة 2", students: 44, instructor: "Dr. Ahmed", schedule: "الثلاثاء/الخميس 9:00-11:00" }
     ],
-    status: "Active"
+    status: "نشط"
   },
   {
     id: 2,
-    course: "MATH201 - Calculus II",
+    course: "MATH201 - التفاضل والتكامل 2",
     totalStudents: 76,
     groups: [
-      { name: "Group 1", students: 38, instructor: "Prof. Johnson", schedule: "Mon/Wed 11:00-13:00" },
-      { name: "Group 2", students: 38, instructor: "Dr. Wilson", schedule: "Tue/Thu 11:00-13:00" }
+      { name: "المجموعة 1", students: 38, instructor: "Prof. Johnson", schedule: "الإثنين/الأربعاء 11:00-13:00" },
+      { name: "المجموعة 2", students: 38, instructor: "Dr. Wilson", schedule: "الثلاثاء/الخميس 11:00-13:00" }
     ],
-    status: "Active"
+    status: "نشط"
   },
   {
     id: 3,
-    course: "PHY301 - Quantum Physics",
+    course: "PHY301 - فيزياء الكم",
     totalStudents: 52,
     groups: [
-      { name: "Group 1", students: 28, instructor: "Dr. Chen", schedule: "Wed/Fri 14:00-16:00" },
-      { name: "Group 2", students: 24, instructor: "Prof. Garcia", schedule: "Mon/Thu 14:00-16:00" }
+      { name: "المجموعة 1", students: 28, instructor: "Dr. Chen", schedule: "الأربعاء/الجمعة 14:00-16:00" },
+      { name: "المجموعة 2", students: 24, instructor: "Prof. Garcia", schedule: "الإثنين/الخميس 14:00-16:00" }
     ],
-    status: "Active"
+    status: "نشط"
   },
   {
     id: 4,
-    course: "ENG102 - Academic Writing",
+    course: "ENG102 - الكتابة الأكاديمية",
     totalStudents: 95,
     groups: [
-      { name: "Group 1", students: 32, instructor: "Dr. Brown", schedule: "Tue/Thu 10:00-12:00" },
-      { name: "Group 2", students: 31, instructor: "Prof. Davis", schedule: "Wed/Fri 10:00-12:00" },
-      { name: "Group 3", students: 32, instructor: "Dr. Martinez", schedule: "Mon/Wed 13:00-15:00" }
+      { name: "المجموعة 1", students: 32, instructor: "Dr. Brown", schedule: "الثلاثاء/الخميس 10:00-12:00" },
+      { name: "المجموعة 2", students: 31, instructor: "Prof. Davis", schedule: "الأربعاء/الجمعة 10:00-12:00" },
+      { name: "المجموعة 3", students: 32, instructor: "Dr. Martinez", schedule: "الإثنين/الأربعاء 13:00-15:00" }
     ],
-    status: "Pending"
+    status: "قيد الانتظار"
   }
 ];
 
@@ -58,25 +58,25 @@ export function EnrollmentManagement() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Student Enrollment Management</h1>
-          <p className="text-gray-600">Import and manage student course enrollments</p>
+          <h1 className="text-3xl font-bold text-gray-900">إدارة تسجيل الطلاب</h1>
+          <p className="text-gray-600">استيراد وإدارة تسجيلات الطلاب في المقررات</p>
         </div>
         <div className="flex items-center space-x-3">
           <Button variant="outline" className="shadow-lg">
             <Download className="w-4 h-4 mr-2" />
-            Export Data
+            تصدير البيانات
           </Button>
           <Button className="bg-blue-600 hover:bg-blue-700 shadow-lg">
             <Upload className="w-4 h-4 mr-2" />
-            Import Students
+            استيراد الطلاب
           </Button>
         </div>
       </div>
 
       <Tabs defaultValue="enrollment" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="enrollment">Enrollment Management</TabsTrigger>
-          <TabsTrigger value="carryover">Failed Student Carryover</TabsTrigger>
+          <TabsTrigger value="enrollment">إدارة التسجيل</TabsTrigger>
+          <TabsTrigger value="carryover">ترحيل الطلاب الراسبين</TabsTrigger>
         </TabsList>
         
         <TabsContent value="enrollment" className="space-y-6">
@@ -85,28 +85,28 @@ export function EnrollmentManagement() {
             <CardHeader>
               <CardTitle className="flex items-center space-x-2">
                 <FileSpreadsheet className="w-5 h-5 text-blue-600" />
-                <span>Import Student Data</span>
+                <span>استيراد بيانات الطلاب</span>
               </CardTitle>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-blue-400 transition-colors duration-200 cursor-pointer">
                   <FileSpreadsheet className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-                  <h3 className="font-medium text-gray-900 mb-2">CSV Upload</h3>
-                  <p className="text-sm text-gray-500 mb-3">Upload student lists in CSV format</p>
-                  <Button variant="outline" size="sm">Choose File</Button>
+                  <h3 className="font-medium text-gray-900 mb-2">رفع ملف CSV</h3>
+                  <p className="text-sm text-gray-500 mb-3">رفع قوائم الطلاب بصيغة CSV</p>
+                  <Button variant="outline" size="sm">اختر ملفًا</Button>
                 </div>
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-green-400 transition-colors duration-200 cursor-pointer">
                   <FileSpreadsheet className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-                  <h3 className="font-medium text-gray-900 mb-2">Excel Upload</h3>
-                  <p className="text-sm text-gray-500 mb-3">Import from Excel spreadsheets</p>
-                  <Button variant="outline" size="sm">Choose File</Button>
+                  <h3 className="font-medium text-gray-900 mb-2">رفع ملف Excel</h3>
+                  <p className="text-sm text-gray-500 mb-3">الاستيراد من ملفات Excel</p>
+                  <Button variant="outline" size="sm">اختر ملفًا</Button>
                 </div>
                 <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-purple-400 transition-colors duration-200 cursor-pointer">
-                  <Split className="w-12 h-12 text-gray-400 mx-auto mb-3" />
-                  <h3 className="font-medium text-gray-900 mb-2">Auto-Split Groups</h3>
-                  <p className="text-sm text-gray-500 mb-3">Automatically divide students into groups</p>
-                  <Button variant="outline" size="sm">Configure</Button>
+                  <Split className="w-12 ه-12 text-gray-400 mx-auto mb-3" />
+                  <h3 className="font-medium text-gray-900 mb-2">تقسيم المجموعات تلقائيًا</h3>
+                  <p className="text-sm text-gray-500 mb-3">تقسيم الطلاب إلى مجموعات تلقائيًا</p>
+                  <Button variant="outline" size="sm">إعداد</Button>
                 </div>
               </div>
             </CardContent>
@@ -118,7 +118,7 @@ export function EnrollmentManagement() {
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
                   <Users className="w-5 h-5 text-blue-600" />
-                  <span>Course List</span>
+                  <span>قائمة المقررات</span>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
@@ -134,13 +134,13 @@ export function EnrollmentManagement() {
                   >
                     <div className="flex items-center justify-between mb-2">
                       <h3 className="font-semibold text-gray-900 text-sm">{course.course}</h3>
-                      <Badge className={course.status === "Active" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"}>
+                      <Badge className={course.status === "نشط" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"}>
                         {course.status}
                       </Badge>
                     </div>
                     <div className="flex items-center justify-between text-sm text-gray-600">
-                      <span>{course.totalStudents} students</span>
-                      <span>{course.groups.length} groups</span>
+                      <span>{course.totalStudents} طلاب</span>
+                      <span>{course.groups.length} مجموعات</span>
                     </div>
                   </div>
                 ))}
@@ -153,11 +153,11 @@ export function EnrollmentManagement() {
                   <CardTitle className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <Split className="w-5 h-5 text-blue-600" />
-                      <span>Group Management - {selectedCourse.course}</span>
+                      <span>إدارة المجموعات - {selectedCourse.course}</span>
                     </div>
                     <Button size="sm" className="bg-blue-600 hover:bg-blue-700">
                       <Split className="w-4 h-4 mr-2" />
-                      Split Groups
+                      تقسيم المجموعات
                     </Button>
                   </CardTitle>
                 </CardHeader>
@@ -168,17 +168,17 @@ export function EnrollmentManagement() {
                         <div className="flex items-center justify-between mb-3">
                           <h3 className="font-semibold text-gray-900">{group.name}</h3>
                           <div className="flex items-center space-x-2">
-                            <Badge variant="outline">{group.students} students</Badge>
-                            <Button variant="ghost" size="sm">Edit</Button>
+                            <Badge variant="outline">{group.students} طلاب</Badge>
+                            <Button variant="ghost" size="sm">تعديل</Button>
                           </div>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
                           <div>
-                            <span className="font-medium text-gray-700">Instructor:</span>
+                            <span className="font-medium text-gray-700">المدرّس:</span>
                             <span className="ml-2 text-gray-600">{group.instructor}</span>
                           </div>
                           <div>
-                            <span className="font-medium text-gray-700">Schedule:</span>
+                            <span className="font-medium text-gray-700">الجدول:</span>
                             <span className="ml-2 text-gray-600">{group.schedule}</span>
                           </div>
                         </div>
@@ -193,26 +193,26 @@ export function EnrollmentManagement() {
                 <CardHeader>
                   <CardTitle className="flex items-center space-x-2">
                     <Users className="w-5 h-5 text-blue-600" />
-                    <span>Enrolled Students</span>
+                    <span>الطلاب المسجّلون</span>
                   </CardTitle>
                 </CardHeader>
                 <CardContent>
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>Student ID</TableHead>
-                        <TableHead>Name</TableHead>
-                        <TableHead>Group</TableHead>
-                        <TableHead>Email</TableHead>
-                        <TableHead>Status</TableHead>
+                        <TableHead>الرقم الجامعي</TableHead>
+                        <TableHead>الاسم</TableHead>
+                        <TableHead>المجموعة</TableHead>
+                        <TableHead>البريد الإلكتروني</TableHead>
+                        <TableHead>الحالة</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
                       {[
-                        { id: "2024001", name: "Ahmed Al-Rashid", group: "Group 1", email: "ahmed.rashid@student.unihub.edu", status: "Active" },
-                        { id: "2024002", name: "Sarah Johnson", group: "Group 1", email: "sarah.johnson@student.unihub.edu", status: "Active" },
-                        { id: "2024003", name: "Mohamed Hassan", group: "Group 2", email: "mohamed.hassan@student.unihub.edu", status: "Active" },
-                        { id: "2024004", name: "Lisa Chen", group: "Group 2", email: "lisa.chen@student.unihub.edu", status: "Pending" }
+                        { id: "2024001", name: "Ahmed Al-Rashid", group: "المجموعة 1", email: "ahmed.rashid@student.unihub.edu", status: "نشط" },
+                        { id: "2024002", name: "Sarah Johnson", group: "المجموعة 1", email: "sarah.johnson@student.unihub.edu", status: "نشط" },
+                        { id: "2024003", name: "Mohamed Hassan", group: "المجموعة 2", email: "mohamed.hassan@student.unihub.edu", status: "نشط" },
+                        { id: "2024004", name: "Lisa Chen", group: "المجموعة 2", email: "lisa.chen@student.unihub.edu", status: "قيد الانتظار" }
                       ].map((student) => (
                         <TableRow key={student.id}>
                           <TableCell className="font-mono text-sm">{student.id}</TableCell>
@@ -222,7 +222,7 @@ export function EnrollmentManagement() {
                           </TableCell>
                           <TableCell className="text-sm text-gray-600">{student.email}</TableCell>
                           <TableCell>
-                            <Badge className={student.status === "Active" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"}>
+                            <Badge className={student.status === "نشط" ? "bg-green-100 text-green-700" : "bg-yellow-100 text-yellow-700"}>
                               {student.status}
                             </Badge>
                           </TableCell>
